@@ -1,0 +1,100 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kjmlib", "kjmlib\kjmlib.vcxproj", "{2DC98B13-7190-0D17-424B-4C1E62060588}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "setup", "syslogd\setup\setup.vcxproj", "{A8A265E8-5902-F2FA-6376-A4870704F6FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76} = {916BE103-8F3E-A6AD-79E5-9EB961851C76}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syslogd", "syslogd\syslogd\syslogd.vcxproj", "{916BE103-8F3E-A6AD-79E5-9EB961851C76}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2DC98B13-7190-0D17-424B-4C1E62060588} = {2DC98B13-7190-0D17-424B-4C1E62060588}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 4
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = kjmlib\\kjmlib.vcxproj
+		SccLocalPath1 = .
+		SccProjectFilePathRelativizedFromConnection1 = kjmlib\\
+		SccProjectUniqueName2 = syslogd\\setup\\setup.vcxproj
+		SccLocalPath2 = .
+		SccProjectFilePathRelativizedFromConnection2 = syslogd\\setup\\
+		SccProjectUniqueName3 = syslogd\\syslogd\\syslogd.vcxproj
+		SccLocalPath3 = .
+		SccProjectFilePathRelativizedFromConnection3 = syslogd\\syslogd\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		DebugMT|Win32 = DebugMT|Win32
+		Release|Win32 = Release|Win32
+		ReleaseMT|Win32 = ReleaseMT|Win32
+		Template|Win32 = Template|Win32
+		UDebug|Win32 = UDebug|Win32
+		UDebugMT|Win32 = UDebugMT|Win32
+		URelease|Win32 = URelease|Win32
+		UReleaseMT|Win32 = UReleaseMT|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.Debug|Win32.Build.0 = Debug|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.DebugMT|Win32.ActiveCfg = DebugMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.DebugMT|Win32.Build.0 = DebugMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.Release|Win32.ActiveCfg = Release|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.Release|Win32.Build.0 = Release|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.ReleaseMT|Win32.ActiveCfg = ReleaseMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.ReleaseMT|Win32.Build.0 = ReleaseMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.Template|Win32.ActiveCfg = URelease|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.Template|Win32.Build.0 = URelease|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.UDebug|Win32.ActiveCfg = UDebug|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.UDebug|Win32.Build.0 = UDebug|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.UDebugMT|Win32.ActiveCfg = UDebugMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.UDebugMT|Win32.Build.0 = UDebugMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.URelease|Win32.ActiveCfg = URelease|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.URelease|Win32.Build.0 = URelease|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.UReleaseMT|Win32.ActiveCfg = UReleaseMT|Win32
+		{2DC98B13-7190-0D17-424B-4C1E62060588}.UReleaseMT|Win32.Build.0 = UReleaseMT|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.Debug|Win32.Build.0 = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.DebugMT|Win32.ActiveCfg = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.DebugMT|Win32.Build.0 = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.Release|Win32.ActiveCfg = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.Release|Win32.Build.0 = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.ReleaseMT|Win32.ActiveCfg = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.ReleaseMT|Win32.Build.0 = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.Template|Win32.ActiveCfg = Template|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.Template|Win32.Build.0 = Template|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.UDebug|Win32.ActiveCfg = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.UDebug|Win32.Build.0 = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.UDebugMT|Win32.ActiveCfg = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.UDebugMT|Win32.Build.0 = Debug|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.URelease|Win32.ActiveCfg = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.URelease|Win32.Build.0 = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.UReleaseMT|Win32.ActiveCfg = Release|Win32
+		{A8A265E8-5902-F2FA-6376-A4870704F6FF}.UReleaseMT|Win32.Build.0 = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.Debug|Win32.ActiveCfg = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.Debug|Win32.Build.0 = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.DebugMT|Win32.ActiveCfg = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.DebugMT|Win32.Build.0 = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.Release|Win32.ActiveCfg = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.Release|Win32.Build.0 = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.ReleaseMT|Win32.ActiveCfg = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.ReleaseMT|Win32.Build.0 = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.Template|Win32.ActiveCfg = Template|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.Template|Win32.Build.0 = Template|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.UDebug|Win32.ActiveCfg = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.UDebug|Win32.Build.0 = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.UDebugMT|Win32.ActiveCfg = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.UDebugMT|Win32.Build.0 = Debug|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.URelease|Win32.ActiveCfg = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.URelease|Win32.Build.0 = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.UReleaseMT|Win32.ActiveCfg = Release|Win32
+		{916BE103-8F3E-A6AD-79E5-9EB961851C76}.UReleaseMT|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　１/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>1. 目次と概要</STRONG> ～</FONT> 
+</TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<FONT 
+      color=#606060>目次へ戻る</FONT>　　<FONT color=#606060>[前頁]</FONT>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja102.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=2>　このコーナー(C++でCOMクライアント)の文書は、<B>Internet Explorer 5</B> 
+      で表示を検証しています。<BR><BR></FONT><FONT size=3><B>[免責事項]</B></FONT><BR><BR><FONT 
+      size=2>　このドキュメントおよび添付プログラムは、できるだけ精度が高くなるよう努力はしておりますが、記述の質や正確さについて保証してはおりません。<BR>　これらを利用したことによって生じた、直接的または間接的な、いかなる影響や機会損失についても、筆者および関係者は責任を負いかねます。利用者は自らの責任において、ご利用ください。 
+      <BR></FONT><BR><FONT size=3><B>[目次]</B></FONT><BR><BR><FONT size=2>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja102.htm">2. 
+      今回のC++クライアントの概要(次頁)</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja103.htm">3. まず 
+      COMの基本を確認</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja104.htm">4. 
+      CLSID、IIDを表現する</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja105.htm">5. 
+      COMインターフェイスの定義</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja106.htm">6. 
+      おまじないの初期処理と終了処理</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja107.htm">7. 
+      インスタンスの作成</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja108.htm">8. 
+      メソッド呼び出し</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja109.htm">9. 
+      インスタンスの解放</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja110.htm">10. 
+      まとめとサンプル</A><BR></FONT><BR><FONT size=3><B>[概要]</B></FONT><BR><BR><FONT 
+      size=2>　VB版 COMコンポーネントにアクセスする 
+      <B>C++版のCOMクライアント</B>をできるだけ簡単に作ります。<BR>Visual C++環境で 
+      COMクライアントを作る場合、<B>スマートポインタなどの便利な拡張機能</B>や <B>ATL</B>(ActiveX Template 
+      Library)などの既成ライブラリが用意されていますが、ここでは、スマートポインタの背後にある 
+      <B>COM本来の機能を理解</B>するために、あえて<B>スマートポインタやATLを使わず</B>、標準的な 
+      C++の構文でコンポーネントにアクセスすることを目指します。なお、以下にこのコーナーを読む上での<B>前提知識</B>を示します。<BR></FONT><BR><FONT 
+      size=3><B>[前提知識]</B></FONT><BR><BR><FONT 
+      size=2>　C言語やC++の知識は必要ですが(ポインタ、関数ポインタ、クラス、virtual関数など)、C言語やC++での 
+      COMプログラミングを知らなくともかまいません。<BR>　また、COMの基本的な概要は理解していることを前提としています。たとえば、以下の用語の意味が何であるか、なんとなく知っている必要があります。<BR>　　　<B>COMインターフェイス、</B>　<B>クラスID(CLSID)</B>　<B>インターフェイスID(IID)</B>　<B>タイプライブラリ</B><BR>　　　<B>COMコンポーネント、</B>　<B>COMクライアント</B>　<B>IDL</B><BR><BR>　COMインターフェイスの内部的なメカニズムを理解したい場合、このコーナーを読む前に、関連コーナー「あえて 
+      C言語で COMクライアントを作る」(以降、「C言語でクライアント」と表記)を読むことを奨励します。<BR>　「C言語で 
+      COMクライアント」コーナーには、COMコンポーネントにアクセスするエッセンスが書かれています。単に 
+      C++を使って、とりあえず表層的な書き方を知りたいのであれば、「C言語で 
+      COMクライアント」のコーナーは後から読んでもかまいません。<BR></FONT><BR></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<FONT 
+      color=#606060>目次へ戻る</FONT>　　<FONT color=#606060>[前頁]</FONT>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja102.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

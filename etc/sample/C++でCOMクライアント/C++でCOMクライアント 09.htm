@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja109.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　９/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>9. インスタンスの解放</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja108.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja110.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[インスタンスの解放]</B></FONT><BR><BR><FONT 
+      size=2><B>・Releaseメソッドを呼び出す</B><BR>　COMインスタンスを明示的に削除する方法はありません。<BR>　インターフェイスの 
+      <B>Releaseメソッド</B> 
+      を呼び出すことで、そのインターフェイスを使い終わったことをコンポーネントに通知します。この呼び出しは、<B>インターフェイスごと</B>に行います。コンポーネントは、自分が提供したすべてのインターフェイスで 
+      Releaseメソッドが呼ばれると、もうインスタンスが不要であることを認識します。<BR>　今回は、インターフェイスは一つしかないので、このインターフェイスでの 
+      Releaseメソッド呼び出しが、そのインスタンスに対する破棄であることを意味します。<BR>　これも前述と同様に、クラスの中の 
+      <B>virtual関数の呼び出し</B>として記述します。 <PRE><FONT style="COLOR: darkblue" size=2>    pClass1-&gt;Release();</FONT></PRE>　これで完成です。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib1/steplast_cpp.txt">Step 
+      last(steplast_cpp.txt)</A> <PRE><FONT style="COLOR: darkblue" size=2>// C++から COMコンポーネントにアクセスする
+// (C)Yajima, Satoshi
+
+#include "stdio.h"
+#include "windows.h"
+#include "objbase.h"
+
+//project1.dllを元に、必要な定義ファイルを生成する
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+
+// メイン処理
+int main(int argc, char* argv[])
+{
+    long x, y, z;     //プロシージャの引数、戻り値用
+    HRESULT hResult;  // COM 戻り値用変数
+    _Class1* pClass1; // COMインターフェイスポインタ
+
+    // COMの初期化
+    ::CoInitialize(0);
+    
+    // インスタンスの作成(CLSIDとIIDを指定して、ポインタ pClass0 を取得)
+    // [VB] Set obj = New Project1.Class1
+    hResult = ::CoCreateInstance((REFCLSID) CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                                 (REFIID)   IID__Class1, (LPVOID*)&amp;pClass1);
+    if( ! SUCCEEDED(hResult) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }
+    
+    // 引数用データ設定
+    x = 10;
+    y = 20;
+
+    // Calcメソッドの呼び出し
+    // [VB] z = obj.Calc( x, y )
+    pClass1-&gt;Calc( x, y, &amp;z );  
+    printf("Result = %d\n", z );
+
+    // 終了処理 ◆◆追加
+    // [VB] Set obj = Nothing
+    pClass1-&gt;Release();
+
+    // COMの終了処理
+    ::CoUninitialize();
+
+    return 0;
+}
+</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja108.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja110.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

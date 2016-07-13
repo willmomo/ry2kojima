@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>ReplaceStr</title>
+</head>
+<body>
+<h1>ReplaceStr</h1>
+
+<hr>
+
+<p>文字列を置換します。</p>
+
+<pre class="prototype">
+<small>[C++]</small>
+<strong>std::string ReplaceStr(
+    const char* <em class="param">pszSrc</em>, 
+    const char* <em class="param">pszFind</em>,
+    const char* <em class="param">pszReplaceWith</em>,
+    int <em class="param">nStart </em>= 1,
+    int <em class="param">nCount </em>= -1
+);</strong>
+</pre>
+
+<p>この関数は、C++バージョンのみ存在します。
+VB6では、Replace関数を使ってください。</p>
+
+<h2>パラメータ</h2>
+
+<dl>
+<dt><em class="param">pszSrc</em>
+<dd>置換する文字列を含む文字列へのポインタ。
+<dt><em class="param">pszFind</em>
+<dd>検索する文字列へのポインタ
+<dt><em class="param">pszReplaceWith</em>
+<dd>置換する文字列へのポインタ。
+<dt><em class="param">nStart</em>
+<dd>検索を開始する位置。文字列の先頭から検索するときは、1。漢字は1文字と数えます。
+<dt><em class="param">nCount</em>
+<dd>置換する文字列の数。すべて置換するときは-1。</em>
+</dl>
+
+<h2>戻り値</h2>
+
+<p>置換後の文字列をstd::stringにして、戻します。置換する文字が見つからないときは、std::string(<em class="param">pszSrc</em>)と
+同じになります。<br>
+パラメータが異常のときは、空文字列が戻ります。</p>
+
+<h2>説明</h2>
+
+<p><em class="param">pszSrc</em>から、<em class="param">pszFind</em>を探して、<em class="param">pszReplaceWith</em>に置き換えます。</p>
+
+<p><em class="param">pszFind</em>が、複数回見つかる場合は、<em class="param">nStart</em>と<em class="param">nCount</em>を
+使って、置換する位置と数を制御します。デフォルトは、先頭から見つかった文字すべてを置換します。</p>
+
+<p>使い方は以下のとおり：</p>
+
+<pre class="code">
+<small>[C++]</small>
+std::string ans = ReplaceWith("置換前文字列", "前", "された");
+</pre>
+
+<p>補足：戻り値をC言語で使う、const char* にする場合は、ans.c_str() として、ポインタを取得してください。
+このポインタで取得した文字列を変更してはいけません。</p>
+
+<p>VB6で同様の処理を行う場合は、Replace関数(はるかに高機能)を以下のように使ってください：</p>
+
+<pre class="code">
+<small>[VB6]</small>
+Dim ans as String
+ans = Replace("置換前文字列", "前", "された")
+</pre>
+
+</body>
+</html>

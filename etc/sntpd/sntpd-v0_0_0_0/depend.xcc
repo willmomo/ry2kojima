@@ -1,0 +1,12 @@
+
+# DO NOT DELETE THIS LINE -- mkdep uses it.
+# DO NOT PUT ANYTHING AFTER THIS LINE, IT WILL GO AWAY.
+
+__os__.r: \
+	__os__.h	\
+
+sntpd.r: \
+	__os__.h	\
+
+
+# IF YOU PUT ANYTHING HERE IT WILL GO AWAY

@@ -1,0 +1,115 @@
+
+*** 更新履歴 ***
+
+ver.0.2012.08.10
+
+	kjm::drive に、メディアが挿入されているかどうかを調べる関数(kjm::drive::isDiskInDrive)を追加。
+
+ver.0.2012.06.26
+
+	kjm::cript, kjm::base64 を追加。
+
+ver.0.2012.06.12
+
+	kjm::util::trim 関数を追加。
+	class kjm::xmlez を追加。超簡単に値を取得できる関数 kjm::xmlez::getText を実装。
+
+ver.0.2012.06.04
+
+	kjm::util::getline 関数を追加。
+
+ver.0.2012.06.01
+
+	__targv マクロを無効化( tchar.h に含まれるらしい )。
+	tWinMain マクロを追加。
+	_tstringstream マクロを追加。
+
+ver.0.2012.04.03
+
+	kjm::log にログのoff/on機能を追加。
+	kjm::util::chomp が、\x0d を削除できないバグを修正。
+
+ver.0.2012.03.24
+
+	kjm::log を追加。(mirror.exeの取り込み)
+	kjm::tickCounter を追加。(mirror.exeの取り込み)
+	kjm::timeSpan::operator __int64 () を追加。
+
+ver.0.2012.03.22
+
+	kjm::util::getFileVersion() を追加。
+	kjm::drive と kjm::driveList を追加。
+
+ver.0.2011.10.3 [EnvSTCopyで採用]
+
+	kjm::iniFile::getInt を追加。
+
+ver.0.2011.9.30
+
+	kjm::cmdLine ショートオプションが正しく処理できなかったのを修正。
+
+ver.0.2011.9.28
+
+	kjm::getSectionData を追加。
+	kjm::writeSectionData を追加。
+
+ver.0.2011.9.27
+
+	kjm::path を追加。
+	kjm::util::getFileVersion を追加。
+
+ver.0.2011.9.7
+
+	kjm::mutex に複製機能を追加。
+	kjm::cmdLine を少し拡張。
+
+ver.0.2011.9.6
+
+	kjm::util::getFullPathName 関数を追加。
+	kjm::PathString を調整。
+
+ver.0.2011.9.2
+
+	kjm::win32::MoveCenterWorkarea 関数を追加。
+
+ver.0.2011.8.31
+
+	.NET like な environment, dateTime, timeSpan クラスなどを追加。
+
+	WinMain 利用時の __argv, __wargv を使い分けるマクロ __targv を追加。
+
+ver.0.2011.8.30
+
+	kjm::event_log::backup が例外を返すように変更。
+
+	kjm::_tstring, kjm::optionInfoList を利便性のため追加。
+
+ver.0.2011.8.26
+
+	kjm::cmdLine::parse関数に関数オブジェクトの実装例を追加。
+
+	staticなkjm::eventLog::backup関数を追加。
+
+	Unicodeに対応。
+
+ver.0.2011.8.25
+
+	kjm::util::isDirectory関数を追加。
+
+	kjm::optionInfo構造体を追加。
+
+	kjm::cmdLine::parse関数をkjm::optionInfo構造体に対応。
+
+ver.0.2011.7.22
+
+	countofマクロを追加。
+	(GNw4.4.0.0からの移植)
+
+	kjm::util::removeBackslash関数を追加。
+	(GNw4.4.0.0からの移植)
+
+	kjm::process::IsHandleAvailable関数を追加。
+	(GNw4.4.0.0からの移植)
+
+	kjm::process::IsStillActive関数を追加。
+	(GNw4.4.0.0からの移植)

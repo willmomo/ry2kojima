@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "axisShutter", "axisShutter.csproj", "{A9923205-CE4C-469F-BA06-FF02303AE189}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = axisShutter.csproj
+		SccProjectName0 = \u0022$/axisShutter\u0022,\u0020IEAAAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9923205-CE4C-469F-BA06-FF02303AE189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9923205-CE4C-469F-BA06-FF02303AE189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9923205-CE4C-469F-BA06-FF02303AE189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9923205-CE4C-469F-BA06-FF02303AE189}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

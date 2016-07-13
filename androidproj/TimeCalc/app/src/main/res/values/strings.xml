@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TimeCalc</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_copy">結果をクリップボードにコピー</string>
+    <string name="label1_text">開始日時</string>
+    <string name="label_YMD">年月日</string>
+    <string name="label2_text">終了日時</string>
+    <string name="label_HMS">時分秒</string>
+    <string name="button_text">経過時間計算</string>
+    <string name="label_days">日数</string>
+    <string name="label_hours">時間</string>
+    <string name="label_minutes">分</string>
+    <string name="label_seconds">秒</string>
+    <string name="text_hyphen">-</string>
+
+</resources>

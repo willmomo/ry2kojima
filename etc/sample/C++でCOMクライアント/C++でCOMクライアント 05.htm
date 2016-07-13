@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja105.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　５/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>5. COMインターフェイスの定義</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja104.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja106.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[COMインターフェイスの定義]</B></FONT><BR><BR><FONT 
+      size=2><B>・COMインターフェイスの宣言方法</B><BR>　COM仕様に基づいていれば、どのように宣言してもかまいません。C++では主に以下の方法があります。<BR><BR>　　1) 
+      classキーワードを使って、クラスとして宣言する<BR>　　2) DECLARE_INTERFACE_マクロを利用する<BR>　　3) 
+      #importディレクティブを利用する<BR><BR>　これら三つの方法について説明しますが、実際に利用するのは三番目の方法(#import)です。<BR><BR><B>・C++のclassキーワードを使って、COMインターフェイスを表現</B><BR>　COMインターフェイスの構造には 
+      <B>Vptr</B>と<B>Vtable</B>がありますが、 <B>C++</B>では 
+      <B>class</B>と<B>virtual関数</B>を使ってこの構造を表現できます。<BR>　以下の二つサンプルは、どちらも 
+      COMインターフェイスを表したもので、 <B>C++コンパイラによって、自動的に</B> 
+      COMインターフェイスの構造が生成されます。この仕組みは多くの 
+      C++コンパイラが持っていると言われています。<BR>　二つ目の例では、IDispatchから継承した例で、IDispatchは あらかじめ 
+      Visual C++環境でクラスとして定義されています。<BR><PRE><FONT style="COLOR: darkblue" size=2>// ケース1 ---- ----
+// dualインターフェイスを表現する
+class _Class1
+{
+public:
+    //IUnknown
+    virtual HRESULT __stdcall QueryInterface( REFIID riid, void **ptr ) = 0;
+    virtual ULONG   __stdcall AddRef()  = 0;
+    virtual ULONG   __stdcall Release() = 0;
+    //IDispatch
+    virtual HRESULT __stdcall GetTypeInfoCount(unsigned int *pCount) = 0;
+    virtual HRESULT __stdcall GetTypeInfo( unsigned int  iTInfo, LCID  lcid, 
+                                           ITypeInfo **ppTInfo ) = 0;
+    virtual HRESULT __stdcall GetIDsOfNames( REFIID riid ,
+                                             OLECHAR **rgszNames, unsigned int cNames,
+                                             LCID lcid, DISPID *rgDispId ) = 0;
+    virtual HRESULT __stdcall Invoke( DISPID dispIdMember, REFIID riid,
+                                      LCID  lcid, WORD  wFlags,
+                                      DISPPARAMS *pDispParams,
+                                      VARIANT *pVarResult,
+                                      EXCEPINFO *pExcepInfo, unsigned int *puArgErr ) = 0;
+    //dualインターフェイスのカスタムメソッド
+    virtual HRESULT __stdcall Calc( long x, long y, long *z ) = 0;
+};
+
+// ケース2 ---- ----
+// 継承を利用する場合
+class _Class1 : public IDispatch
+{
+public:
+    virtual HRESULT __stdcall Calc( long x, long y, long *z ) = 0;
+};</FONT></PRE><FONT 
+      size=2>　なお、<B>COMインターフェイスポインタ</B>は、この<B>クラスへのポインタ</B>として表現できます。<BR><BR>　_Class1 
+      *pClass1;<BR><BR>　また、上記のclass定義でのクラス名「_Class1」は、インターフェイス名に合わせる必要はありません。これはあくまで、C++のソースコード上の名前です。しかし、慣例でインターフェイス名と同じにすることが多くあります。<BR><BR><B>・C/C++兼用マクロで 
+      COMインターフェイスを表現</B><BR>　「C言語でCOMクライアント」のコーナーで説明したように、objbase.hには 
+      C言語とC++の両方で兼用可能なマクロ <B>DECLARE_INTERFACE_</B> 
+      が用意されています。このマクロを記述して利用することもできます。<BR><PRE><FONT style="COLOR: darkblue" size=2>#undef  INTERFACE
+#define INTERFACE _IClass1
+
+DECLARE_INTERFACE_( _IClass1, IDispatch )
+{
+    /* IUnknown */
+    STDMETHOD ( QueryInterface )( THIS_  REFIID riid, LPVOID *ppvObj ) PURE;
+    STDMETHOD_( ULONG, AddRef  )( THIS ) PURE;
+    STDMETHOD_( ULONG, Release )( THIS ) PURE;
+    /* IDispatch */
+    STDMETHOD ( GetTypeInfoCount )( THIS_ unsigned int *pCount ) PURE;
+    STDMETHOD ( GetTypeInfo      )( THIS_ unsigned int iTInfo, LCID  lcid, 
+                                          ITypeInfo **ppTInfo  ) PURE;
+    STDMETHOD ( GetIDsOfNames    )( THIS_ REFIID riid ,
+                                          OLECHAR **rgszNames, unsigned int cNames,
+                                          LCID lcid, DISPID *rgDispId ) PURE;
+    STDMETHOD ( Invoke           )( THIS_ DISPID dispIdMember, REFIID riid,
+                                          LCID  lcid, WORD  wFlags,
+                                          DISPPARAMS *pDispParams,
+                                          VARIANT *pVarResult,
+                                          EXCEPINFO *pExcepInfo, unsigned int *puArgErr ) PURE;
+    /* dualのカスタムメソッド */
+    STDMETHOD ( Calc )( THIS_  LONG x, LONG y, LONG *z ) PURE;
+};
+typedef _IClass1 * LPCLASS1;</FONT></PRE><B>・#importディレクティブを利用する</B><BR>　もう、前のページでソースコードにこの記述は済んでいます。#importディレクティブに 
+      <B>raw_interfaces_only</B>オプションを付けると、通常の 
+      COMインターフェイスのクラス定義が<B>自動生成</B>されます。もし、このオプションを使わないと、本来のインターフェイスをラップした特殊なクラスになります。<BR>　今回は、「生の」COMインターフェイスを利用したいので、このオプションを付けます。生成されるファイル 
+      project1.tlhには、以下のインターフェイス定義の記述が含まれます。<BR><PRE><FONT style="COLOR: darkblue" size=2>(抜粋)
+
+struct __declspec(uuid("d1890a6c-b213-11d4-afc1-00d0b7ad59e8"))
+_Class1 : IDispatch
+{
+    //
+    // Raw methods provided by interface
+    //
+
+    virtual HRESULT __stdcall Calc (
+        long x,
+        long y,
+        long * _arg3 ) = 0;
+};</FONT></PRE><FONT size=2>　C++では、structキーワードは classと同じ機能を持っているので、上記の記述は 
+      _Class1クラスを定義したことになります。<BR><BR>　結局、CLSIDやIID、および 
+      COMインターフェイスの定義で必要なのは、<B>#importディレクティブの一文だけ</B>です。ここまでのコードは前頁のものと同じです。 <PRE><FONT style="COLOR: darkblue" size=2>(再掲)
+
+#include "stdio.h"
+#include "windows.h"
+#include "objbase.h"
+
+//project1.dllを元に、必要な定義ファイルを生成する
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+</FONT></PRE></FONT></FONT></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja104.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja106.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

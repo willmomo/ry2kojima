@@ -1,0 +1,7 @@
+LIBRARY	"use_date"
+
+EXPORTS
+	DosDate2VbDate
+	VbDate2DosDate
+	VbDate2String
+	VbDate2String2

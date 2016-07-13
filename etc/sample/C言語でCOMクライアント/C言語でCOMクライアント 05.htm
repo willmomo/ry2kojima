@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　５/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>5. COMインターフェイスの定義</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja006.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[COMインターフェイスの定義]</B></FONT><BR><BR><FONT 
+      size=2><B>・構造体を使って、COMインターフェイスを表現</B><BR>　次に構造体を使って、COMインターフェイスを表現します。<BR>　この構造では、まず一般にドキュメントでは 
+      <B>Vptr</B> と表記されるポインタを用意します(Virtual function pointerと呼ぶ)。以下の例では、変数 
+      lpVtblがそれです。<BR>　また、このVptrがポイントしているのは、インターフェイスの各関数(各メソッド)の開始アドレスを持つ配列(テーブル)で、一般にドキュメントでは 
+      <B>Vtable</B>と表記されています(Virtual function tableと呼ぶ)。 
+      C言語流に言えば、<B>関数ポインタの配列</B>です。<BR>　今回の 
+      dualインターフェイスでは、８つの関数(メソッド)があるので、配列(テーブル)の構成要素は８つ必要です。厳密な定義は以下のとおりです。 <PRE><FONT style="COLOR: darkblue" size=2>typedef struct tagMyVTable {  /* VTableの定義 MyVTalbe */
+    HRESULT (__stdcall *QueryInterface)(void* _this, IID* riid, void** ptr);
+    ULONG   (__stdcall *AddRef )(void* _this);
+    ULONG   (__stdcall *Release)(void* _this);
+    HRESULT (__stdcall *GetTypeInfoCount)(void* _this, UINT*);
+    HRESULT (__stdcall *GetTypeInfo)     (void* _this, UINT, LCID, ITypeInfo**);
+    HRESULT (__stdcall *GetIdsOfNames)(void* _this, const IID*, OLECHAR**, UINT, LCID, DISPID*);
+    HRESULT (__stdcall *Invoke )(void* _this, DISPID, const IID*, LCID, WORD, 
+                                 DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
+    HRESULT (__stdcall *Calc )(void* _this, long x, long y, long* pRetValue);
+} MyVTable;
+
+typedef struct tagIClass1 {  /*COMインターフェイス IClass1 */
+    MyVTable *vptr;
+} _IClass1;</FONT></PRE>　しかし、実際に今回のクライアントが呼び出しに使用するのは、Release と 
+      Calcだけなので、その他の配列要素は領域だけ確保して、定義を手抜きすることができます。各要素は 
+      32ビットアドレスなので各４バイトの領域が確保できれば十分です。よって、以下のような宣言になります。 <PRE><FONT style="COLOR: darkblue" size=2>/* ----- ----- COMに基づくバイナリ構造の定義 ----- ----- */
+typedef struct tagMyVTable {  /* VTableの定義 MyVTalbe */
+    void *p1;
+    void *p2;
+    ULONG  (__stdcall *Release)(void* _this);
+    void *p3;
+    void *p4;
+    void *p5;
+    void *p6;
+    HRESULT (__stdcall *Calc )(void* _this, long x, long y, long* pRetValue);
+} MyVTable;
+
+typedef struct tagIClass1 {  /*COMインターフェイス IClass1 */
+    MyVTable *lpVtbl;
+} _IClass1;</FONT></PRE>　なお、C言語ではオブジェクトを表現する方法を構文上持たないので、<B>各メソッドの第一引数</B> 
+      は必ずオブジェクトに相当する構造体のポインタが渡ります。(上記の引数名 
+      _this)<BR>　実際にこのCOMインターフェイスを利用するときは、上記の構造に対するポインタとして、以下のように宣言します。これを「COMの<B>インターフェイスポインタ</B>」と言います。<BR><PRE><FONT style="COLOR: darkblue" size=2>    _IClass1* pClass1;</FONT></PRE>　つまり、COMインターフェイスポインタとは、Vptrへのポインタであり、Vptrを経由して間接的にメソッドの関数アドレステーブルをポイントしています。<BR>　なお、_IClass1 
+      という名前は、このソースコード上の名前であって、任意の名前が付けられます。また、各メソッドの名前もこのソースコード上の名前なので、配列の要素数や使い方を間違えなければ、どんな名前でもかまいません。引数名もどんな名前でもかいません。<BR>　COMは内部的には、<B>配列の何番目のメソッドであるかという識別</B> 
+      を行っているので、メソッド名はそれほど重要ではありません。もちろん、引数名も重要ではありませせん。<BR>　実際にメソッド名が他のプログラムとのやり取りで問題となるのは、タイプライブラリ上でメソッド名を公開し、その情報に依存したコーディングをするときです(たとえば、Visual 
+      Basicの COMクライアントは、コーディングの際にタイプライブラリを参照して、アクセスできるメソッドを識別している)。 
+      C言語上のソースコードでインターフェイスを定義する場合、その名前は任意です。メソッドの配列の順番やデータ型さえ間違えなければタイプライブラリと名前を一致させなくとも、コンポーネントとクライアントは 
+      COMに基づいてやり取りをすることができます。<BR>　このCOMインターフェイスポインタ宣言を 
+      main関数の中で行うことにします。その他、作業変数、x, y, z と COM APIの戻り値である 
+      <B>HRESULT型</B>の変数も、あとあと使うので宣言しておきます。<BR><BR>　ここまでのコードは以下のようになります。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/step2_c.txt">Step2(step2_c.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>/*
+  COMコンポーネントの Simple Client - C言語版
+    COMのアーキテクチャを理解するために、あえてCOM用マクロの使用は
+  最小限にしてあります。
+  2000.11 (C)Yajima, Satoshi
+*/
+
+#include "stdio.h"   /* C言語の標準入出力、以下の printfで使用 */
+#include "windows.h" /* Windowsアプリケーションの基本定義ヘッダーファイル */
+#include "objbase.h" /* COM関連の基本定義ヘッダーファイル */
+
+/* ----- ----- COMに基づくバイナリ構造の定義 ----- ----- ◆◆ 追加 */
+typedef struct tagMyVTable {  /* VTableの定義 MyVTalbe */
+    void *p1; /* QueryInterface */
+    void *p2; /* AddRef         */
+    ULONG  (__stdcall *Release)(void* _this);
+    void *p3; /* GetTypeInfoCount */
+    void *p4; /* GetTypeInfo      */
+    void *p5; /* GetIdsOfNames    */
+    void *p6; /* Invoke           */
+    HRESULT (__stdcall *Calc )(void* _this, long x, long y, long* pRetValue);
+} MyVTable;
+
+typedef struct tagIClass1 {  /*COMインターフェイス IClass1 ◆◆追加 */
+    MyVTable *lpVtbl;
+} _IClass1;
+
+/* ----- ----- コンポーネントの CLSID と COMインターフェイスID ----- -----
+  IDLに表記された uuidの16進数をその順番のまま表記すること
+  変数名は、このソースコード上だけの問題なので、任意の名前でよい
+*/
+const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* CLSID */
+const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* IID   */
+
+/* メイン処理 ◆◆追加 */
+int main(int argc, char* argv[])
+{
+    long x, y, z;       /* プロシージャの引数、戻り値用 */
+    HRESULT hResult;    /* COM 戻り値用変数 */
+    _IClass1* pIClass1; /* COMインターフェイスポインタ */
+
+
+    return 0;
+}</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja006.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

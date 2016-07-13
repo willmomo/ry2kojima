@@ -1,0 +1,12 @@
+LIBRARY	kmwatch
+
+DESCRIPTION	'kmwatch'
+
+EXETYPE	WINDOWS
+
+EXPORTS
+	SetHook		@101
+	FreeHook	@102
+
+SECTIONS
+	.sharedata READ WRITE SHARED

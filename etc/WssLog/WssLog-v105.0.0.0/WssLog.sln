@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WssLog", "WssLog.vcxproj", "{ECDD2454-46FF-BA23-4086-0920B03F18E4}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 2
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = WssLog.vcxproj
+		SccLocalPath1 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECDD2454-46FF-BA23-4086-0920B03F18E4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECDD2454-46FF-BA23-4086-0920B03F18E4}.Debug|Win32.Build.0 = Debug|Win32
+		{ECDD2454-46FF-BA23-4086-0920B03F18E4}.Release|Win32.ActiveCfg = Release|Win32
+		{ECDD2454-46FF-BA23-4086-0920B03F18E4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+sntpd.r
+__os__.r
+kjmlog.r
+-l=socket.l 
+-l=unix.l 
+-l=sys_clib.l 

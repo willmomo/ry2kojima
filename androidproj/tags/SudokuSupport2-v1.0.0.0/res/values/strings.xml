@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">数独サポート</string>
+
+	<string name="menuItem1">初期化</string>
+	<string name="menuItem2">一つ戻る</string>
+	<string name="menuItem3">セーブ</string>
+	<string name="menuItem4">ロード</string>
+	<string name="menuItem5">解く</string>
+</resources>

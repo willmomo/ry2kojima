@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE Skin [
+	<!ELEMENT Skin (Form+)>
+	<!ELEMENT Form (Label|SSFrame|xLed|imNumLite|SSCommand|SSActiveTabs|SSRibbon)+>
+	<!ATTLIST Form
+		Name CDATA "Form"
+		BackColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT Label EMPTY>
+	<!ATTLIST Label 
+		Name CDATA "Label"
+		ForeColor CDATA #IMPLIED
+		BackColor CDATA #IMPLIED
+		AccentForeColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT SSActiveTabs EMPTY>
+	<!ATTLIST SSActiveTabs
+		Name CDATA "SSActiveTabs"
+		ForeColor CDATA #IMPLIED
+		BackColor CDATA #IMPLIED
+		AccentForeColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT SSCommand EMPTY>
+	<!ATTLIST SSCommand 
+		Name CDATA "SSCommand"
+		ForeColor CDATA #IMPLIED
+		BackColor CDATA #IMPLIED
+		AccentForeColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT SSFrame EMPTY>
+	<!ATTLIST SSFrame 
+		Name CDATA "SSFrame"
+		ForeColor CDATA #IMPLIED
+		BackColor CDATA #IMPLIED
+		AccentForeColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT SSRibbon EMPTY>
+	<!ATTLIST SSRibbon 
+		Name CDATA "SSRibbon"
+		ForeColor CDATA #IMPLIED
+		BackColor CDATA #IMPLIED
+		AccentForeColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT xLed EMPTY>
+	<!ATTLIST xLed 
+		Name CDATA "xLed"
+		CaptionColor CDATA #IMPLIED
+		BackColor CDATA #IMPLIED
+		AccentCaptionColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+	<!ELEMENT imNumLite EMPTY>
+	<!ATTLIST imNumLite 
+		Name CDATA "imNumLite"
+		CaptionForeColor CDATA #IMPLIED
+		CaptionBackColor CDATA #IMPLIED
+		AccentCaptionForeColor CDATA #IMPLIED
+		AccentBackColor CDATA #IMPLIED>
+]>
+<Skin>
+	<Form Name="dlgFormat" BackColor="&amp;HFFF0F0">
+		<SSFrame BackColor="&amp;HFFF0F0" />
+		<SSCommand Name="cmdCancel" BackColor="&amp;HFF8080" />
+		<SSCommand Name="cmd" BackColor="&amp;H80FF80" AccentBackColor="&amp;H800080" />
+	</Form>
+	<Form Name="dlgDirectNo">
+		<SSRibbon Name="Command2" BackColor="&amp;HFF8080" />
+	</Form>
+	<Form Name="frmDai">
+		<Label Name="lbl1" BackColor="&amp;HFFFFFF" />
+		<Label Name="Label6" BackColor="&amp;HFFFFFF" />
+		<Label Name="lbl" BackColor="&amp;HFFFFFF" />
+	</Form>
+	<Form BackColor="&amp;H33FFFA">
+		<Label Name="lbl" BackColor="&amp;HFFFFFF" />
+		<Label BackColor="&amp;H9E9EFA" />
+		<SSFrame BackColor="&amp;H9E9EFA" />
+		<xLed BackColor="&amp;H9E9EFA" />
+		<imNumLite CaptionBackColor="&amp;H9E9EFA" />
+		<SSActiveTabs BackColor="&amp;H9E9EFA" />
+		<SSRibbon BackColor="&amp;HA3AAF5" AccentBackColor="&amp;HD1B300" />
+		<SSCommand BackColor="&amp;HFFCC99" AccentBackColor="&amp;H70C2AE" />
+	</Form>
+</Skin>
+

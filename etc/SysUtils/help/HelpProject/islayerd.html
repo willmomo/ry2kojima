@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>IsLayerd</title>
+</head>
+<body>
+<h1>IsLayerd</h1>
+
+<hr>
+
+<p>ウィンドウが、半透明をサポートしているかどうか調べます。</p>
+
+<pre class="prototype">
+<small>[VB6]</small>
+<strong>Public Function IsLayerd( _
+    ByVal <em class="param">hWnd </em>As Long _
+) As Boolean</strong>
+</pre>
+
+<pre class="prototype">
+<small>[C++]</small>
+<strong>bool IsLayerd(
+    HWND <em class="param">hWnd</em>
+);</strong>
+</pre>
+
+<h2>パラメータ</h2>
+
+<dl>
+<dt><em class="param">hWnd</em>
+<dd>このパラメータで指定したウィンドウが半透明をサポートしているかどうか調べます。
+</dl>
+
+<h2>戻り値</h2>
+
+<p>ウィンドウが、半透明をサポートしているときは、trueを戻します。半透明をサポートしていないときは、falseを戻します。</p>
+
+<h2>例外</h2>
+
+<p>エラーが発生した場合は、例外を発生させます。</p>
+<p>[VB6] Win32のエラーコードでランタイムエラーを発生させます。<br>
+[C++] Win32のエラーコードを持ったDWORDで例外をスローします。</p>
+
+<h2>説明</h2>
+
+<p><em class="param">hWnd</em>で指定したウィンドウが、半透明をサポートしているかどうか調べます。<br>
+サポートの有無は、拡張ウィンドウスタイルに<strong>WM_EX_LAYERD</strong>が含まれるかどうかです。</p>
+
+<p>使い方は以下のとおり：</p>
+
+<pre class="code">
+<small>[VB6]</small>
+Dim ret As Boolean
+On Error Resume Next
+ret = IsLayerd(Me.hWnd)
+If Err.Number = 0 Then
+    If ret = True Then
+        MsgBox "このウィンドウは半透明をサポートしています。"
+    Else
+        MsgBox "このウィンドウは半透明をサポートしていません。"
+    End If
+Else
+    MsgBox "IsLayerd error " & amp; Err.Number
+End If
+On Error Goto 0
+</pre>
+
+<pre class="code">
+<small>[C++]</small>
+try
+{
+    bool ret = IsLayerd(hWnd);
+    if (ret == true) {
+        printf("このウィンドウは半透明をサポートしています。\n");
+    } else {
+        printf("このウィンドウは半透明をサポートしていません。\n");
+    }
+}
+catch(DWORD e)
+{
+    printf("IsLayerd error %d\n", e);
+}
+</pre>
+
+<h2>参照</h2>
+
+<p><a href="setlayerd.html">SetLayerd</a>, <a href="setopacity.html">SetOpacity</a></p>
+
+</body>
+</html>

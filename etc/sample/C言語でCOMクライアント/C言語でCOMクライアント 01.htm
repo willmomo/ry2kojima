@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　１/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>1. 目次と概要</STRONG> ～</FONT> 
+</TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<FONT 
+      color=#606060>目次へ戻る</FONT>　　<FONT color=#606060>[前頁]</FONT>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja002.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=2>　このコーナー(C言語でCOMクライアント)の文書は、<B>Internet Explorer 5</B> 
+      で表示を検証しています。<BR><BR></FONT><FONT size=3><B>[免責事項]</B></FONT><BR><BR><FONT 
+      size=2>　このドキュメントおよび添付プログラムは、できるだけ精度が高くなるよう努力はしておりますが、記述の質や正確さについて保証してはおりません。<BR>　これらを利用したことによって生じた、直接的または間接的な、いかなる影響や機会損失についても、筆者および関係者は責任を負いかねます。利用者は自らの責任において、ご利用ください。 
+      <BR></FONT><BR><FONT size=3><B>[目次]</B></FONT><BR><BR><FONT size=2>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja002.htm">2. 
+      今回のC言語クライアントの概要(次頁)</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja003.htm">3. まず 
+      COMの基本を確認</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm">4. 
+      CLSID、IIDを表現する</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm">5. 
+      COMインターフェイスの定義</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja006.htm">6. 
+      ちょっとおまけ、COMインターフェイスの表現あれこれ</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm">7. 
+      おまじないの初期処理と終了処理</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm">8. 
+      インスタンスの作成</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja009.htm">9. 
+      メソッド呼び出し</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja010.htm">10. 
+      インスタンスの解放</A><BR>　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja011.htm">11. 
+      まとめとサンプル</A><BR></FONT><BR><FONT size=3><B>[概要]</B></FONT><BR><BR><FONT 
+      size=2>　現在、COMクライアントを作成する場合 Visual Basic やVBA、スクリプトなどから利用することが多く、 
+      C++で作成する場合も、ATL(ActiveX Template 
+      Library)などの既成ライブラリを使うことが一般的です。これらは、COMへのアクセス方法の多くをカプセル化しています。ここでは、<B>C言語</B>をあえて使うことで、COMインターフェイスの本質的な構造の理解を目指します。なお、以下にこのコーナーを読む上での<B>前提知識</B>を示します。<BR></FONT><BR><FONT 
+      size=3><B>[前提知識]</B></FONT><BR><BR><FONT 
+      size=2>　C言語の知識は必要ですが(ポインタ、関数ポインタなど)、C言語やC++での 
+      COMプログラミングを知らなくともかまいません。<BR>　また、COMの基本的な概要は理解していることを前提としています。たとえば、以下の用語の意味が何であるか、なんとなく知っている必要があります。<BR>　　　<B>COMインターフェイス、</B>　<B>クラスID(CLSID)</B>　<B>インターフェイスID(IID)</B>　<B>タイプライブラリ</B><BR>　　　<B>COMコンポーネント、</B>　<B>COMクライアント</B>　<B>IDL</B><BR>　特に、一度は 
+      COMの勉強をしたが、まだいまいち 
+  COMがどんなものかピント来ないという人を対象にしてまいす。<BR></FONT><BR></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<FONT 
+      color=#606060>目次へ戻る</FONT>　　<FONT color=#606060>[前頁]</FONT>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja002.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

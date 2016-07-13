@@ -1,0 +1,503 @@
+//*******1*********2*********3*********4*********5*********6*********7*********8
+// 【ショートカット作成用タイプライブラリ】
+//   1.0 作成: Masashi Ohsawa           Date: 2000-07-29
+//   1.1 更新: Masashi Ohsawa           Date: 2000-11-27
+//*******1*********2*********3*********4*********5*********6*********7*********8
+[
+    uuid(082CC8C1-919E-11D4-84B8-00400559FC4C),
+    version(1.1),
+    helpstring("IShellLink Interface (ANSI)")
+]
+library ShellLinkLib
+{
+    importlib("stdole2.tlb");
+/*
+    typedef [public] long BOOL;
+    typedef [public] long LPCOLESTR;
+    typedef [public] long DWORD;
+*/
+
+    #define BOOL long
+    #define LPCOLESTR long
+    #define DWORD long
+    #define TCHAR unsigned char
+    #define MAX_PATH  260
+
+
+    interface IShellLinkA;
+    interface IPersist;
+    interface IPersistFile;
+
+
+    //==========================================================================
+    // 構造体定義
+    //--------------------------------------------------------------------------
+    // CLSID
+    typedef [helpstring("COMオブジェクトのクラス識別子です。")]
+    struct CLSID
+    {
+        [helpstring("符号無し32bit整数値です。")]
+        long Data1;
+        [helpstring("符号無し16bit整数値です。")]
+        short Data2;
+        [helpstring("符号無し16bit整数値です。")]
+        short Data3;
+        [helpstring("符号無しシングルバイト配列です。")]
+        unsigned char Data4[8];
+    } CLSID;
+
+    // FILETIME
+    typedef [helpstring("1601年 1月 1日からの 100ナノ秒間隔の数を表\す 64 ビットの値です。")]
+    struct FILETIME
+    {
+        [helpstring("ファイル時間の下位 32 ビットを示します。")]
+        long  dwLowDateTime;
+        [helpstring("ファイル時間の上位 32 ビットを示します。")]
+        long  dwHighDateTime;
+    } FILETIME;
+
+    // WIN32_FIND_DATA
+    typedef [helpstring("ファイルの検索に使われる値です。")]
+    struct WIN32_FIND_DATA
+    {
+        [helpstring("ファイルの属性を示します。")]
+        long      dwFileAttributes;
+        [helpstring("ファイルの作成日時を示します。")]
+        FILETIME  ftCreationTime;
+        [helpstring("ファイルのアクセス日を示します。")]
+        FILETIME  ftLastAccessTime;
+        [helpstring("ファイルの更新日を示します。")]
+        FILETIME  ftLastWriteTime;
+        [helpstring("ファイルサイズの上位 32 ビットを示します。")]
+        long      nFileSizeHigh;
+        [helpstring("ファイルサイズの下位 32 ビットを示します。")]
+        long      nFileSizeLow;
+        [helpstring("（使用しません）")]
+        long      dwReserved0;
+        [helpstring("（使用しません）")]
+        long      dwReserved1;
+        [helpstring("ファイル名を示します。")]
+        TCHAR     cFileName[MAX_PATH];
+        [helpstring("8.3形式のファイル名を示します。")]
+        TCHAR     cAlternate[14];
+    } WIN32_FIND_DATA;
+
+
+    //==========================================================================
+    // 列挙型定義
+    //--------------------------------------------------------------------------
+    // IShellLink::Resolve fFlags
+    typedef
+    [
+        helpstring("リンク先の検索指定を行う定義済み定数です。")
+    ]
+    enum SLR_FLAGS
+    {
+        [helpstring("リンク切れを解決できない場合でも、ダイアログ ボックスを\\表示しません。")]
+        SLR_NO_UI           = 0x0001,    // don't post any UI durring the resolve operation
+        [helpstring("（使用されなくなりました）")]
+        SLR_ANY_MATCH       = 0x0002,    // no longer used
+        [helpstring("リンクが更新された時に、パスとIDリストを書き換えます。")]
+        SLR_UPDATE          = 0x0004,   // save the link back to it's file if the track made it dirty
+        [helpstring("リンク情報を更新しません。")]
+        SLR_NOUPDATE        = 0x0008,
+        [helpstring("検索ヒューリスティックを実行しません。")]
+        SLR_NOSEARCH        = 0x0010,   // don't execute the search heuristics
+        [helpstring("Windows 2000 Object IDによるリンク追跡を使いません。")]
+        SLR_NOTRACK         = 0x0020,   // don't use NT5 object ID to track the link
+        [helpstring("リンク追跡を禁止します。リムーバブルメディアや、UNCパスに対して使います。")]
+        SLR_NOLINKINFO      = 0x0040,   // don't use the net and volume relative info
+        [helpstring("Microsoft Windows Installerによって使われる定数です。")]
+        SLR_INVOKE_MSI      = 0x0080,   // if we have a darwin link, then call msi to fault in the applicaion
+    } SLR_FLAGS;
+
+    // IShellLink::GetPath fFlags
+    typedef
+    [
+        helpstring("パスの取得方法を示す定義済み定数です。")
+    ]
+    enum SLGP_FLAGS
+    {
+        [helpstring("8.3形式の短いファイル名で取得します。")]
+        SLGP_SHORTPATH      = 0x0001,
+        [helpstring("UNC形式のパス指定で取得します。")]
+        SLGP_UNCPRIORITY    = 0x0002,
+        [helpstring("パスを加工せずに取得します。存在しないパスや、環境変数を含んだパス指定が返される場合もあります。")]
+        SLGP_RAWPATH        = 0x0004,
+    } SLGP_FLAGS;
+
+    // IShellLink::GetShowCmd piShowCmd
+    // IShellLink::SetShowCmd  iShowCmd
+    typedef
+    [
+        helpstring("実行時の大きさを示す定義済み定数です。")
+    ]
+    enum SHOWCMD_FLAGS
+    {
+        [helpstring("通常のウィンドウサイズです。")]
+        SW_SHOWNORMAL       = 1,
+        [helpstring("最大化状態のウィンドウです。")]
+        SW_SHOWMAXIMIZED    = 3,
+        [helpstring("最小化状態のウィンドウです。")]
+        SW_SHOWMINNOACTIVE  = 7,
+    } SHOWCMD_FLAGS;
+
+    // IShellLink::GetHotKey   pwHotkey
+    // IShellLink::SetHotKey    wHotkey
+    typedef
+    [
+        helpstring("ショートカットキーのシフトキーを示す定義済み定数です。")
+    ]
+    enum HOTKEY_MASK_FLAGS
+    {
+        [helpstring("未指定")]
+        HOTKEY_NONE             = 0x0000,
+        [helpstring("Shiftキー")]
+        HOTKEY_SHIFT_MASK       = 0x0100,
+        [helpstring("Ctrlキー")]
+        HOTKEY_CONTROL_MASK     = 0x0200,
+        [helpstring("ALTキー")]
+        HOTKEY_ALT_MASK         = 0x0400,
+        [helpstring("拡張キー")]
+#ifdef _MAC
+        HOTKEY_EXT_MASK         = 0x8000,
+#else
+        HOTKEY_EXT_MASK         = 0x0800,
+#endif
+        [helpstring("クリアキー")]
+        HOTKEY_VK_CLEAR         = 0x000C,
+        [helpstring("Page Upキー")]
+        HOTKEY_VK_PRIOR         = 0x0021,
+        [helpstring("Page Downキー")]
+        HOTKEY_VK_NEXT          = 0x0022,
+        [helpstring("Endキー")]
+        HOTKEY_VK_END           = 0x0023,
+        [helpstring("Homeキー")]
+        HOTKEY_VK_HOME          = 0x0024,
+        [helpstring("Selectキー")]
+        HOTKEY_VK_SELECT        = 0x0029,
+        [helpstring("実行キー")]
+        HOTKEY_VK_EXECUTE       = 0x002B,
+        [helpstring("スナップショットキー")]
+        HOTKEY_VK_SNAPSHOT      = 0x002C,
+        [helpstring("Insertキー")]
+        HOTKEY_VK_INSERT        = 0x002D,
+        [helpstring("Deleteキー")]
+        HOTKEY_VK_DELETE        = 0x002E,
+        [helpstring("Helpキー")]
+        HOTKEY_VK_HELP          = 0x002F,
+        [helpstring("0キー")]
+        HOTKEY_VK_0             = 0x0030,
+        [helpstring("1キー")]
+        HOTKEY_VK_1             = 0x0031,
+        [helpstring("2キー")]
+        HOTKEY_VK_2             = 0x0032,
+        [helpstring("3キー")]
+        HOTKEY_VK_3             = 0x0033,
+        [helpstring("4キー")]
+        HOTKEY_VK_4             = 0x0034,
+        [helpstring("5キー")]
+        HOTKEY_VK_5             = 0x0035,
+        [helpstring("6キー")]
+        HOTKEY_VK_6             = 0x0036,
+        [helpstring("7キー")]
+        HOTKEY_VK_7             = 0x0037,
+        [helpstring("8キー")]
+        HOTKEY_VK_8             = 0x0038,
+        [helpstring("9キー")]
+        HOTKEY_VK_9             = 0x0039,
+        [helpstring("Aキー")]
+        HOTKEY_VK_A             = 0x0041,
+        [helpstring("Bキー")]
+        HOTKEY_VK_B             = 0x0042,
+        [helpstring("Cキー")]
+        HOTKEY_VK_C             = 0x0043,
+        [helpstring("Dキー")]
+        HOTKEY_VK_D             = 0x0044,
+        [helpstring("Eキー")]
+        HOTKEY_VK_E             = 0x0045,
+        [helpstring("Fキー")]
+        HOTKEY_VK_F             = 0x0046,
+        [helpstring("Gキー")]
+        HOTKEY_VK_G             = 0x0047,
+        [helpstring("Hキー")]
+        HOTKEY_VK_H             = 0x0048,
+        [helpstring("Iキー")]
+        HOTKEY_VK_I             = 0x0049,
+        [helpstring("Jキー")]
+        HOTKEY_VK_J             = 0x004A,
+        [helpstring("Kキー")]
+        HOTKEY_VK_K             = 0x004B,
+        [helpstring("Lキー")]
+        HOTKEY_VK_L             = 0x004C,
+        [helpstring("Mキー")]
+        HOTKEY_VK_M             = 0x004D,
+        [helpstring("Nキー")]
+        HOTKEY_VK_N             = 0x004E,
+        [helpstring("Oキー")]
+        HOTKEY_VK_O             = 0x004F,
+        [helpstring("Pキー")]
+        HOTKEY_VK_P             = 0x0050,
+        [helpstring("Qキー")]
+        HOTKEY_VK_Q             = 0x0051,
+        [helpstring("Rキー")]
+        HOTKEY_VK_R             = 0x0052,
+        [helpstring("Sキー")]
+        HOTKEY_VK_S             = 0x0053,
+        [helpstring("Tキー")]
+        HOTKEY_VK_T             = 0x0054,
+        [helpstring("Uキー")]
+        HOTKEY_VK_U             = 0x0055,
+        [helpstring("Vキー")]
+        HOTKEY_VK_V             = 0x0056,
+        [helpstring("Wキー")]
+        HOTKEY_VK_W             = 0x0057,
+        [helpstring("Xキー")]
+        HOTKEY_VK_X             = 0x0058,
+        [helpstring("Yキー")]
+        HOTKEY_VK_Y             = 0x0059,
+        [helpstring("Zキー")]
+        HOTKEY_VK_Z             = 0x005A,
+        [helpstring("左Windowsキー")]
+        HOTKEY_VK_LWIN          = 0x005B,
+        [helpstring("右Windowsキー")]
+        HOTKEY_VK_RWIN          = 0x005C,
+        [helpstring("アプリケーションキー")]
+        HOTKEY_VK_APPS          = 0x005D,
+        [helpstring("テンキー上の0キー")]
+        HOTKEY_VK_NUMPAD0       = 0x0060,
+        [helpstring("テンキー上の1キー")]
+        HOTKEY_VK_NUMPAD1       = 0x0061,
+        [helpstring("テンキー上の2キー")]
+        HOTKEY_VK_NUMPAD2       = 0x0062,
+        [helpstring("テンキー上の3キー")]
+        HOTKEY_VK_NUMPAD3       = 0x0063,
+        [helpstring("テンキー上の4キー")]
+        HOTKEY_VK_NUMPAD4       = 0x0064,
+        [helpstring("テンキー上の5キー")]
+        HOTKEY_VK_NUMPAD5       = 0x0065,
+        [helpstring("テンキー上の6キー")]
+        HOTKEY_VK_NUMPAD6       = 0x0066,
+        [helpstring("テンキー上の7キー")]
+        HOTKEY_VK_NUMPAD7       = 0x0067,
+        [helpstring("テンキー上の8キー")]
+        HOTKEY_VK_NUMPAD8       = 0x0068,
+        [helpstring("テンキー上の9キー")]
+        HOTKEY_VK_NUMPAD9       = 0x0069,
+        [helpstring("テンキー上のアスタリスク(*)キー")]
+        HOTKEY_VK_MULTIPLY      = 0x006A,
+        [helpstring("テンキー上のプラス(+)キー")]
+        HOTKEY_VK_ADD           = 0x006B,
+        [helpstring("テンキー上のEnterキー")]
+        HOTKEY_VK_SEPARATOR     = 0x006C,
+        [helpstring("テンキー上のマイナス(-)キー")]
+        HOTKEY_VK_SUBTRACT      = 0x006D,
+        [helpstring("テンキー上のピリオド(.)キー")]
+        HOTKEY_VK_DECIMAL       = 0x006E,
+        [helpstring("テンキー上のスラッシュ(/)キー")]
+        HOTKEY_VK_DIVIDE        = 0x006F,
+        [helpstring("F1キー")]
+        HOTKEY_VK_F1            = 0x0070,
+        [helpstring("F2キー")]
+        HOTKEY_VK_F2            = 0x0071,
+        [helpstring("F3キー")]
+        HOTKEY_VK_F3            = 0x0072,
+        [helpstring("F4キー")]
+        HOTKEY_VK_F4            = 0x0073,
+        [helpstring("F5キー")]
+        HOTKEY_VK_F5            = 0x0074,
+        [helpstring("F6キー")]
+        HOTKEY_VK_F6            = 0x0075,
+        [helpstring("F7キー")]
+        HOTKEY_VK_F7            = 0x0076,
+        [helpstring("F8キー")]
+        HOTKEY_VK_F8            = 0x0077,
+        [helpstring("F9キー")]
+        HOTKEY_VK_F9            = 0x0078,
+        [helpstring("F10キー")]
+        HOTKEY_VK_F10           = 0x0079,
+        [helpstring("F11キー")]
+        HOTKEY_VK_F11           = 0x007A,
+        [helpstring("F12キー")]
+        HOTKEY_VK_F12           = 0x007B,
+        [helpstring("F13キー")]
+        HOTKEY_VK_F13           = 0x007C,
+        [helpstring("F14キー")]
+        HOTKEY_VK_F14           = 0x007D,
+        [helpstring("F15キー")]
+        HOTKEY_VK_F15           = 0x007E,
+        [helpstring("F16キー")]
+        HOTKEY_VK_F16           = 0x007F,
+        [helpstring("F17キー")]
+        HOTKEY_VK_F17           = 0x0080,
+        [helpstring("F18キー")]
+        HOTKEY_VK_F18           = 0x0081,
+        [helpstring("F19キー")]
+        HOTKEY_VK_F19           = 0x0082,
+        [helpstring("F20キー")]
+        HOTKEY_VK_F20           = 0x0083,
+        [helpstring("F21キー")]
+        HOTKEY_VK_F21           = 0x0084,
+        [helpstring("F22キー")]
+        HOTKEY_VK_F22           = 0x0085,
+        [helpstring("F23キー")]
+        HOTKEY_VK_F23           = 0x0086,
+        [helpstring("F24キー")]
+        HOTKEY_VK_F24           = 0x0087,
+    } HOTKEY_MASK_FLAGS;
+
+
+
+    //==========================================================================
+    // インターフェース定義
+    //--------------------------------------------------------------------------
+    // IShellLinkA
+    [
+        odl,
+        uuid(000214EE-0000-0000-C000-000000000046),
+        helpstring("IShellLinkインターフェース(ANSI)")
+    ]
+    interface IShellLinkA : IUnknown
+    {
+        [helpstring("リンク先のパスを取得します。")]
+        HRESULT GetPath(
+                        [in]     LPSTR             pszFile,
+                        [in]     long              cchMaxPath,
+                        [in,out] WIN32_FIND_DATA  *pfd,
+                        [in]     SLGP_FLAGS        flags);
+
+        [helpstring("PIDL を取得します。")]
+        HRESULT GetIDList(
+                        [in,out]  long  *ppidl);
+
+        [helpstring("PIDL を設定します。")]
+        HRESULT SetIDList(
+                        [in]      long   pidl);
+
+        [helpstring("コメントを取得します。")]
+        HRESULT GetDescription(
+                        [in]      LPSTR    pszName,
+                        [in]      long     cchMaxName);
+
+        [helpstring("コメントを設定します。")]
+        HRESULT SetDescription(
+                        [in]      LPSTR    pszName);
+
+        [helpstring("作業フォルダを取得します。")]
+        HRESULT GetWorkingDirectory(
+                        [in]      LPSTR    pszDir,
+                        [in]      long     cchMaxPath);
+
+        [helpstring("作業フォルダを設定します。")]
+        HRESULT SetWorkingDirectory(
+                        [in]      LPSTR    pszDir);
+
+        [helpstring("コマンドライン引数を取得します。")]
+        HRESULT GetArguments(
+                        [in]      LPSTR    pszArgs,
+                        [in]      long     cchMaxPath);
+
+        [helpstring("コマンドライン引数を設定します。")]
+        HRESULT SetArguments(
+                        [in]      LPSTR    pszArgs);
+
+        [helpstring("ショートカットキーを取得します。")]
+        HRESULT GetHotkey(
+                        [in,out]  HOTKEY_MASK_FLAGS *pwHotkey);
+
+        [helpstring("ショートカットキーを設定します。")]
+        HRESULT SetHotkey(
+                        [in]      HOTKEY_MASK_FLAGS wHotkey);
+
+        [helpstring("起動時のウィンドウ表\示状態を取得します。")]
+        HRESULT GetShowCmd(
+                        [in,out]  SHOWCMD_FLAGS *piShowCmd);
+
+        [helpstring("起動時のウィンドウ表\示状態を設定します。")]
+        HRESULT SetShowCmd(
+                        [in]      SHOWCMD_FLAGS iShowCmd);
+
+        [helpstring("アイコンの位置(パスとインデックス)を取得します。")]
+        HRESULT GetIconLocation(
+                        [in]      LPSTR    pszIconPath,
+                        [in]      long     cchIconPath,
+                        [in,out]  long    *piIcon);
+
+        [helpstring("アイコンの位置(パスとインデックス)を設定します。")]
+        HRESULT SetIconLocation(
+                        [in]      LPSTR    pszIconPath,
+                        [in]      long     iIcon);
+
+        [helpstring("リンク先を相対パスで設定します。")]
+        HRESULT SetRelativePath(
+                        [in]      LPSTR    pszPathRel,
+                        [in]      long     dwReserved);
+
+        [helpstring("リンク先が移動または削除された場合に、最も近いリンク項目を探します。")]
+        HRESULT Resolve(
+                        [in]      long     hWnd,
+                        [in]      SLR_FLAGS fflags);
+
+        [helpstring("リンク先のパスを設定します。")]
+        HRESULT SetPath(
+                        [in]      LPSTR    pszFile);
+    };
+
+    // IPersist
+    [
+        odl,
+        uuid(0000010C-0000-0000-C000-000000000046),
+        helpstring("IPersist インターフェース"),
+        hidden
+    ]
+    interface IPersist : IUnknown
+    {
+        [helpstring("オブジェクトの CLSID を取得します。")]
+        HRESULT GetClassID (
+                        [in,out] CLSID *pClassID);
+    }
+
+    // IPersistFile
+    [
+        uuid(0000010B-0000-0000-C000-000000000046),
+        helpstring("IPersistFile インターフェース"),
+        odl
+    ]
+    interface IPersistFile : IPersist
+    {
+        [helpstring("最後に保存してから変更が加えられていないかどうかを調べます。")]
+        HRESULT IsDirty ();
+
+        [helpstring("オブジェクトのプロパティをファイルから読み込みます。")]
+        HRESULT Load (
+                        [in]     LPWSTR pszFileName,
+                        [in]     DWORD  dwMode);
+
+        [helpstring("オブジェクトのプロパティを指定されたファイルに保存します。")]
+        HRESULT Save (
+                        [in]     LPWSTR pszFileName,
+                        [in]     BOOL   fRemember);
+
+        [helpstring("Normal モードに戻ってファイルに書き込みができることをオブジェクトに通知します。")]
+        HRESULT SaveCompleted (
+                        [in]     LPWSTR pszFileName);
+
+        [helpstring("現在のオブジェクト ワーク ファイルの絶対パスを取得します。ワーク ファイルがない場合は、デフォルトのファイル名プロンプトが返されます。")]
+        HRESULT GetCurFile (
+                        [in,out] long *ppszFileName);
+    };
+
+
+    //==========================================================================
+    // コクラス定義
+    //--------------------------------------------------------------------------
+    // ShellLinkA
+    [
+        uuid(00021401-0000-0000-C000-000000000046),
+        helpstring("lnkファイル")
+    ]
+    coclass ShellLink
+    {
+        [default] interface IShellLinkA;
+    }
+};

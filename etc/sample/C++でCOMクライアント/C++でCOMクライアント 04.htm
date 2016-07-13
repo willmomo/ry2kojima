@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja104.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　４/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>4. CLSID、IDを表現する</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja103.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja105.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[CLSID、IIDを表現する]</B></FONT><BR><BR><FONT 
+      size=2><B>・GUID型データによる定義</B><BR>　COMでは、COMクライアントが 
+      COMコンポーネントにアクセスするとき、CLSIDやIIDをプログラムから指定し、 
+      COMインターフェイスを経由してアクセスします。<BR>　そのため、C++のソースコード上で、CLSID、IIDを表すデータ型を定義し、適切な初期化が必要です。これは、「C言語でCOMクライアント」のコーナーで説明した方法で手書きで定義することができます。つまり、<B>objbase.h</B>ヘッダーファイルをインクルードし、GUID型のデータとして 
+      CLSIDやIIDを宣言します。　<BR></FONT><PRE><FONT style="COLOR: darkblue" size=2>#include "objbase.h"
+
+extern "C" const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; // CLSID
+extern "C" const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; // IID</FONT></PRE><FONT 
+      size=2>　しかし、Visual C++には便利な 
+      「<B>#import</B>」ディレクティブというのがあり、これを使ってコンポーネントを参照する記述をソースコードに入れておくと、 
+      <B>自動的に定義を生成</B>することがでせきます。今回は、この「#import」ディレクティブを使います。 </FONT><PRE><FONT style="COLOR: darkblue" size=2>#include "objbase.h"
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+</FONT></PRE><FONT size=2>　この記述をソースコードに入れておけば、自動的に上記の 
+      CLSID、IIDの定義が生成され、わざわざ project1.dllが持つ 
+      CLSIDやIIDを調べる必要もありません。なお、上記のディレクティブにはオプションが付いてます。<BR><BR><B>　no_namespace</B><BR>　ネームスペースを禁止する記述です。#importはデフォルトで独自のネームスペースを定義しますが、それを使いたくないとき指定するオプションです。ネームスペースとは何か分からなければ、このオプションを付けることによって、普通の宣言になると考えてください。<BR>　今回はネームスペースを使わないので、このオプションを付けます。ネームスペースについて知りたい場合、C++関連ドキュメントでキーワード 
+      namespace を調べてみてください。<BR><BR><B>　named_guids</B><BR>　このオプションによって GUID型の 
+      CLSIDやIIDの定義が生成されます。これも今回必要なオプションです。<BR><BR><B>　raw_interfaces_only</B><BR>　これは次頁で説明します。本来の 
+      COMインターフェイスの定義を自動生成するとき使います。<BR><BR>　結果として、上記のディレクティブによって、project1.dllコンポーネントの内容が反映された 
+      <B>project1.tlh</B> 
+      というヘッダーファイルが<B>自動的に生成</B>されます。このヘッダーファイルには、以下のような定義も含まれます。<BR></FONT><PRE><FONT style="COLOR: darkblue" size=2>(抜粋)
+
+extern "C" const GUID __declspec(selectany) IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}};
+extern "C" const GUID __declspec(selectany) CLSID_Class1 =
+    {0xd1890a6d,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}};
+</FONT></PRE><FONT 
+      size=2>　この構造体は、C言語の場合と同じものが使われています。C++のコード上から、C言語と同じものを使うには extern 
+      "C"の宣言を加えます。(と言っても自動生成されたコードに付くので、意識するまでもないですが。)<BR><BR></FONT><FONT 
+      size=2>　ここまでのコードは以下のようになります。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib1/step1_cpp.txt">Step1(step1_cpp.txt)</A><BR>　れいによって、標準出力を行うので 
+      stdio.hをインクルードします。また作者の好みで windows.h もインクルードします。 </FONT><PRE><FONT style="COLOR: darkblue" size=2>#include "stdio.h"
+#include "windows.h"
+#include "objbase.h"
+
+//project1.dllを元に、必要な定義ファイルを生成する
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+</FONT></PRE></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja103.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja105.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

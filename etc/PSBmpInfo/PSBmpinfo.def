@@ -1,0 +1,8 @@
+LIBRARY         PSBmpInfo.dll
+DESCRIPTION     'Property Sheet Bitmap Information 1998 R.KOJIMA'
+
+EXPORTS
+                DllGetClassObject   @2	PRIVATE
+                DllCanUnloadNow     @3	PRIVATE
+                DllRegisterServer   @4	PRIVATE
+                DllUnregisterServer @5	PRIVATE

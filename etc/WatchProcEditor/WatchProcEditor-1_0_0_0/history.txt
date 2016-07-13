@@ -1,0 +1,63 @@
+
+*** 更新履歴 ***
+
+ver.0.2011.9.27
+
+	kjm::path を追加。
+	kjm::util::getFileVersion を追加。
+
+ver.0.2011.9.7
+
+	kjm::mutex に複製機能を追加。
+	kjm::cmdLine を少し拡張。
+
+ver.0.2011.9.6
+
+	kjm::util::getFullPathName 関数を追加。
+	kjm::PathString を調整。
+
+ver.0.2011.9.2
+
+	kjm::win32::MoveCenterWorkarea 関数を追加。
+
+ver.0.2011.8.31
+
+	.NET like な environment, dateTime, timeSpan クラスなどを追加。
+
+	WinMain 利用時の __argv, __wargv を使い分けるマクロ __targv を追加。
+
+ver.0.2011.8.30
+
+	kjm::event_log::backup が例外を返すように変更。
+
+	kjm::_tstring, kjm::optionInfoList を利便性のため追加。
+
+ver.0.2011.8.26
+
+	kjm::cmdLine::parse関数に関数オブジェクトの実装例を追加。
+
+	staticなkjm::eventLog::backup関数を追加。
+
+	Unicodeに対応。
+
+ver.0.2011.8.25
+
+	kjm::util::isDirectory関数を追加。
+
+	kjm::optionInfo構造体を追加。
+
+	kjm::cmdLine::parse関数をkjm::optionInfo構造体に対応。
+
+ver.0.2011.7.22
+
+	countofマクロを追加。
+	(GNw4.4.0.0からの移植)
+
+	kjm::util::removeBackslash関数を追加。
+	(GNw4.4.0.0からの移植)
+
+	kjm::process::IsHandleAvailable関数を追加。
+	(GNw4.4.0.0からの移植)
+
+	kjm::process::IsStillActive関数を追加。
+	(GNw4.4.0.0からの移植)

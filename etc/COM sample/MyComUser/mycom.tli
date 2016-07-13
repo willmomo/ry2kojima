@@ -1,0 +1,19 @@
+// Created by Microsoft (R) C/C++ Compiler Version 12.00.8168.0 (5566dca5).
+//
+// mycom.tli
+//
+// Wrapper implementations for Win32 type library mycom.dll
+// compiler-generated file created 08/27/03 at 16:01:24 - DO NOT EDIT!
+
+#pragma once
+
+//
+// interface IMyComX wrapper method implementations
+//
+
+inline VARIANT_BOOL IMyComX::IsValid ( ) {
+    VARIANT_BOOL _result;
+    HRESULT _hr = raw_IsValid(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}

@@ -1,0 +1,39 @@
+LIBRARY	DRTSUB
+
+EXPORTS
+	fno1000_init
+	fno1000_get_daisu
+	fno1000_get_rs
+
+	fno1001_init
+	fno1001_get_hdb
+	fno1001_get_sbt
+	fno1001_get_kinko
+
+	fno1002_init
+	fno1002_get_disp1
+	fno1002_get_disp2
+	fno1002_get_kind
+
+	fno1007_init
+	fno1007_get_urikin
+	fno1007_get_urikos
+	fno1007_get_inpscl
+
+	fno1008_init
+	fno1008_get_sbtname
+
+	fno4102_init
+	fno4102_get_out
+	fno4102_get_safe
+	fno4102_get_start
+	fno4102_get_gen1uri
+	fno4102_get_gen2uri
+
+	fno4103_init
+	fno4103_get_indata
+
+	fno640X_build
+
+	lec_calccrc
+	CreateGUID

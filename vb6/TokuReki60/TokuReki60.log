@@ -1,0 +1,23 @@
+SQL> set trimspool on
+SQL> set timing on
+SQL> delete from TOKUSYO_RIREKI where TREKI_DATE < to_date(20090201,'yyyymmdd');
+
+458808行が削除されました。
+
+経過: 00:01:13.03
+SQL> commit;
+
+コミットが完了しました。
+
+経過: 00:00:00.00
+SQL> delete from TOKUSYO_RIREKI where TREKI_DATE <= to_date(20090227,'yyyymmdd');
+
+475271行が削除されました。
+
+経過: 00:01:38.00
+SQL> commit;
+
+コミットが完了しました。
+
+経過: 00:00:00.00
+SQL> spool off

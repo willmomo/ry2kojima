@@ -1,0 +1,5 @@
+# Microsoft Developer Studio Generated Dependency File, included by use_date.mak
+
+.\use_date.cpp : \
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	

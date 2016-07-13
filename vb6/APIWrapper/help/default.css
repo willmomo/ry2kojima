@@ -1,0 +1,60 @@
+body, p, table, tr, td
+{
+	font-size: 10pt;
+}
+
+h1
+{
+	font-size: 14pt;
+}
+
+h2
+{
+	font-size: 12pt;
+}
+
+h3
+{
+	font-szie: 10pt;
+}
+
+table
+{
+	border-color: black;
+	border-top-width: 3px;
+	border-bottom-width: 3px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-right-style: none;
+	border-collapse: collapse;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+tr
+{
+	vertical-align: top;
+}
+
+th
+{
+	text-align: left;
+	border-color: black;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-right-style: none;
+	border-bottom-width: 2px;
+	padding: 4px;
+}
+
+td, th
+{
+	border-color: black;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-right-style: none;
+	padding: 4px;
+}

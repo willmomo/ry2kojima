@@ -1,0 +1,24 @@
+<checklist>
+	<users>
+		<user name="kojima">
+		</user>
+		<user name="wssadmin">
+		</user>
+		<user name="hn2user">
+		</user>
+	</users>
+	<shares>
+		<share name="kpc">
+			<path>c:\libd\kpc</path>
+		</share>
+		<share name="hn2">
+			<path>c:\libd\hn2</path>
+		</share>
+		<share name="shareddocs">
+			<path>C:\Documents and Settings\All Users\Documents</path>
+		</share>
+		<share name="hoge">
+			<path>d:\hoge</path>
+		</share>
+	</shares>
+</checklist>

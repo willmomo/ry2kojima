@@ -1,0 +1,51 @@
+//---------------------------------------------------------------------
+//	WssLog共通ヘッダ(VB用はWssLog.bas)
+//
+//	[概要]
+//	WssLog.dllを使用する人は、これをインクルード
+
+#pragma once
+
+//　ログのレベル定義
+
+#define LOGLV_DEBUG			0			// デバッグ用
+#define	LOGLV_TRACE			1			// トレース
+#define	LOGLV_WARNING		2			// ワーニング(通常はこのレベル以上を出力)
+#define	LOGLV_ERR			3			// エラー
+#define	LOGLV_FATALERR		4			// 致命的エラー
+#define LOGLV_INFO			5			// 情報
+#define	LOGLV_ALWAYS		9			// 必ずログを出す
+										// (注).頻繁に起こるものに関しては使用禁止
+// ログ識別コード(6文字以内で定義)
+
+#define	LOGC_APPCTRL		"APPCTL"	// WssAppCtrl.exe
+#define LOGC_COM			"COM"		// WssCom.exe
+#define LOGC_SYUUKEI		"SYUKEI"	// Syukei.exe
+#define LOGC_TNIO			"TNIO"		// Tnio.exe
+#define	LOGC_UNSET			"UNYOU"		// Unyou.exe
+#define	LOGC_GYOSET			"GYOSET"	// GyoSet.exe
+#define	LOGC_SYSSET			"SYSSET"	// SysSet.exe
+#define	LOGC_TOUINJI		"TOUKA"		// Toukainji.exe
+#define LOGC_WINKT			"WINKT"		// WinKT.exe
+#define LOGC_MPCPROC		"MPCPRC"	// mpcproc.exe
+#define	LOGC_CALDLL			"CALDLL"	// WinSousaCalc.dll
+#define	LOGC_FILDLL			"FILDLL"	// Wsft.dll
+#define	LOGC_UNDLL			"OPEDLL"	// Opesend.dll
+
+// export された関数の定義
+
+#if defined(WSSLOG_EXPORTS)
+#define WSSLOG_API	__declspec(dllexport) __stdcall
+#else
+#define WSSLOG_API	__declspec(dllimport) __stdcall
+#endif
+
+#define	DllExport	__declspec(dllexport)
+extern	"C" {
+DllExport	void WINAPI Winssa_Log(const char *sikibetu,long loglevel,const char * format, ...);
+DllExport	void WINAPI Winssa_Loglevel(long loglevel);
+DllExport	void WINAPI Winssa_Dump(const char *sikibetu,long loglevel,const void *buffer, long size);
+}
+void WSSLOG_API WLSetLogLevel(long nNewLogLevel);
+long WSSLOG_API WLGetLogLevel();
+

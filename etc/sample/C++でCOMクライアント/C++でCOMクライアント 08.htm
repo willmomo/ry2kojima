@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja108.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　８/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>8. メソッド呼び出し</STRONG> ～</FONT> 
+</TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja107.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja109.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[メソッド呼び出し]</B></FONT><BR><BR><FONT 
+      size=2><B>・COMインターフェイスを利用してメソッド呼び出し</B><BR>　C++では、COMインターフェイスの<B>メソッド</B>は、クラスに実装された 
+      <B>virtual関数</B>になります。そのため、「C言語でクライアント」のコーナーで扱ったような 
+      <B>VptrやVtableをほとんど意識せずに</B>メソッドを呼び出すことができます。単にクラスのメソッドを呼び出す感覚でコードを書くことができます。<BR>　以下は、C言語とC++との呼び出しを比較したものです。</FONT> 
+<PRE><FONT style="COLOR: darkblue" size=2>    pClass1-&gt;lpVtbl-&gt;Calc( (void*)pIClass1, x, y, &amp;z );  /* C言語の場合 */
+    pClass1-&gt;Calc( x, y, &amp;z );                           // C++の場合</FONT></PRE><FONT 
+      size=2>　C言語で明示的にコードに記述した Vptr( 変数名 lpVtbl ) は、C++では登場しません。 Visual 
+      C++を含め、多くのC++コンパイラでは、クラスに virtual関数が存在すると、 <B>自動的に内部で 
+      Vptrが生成</B>されています。<BR>　また、C++ではオブジェクトの概念があるので、C言語と違って、<B>第一引数に</B>対象となるオブジェクト 
+      (つまり自分自身)を引数として渡す必要がありません。実際は、C++コンパイラはソースプログラムを機械語に展開すると、 
+      C言語の記述と同じ処理を吐き出します。つまり、C++ソースコード上では見えませんが、第一引数に自分自身を表すオブジェクトポインタを渡す機械語を生成しています。<BR>　また、VB版のメソッドの戻り値は、C/C++では<B>最後の引数</B>になるので、VB版の戻り値は、&amp;zで受け取っています。<BR><BR>　ここまでのコードは次のとおりです。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib1/step4_cpp.txt">Step4(step4_cpp.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>// C++から COMコンポーネントにアクセスする
+// (C)Yajima, Satoshi
+
+#include "stdio.h"
+#include "windows.h"
+#include "objbase.h"
+
+//project1.dllを元に、必要な定義ファイルを生成する
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+
+// メイン処理
+int main(int argc, char* argv[])
+{
+    long x, y, z;     //プロシージャの引数、戻り値用
+    HRESULT hResult;  // COM 戻り値用変数
+    _Class1* pClass1; // COMインターフェイスポインタ
+
+    // COMの初期化
+    ::CoInitialize(0);
+    
+    // インスタンスの作成(CLSIDとIIDを指定して、ポインタ pClass0 を取得)
+    // [VB] Set obj = New Project1.Class1
+    hResult = ::CoCreateInstance((REFCLSID) CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                                 (REFIID)   IID__Class1, (LPVOID*)&amp;pClass1);
+    if( ! SUCCEEDED(hResult) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }
+    
+    // 引数用データ設定 ◆◆追加
+    x = 10;
+    y = 20;
+
+    // Calcメソッドの呼び出し
+    // [VB] z = obj.Calc( x, y ) ◆◆追加
+    pClass1-&gt;Calc( x, y, &amp;z );  
+    printf("Result = %d\n", z );
+
+    // COMの終了処理
+    ::CoUninitialize();
+
+    return 0;
+}
+</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja107.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja109.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

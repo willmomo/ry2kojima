@@ -1,0 +1,24 @@
+
+
+参照設定で、『Windows Script Host Object Model』をチェックしておく必要があります。
+
+ショートカット・インターネットショートカットを作成
+
+
+'SPath      :作成するショートカットのフルパス
+'            拡張子は、ショートカットなら.lnk、インターネットショートカットなら.url
+'TPath      :リンク先のパス、またはURL
+Public Function SCutlnk(SPath As String, TPath As String) As Boolean
+    Dim WSH As New WshShell
+    Dim WSHS As WshShortcut
+    
+    Set WSHS = WSH.CreateShortcut(SPath)
+    WSHS.TargetPath = TPath
+    WSHS.Save
+    
+    Set WSHS = Nothing
+    Set WSH = Nothing
+End Function
+
+戻る
+

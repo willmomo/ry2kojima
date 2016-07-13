@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　８/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>8. インスタンスの作成</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja009.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[インスタンスの作成]</B></FONT><BR><BR><FONT 
+      size=2><B>・COMコンポーネントのインスタンスを作成</B><BR>　COMコンポーネントを利用するには、メモリ上にインスタンスをロードする必要があります(インスタンスの作成)。<BR>　Visual 
+      BasicでCOMクライアントを作ったとき、COMコンポーネントのインスタンスの作成には、 CreateObject関数や 
+      Newキーワードを使います。ここでは、これに相当する記述を C言語で行います。そのためには、<B>CoCreateInstance</B>という 
+      COM APIを利用します。 <PRE><FONT style="COLOR: darkblue" size=2>    hResult = CoCreateInstance(&amp;CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                               &amp;IID__Class1, (void**)&amp;pIClass1);
+    if( ! SUCCEEDED( hResult ) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }</FONT></PRE>　第一引数で 
+      <B>CLSID</B>を指定します。<BR>　第二引数は難しいアグリゲーションで使います。今回は使用しないので、0です。最近では、あまり使うことはないと思います。<BR>　第三引数は 
+      DLLであることを意味しています。<BR>　第四引数は 
+      アクセスに使用する<B>インターフェイスのIID</B>です。COMコンポーネントへは、インターフェイスでのみアクセスできます。<BR>　第五引数は 
+      COMインターフェイスを受け取る<B>ポインタ変数(のアドレス)</B> 
+      です。ポインタ変数の内容は、クライアント自身が初期化するのではなく、CoCreateInstanceの呼び出しによって、自動的に設定されます。<BR><BR>　戻り値によって、エラーが判別できます。正常に終了すれば、hResultの最上位ビットは 
+      0 です。 
+      <B>SUCCEEDEDマクロ</B>は、最上位ビットをチェックしてエラーかどうかを判別します。<BR><BR>　なお、これの以外にインスタンスの作り方は色々とあります。<B>CoGetClassObject</B>という 
+      COM APIを使って <B>クラスファクトリ</B>と呼ばれるオブジェクトを直接操作したり、または<B>モニカオブジェクト</B> 
+      を利用したりします。これら別の方法については、ここでは省略します。<BR><BR>ここまでの完成コードです。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/step4_c.txt">Step4(step4_c.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>/*
+  COMコンポーネントの Simple Client - C言語版
+    COMのアーキテクチャを理解するために、あえてCOM用マクロの使用は
+  最小限にしてあります。
+  2000.11 (C)Yajima, Satoshi
+*/
+
+#include "stdio.h"   /* C言語の標準入出力、以下の printfで使用 */
+#include "windows.h" /* Windowsアプリケーションの基本定義ヘッダーファイル */
+#include "objbase.h" /* COM関連の基本定義ヘッダーファイル */
+
+/* ----- ----- COMに基づくバイナリ構造の定義 ----- ----- */
+typedef struct tagMyVTable {  /* VTableの定義 MyVTalbe */
+    void *p1; /* QueryInterface */
+    void *p2; /* AddRef         */
+    ULONG  (__stdcall *Release)(void* _this);
+    void *p3; /* GetTypeInfoCount */
+    void *p4; /* GetTypeInfo      */
+    void *p5; /* GetIdsOfNames    */
+    void *p6; /* Invoke           */
+    HRESULT (__stdcall *Calc )(void* _this, long x, long y, long* pRetValue);
+} MyVTable;
+
+typedef struct tagIClass1 {  /*COMインターフェイス IClass1 */
+    MyVTable *lpVtbl;
+} _IClass1;
+
+/* ----- ----- コンポーネントの CLSID と COMインターフェイスID ----- -----
+  IDLに表記された uuidの16進数をその順番のまま表記すること
+  変数名は、このソースコード上だけの問題なので、任意の名前でよい
+*/
+const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* CLSID */
+const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* IID   */
+
+/* メイン処理 */
+int main(int argc, char* argv[])
+{
+    long x, y, z;       /* プロシージャの引数、戻り値用 */
+    HRESULT hResult;    /* COM 戻り値用変数 */
+    _IClass1* pIClass1; /* COMインターフェイスポインタ */
+
+    /* COMの初期化 */
+    CoInitialize(0);
+    
+    /* インスタンスの作成(CLSIDとIIDを指定して、ポインタ pClass0 を取得) */
+    /* [VB] Set obj = New Project1.Class1 ◆◆追加 */
+    hResult = CoCreateInstance(&amp;CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                               &amp;IID__Class1, (void**)&amp;pIClass1);
+    if( ! SUCCEEDED( hResult ) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }
+    
+    /* COMの終了処理 */
+    CoUninitialize();
+
+    return 0;
+}</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja009.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

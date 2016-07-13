@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "watchtower", "watchtower.vcxproj", "{2A579CE6-B82F-0189-ED51-B05DE20B1014}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8A854893-51C7-DF08-4CBB-814CF8F8A180} = {8A854893-51C7-DF08-4CBB-814CF8F8A180}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kmwatch", "kmwatch\kmwatch.vcxproj", "{8A854893-51C7-DF08-4CBB-814CF8F8A180}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A579CE6-B82F-0189-ED51-B05DE20B1014}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2A579CE6-B82F-0189-ED51-B05DE20B1014}.Debug|Win32.Build.0 = Debug|Win32
+		{2A579CE6-B82F-0189-ED51-B05DE20B1014}.Release|Win32.ActiveCfg = Release|Win32
+		{2A579CE6-B82F-0189-ED51-B05DE20B1014}.Release|Win32.Build.0 = Release|Win32
+		{8A854893-51C7-DF08-4CBB-814CF8F8A180}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8A854893-51C7-DF08-4CBB-814CF8F8A180}.Debug|Win32.Build.0 = Debug|Win32
+		{8A854893-51C7-DF08-4CBB-814CF8F8A180}.Release|Win32.ActiveCfg = Release|Win32
+		{8A854893-51C7-DF08-4CBB-814CF8F8A180}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

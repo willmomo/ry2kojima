@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>SetLayered</title>
+</head>
+<body>
+<h1>SetLayered</h1>
+
+<hr>
+
+<p>ウィンドウの半透明機能をON/OFFします。</p>
+
+<pre class="prototype">
+<small>[VB6]</small>
+<strong>Public Function SetLayered( _
+    ByVal <em class="param">hWnd </em>As Long, _
+    ByVal <em class="param">bLayered </em>As Boolean _
+) As Long</strong>
+</pre>
+
+<pre class="prototype">
+<small>[C++]</small>
+<strong>int SetLayered(
+    HWND <em class="param">hWnd</em>, 
+    bool <em class="param">bLayered</em>
+);</strong>
+</pre>
+
+<h2>パラメータ</h2>
+
+<dl>
+<dt><em class="param">hWnd</em>
+<dd>このパラメータで指定したウィンドウの半透明機能をON/OFFします。
+<dt><em class="param">bLayered</em>
+<dd>trueを指定した場合、半透明機能をON。falseを指定した場合、半透明機能をOFFします。
+</dl>
+
+<h2>戻り値</h2>
+
+<p>正常終了のときは0を、設定できなかったときは-1を返します。エラーが発生した場合は、Win32のエラーコードを戻します。</p>
+
+<h2>説明</h2>
+
+<p><em class="param">hWnd</em>で指定したウィンドウの半透明機能をON/OFFします。
+半透明機能をONにすることができないウィンドウをONにしようとすると、失敗します。</p>
+
+<p>半透明機能をONにした場合、直後に<a href="setopacity.html">SetOpacity</a>関数を使って不透明度を設定する必要があります。</p>
+
+<p>使い方は以下のとおり：</p>
+
+<pre class="code">
+<small>[VB6]</small>
+Dim ret As Long
+ret = SetLayered(Me.hWnd, True)
+If ret = 0 Then
+    SetOpacity Me.hWnd, 0.5
+Else
+    MsgBox "半透明機能をONにできません。"
+Else
+</pre>
+
+<pre class="code">
+<small>[C++]</small>
+int ret = SetLayered(hWnd, true);
+if (ret == 0) {
+    SetOpacity(hWnd, 0.5);
+} else {
+    printf("半透明機能をONにできません。\n");
+}
+</pre>
+
+<h2>参照</h2>
+
+<p><a href="islayered.html">IsLayered</a>, <a href="setopacity.html">SetOpacity</a></p>
+
+</body>
+</html>

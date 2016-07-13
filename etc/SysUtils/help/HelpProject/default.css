@@ -1,0 +1,80 @@
+@media all
+{
+	body, table, tr, td, th
+	{
+		font-family: "MS UI Gothic", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+		font-size: 10pt;
+	}
+	h1
+	{
+		font-size: 14pt;
+	}
+	h2
+	{
+		font-size: 12pt;
+	}
+	h3
+	{
+		font-size: 10pt;
+	}
+
+	table, tr, td, th
+	{
+		border-style: solid;
+		border-width: 1pt;
+		border-color: black;
+	}
+	
+	table.noframe, tr.noframe, td.noframe, th.noframe
+	{
+		border-style: none;
+		border-collapse: collapse;
+		background-color: #E7E3E7;
+	}
+
+	pre.prototype
+	{
+		font-family: monospace;
+		font-size: 9pt;
+		background-color: #E0E0E0;
+		border-style: solid;
+		border-width: 1pt;
+		border-color: #E0E0E0;
+		padding: 3pt;
+	}
+	pre.code
+	{
+		font-family: monospace;
+		font-size: 9pt;
+		background-color: #E0E0E0;
+		border-style: solid;
+		border-width: 1pt;
+		border-color: #E0E0E0;
+		padding: 3pt;
+	}
+	em.param
+	{
+		font-family: sans-serif;
+		font-weight: normal;
+		font-style: italic;
+		padding-right: 2pt;
+	}
+}
+
+@media print
+{
+	body, td
+	{
+		font-family: "‚l‚r ‚o–¾’©", serif;
+	}
+	h1, h2, h3, th, strong
+	{
+		font-family: "MS UI Gothic", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	}
+	table.noframe, tr.noframe, td.noframe, th.noframe
+	{
+		border-style: solid;
+		border-width: 1pt;
+		border-color: #E7E3E7;
+	}
+}

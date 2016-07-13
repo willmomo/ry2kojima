@@ -1,0 +1,26 @@
+HKCR
+{
+	ComSample.SharedMem.1 = s 'SharedMem Class'
+	{
+		CLSID = s '{DA39F402-91A3-4A93-ACFB-8CCE250BDC83}'
+	}
+	ComSample.SharedMem = s 'SharedMem Class'
+	{
+		CLSID = s '{DA39F402-91A3-4A93-ACFB-8CCE250BDC83}'
+		CurVer = s 'ComSample.SharedMem.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {DA39F402-91A3-4A93-ACFB-8CCE250BDC83} = s 'SharedMem Class'
+		{
+			ProgID = s 'ComSample.SharedMem.1'
+			VersionIndependentProgID = s 'ComSample.SharedMem'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{E668FDD8-4152-43DF-AFBD-E7064744AB02}'
+		}
+	}
+}

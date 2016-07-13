@@ -1,0 +1,26 @@
+HKCR
+{
+	Kjmlib.ApiWrap.1 = s 'ApiWrap Class'
+	{
+		CLSID = s '{6A1874C3-BCDE-41B4-997B-C3A8EBB89D0E}'
+	}
+	Kjmlib.ApiWrap = s 'ApiWrap Class'
+	{
+		CLSID = s '{6A1874C3-BCDE-41B4-997B-C3A8EBB89D0E}'
+		CurVer = s 'Kjmlib.ApiWrap.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {6A1874C3-BCDE-41B4-997B-C3A8EBB89D0E} = s 'ApiWrap Class'
+		{
+			ProgID = s 'Kjmlib.ApiWrap.1'
+			VersionIndependentProgID = s 'Kjmlib.ApiWrap'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{4FF529F9-F9A8-431B-8218-28C3121F8BD9}'
+		}
+	}
+}

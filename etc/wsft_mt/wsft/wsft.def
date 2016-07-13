@@ -1,0 +1,19 @@
+LIBRARY wsft
+EXPORTS
+
+wsft_start
+wsft_setservstr
+wsft_setserv
+wsft_setopt
+wsft_getopt
+wsft_infofile
+wsft_readfile
+wsft_writefile
+wsft_readaddr
+wsft_writeaddr
+wsft_end
+wsft_getver
+wsft_read_rec
+wsft_dllversion
+wsft_resume
+wsft_stop

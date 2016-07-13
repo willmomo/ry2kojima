@@ -1,0 +1,8 @@
+修正履歴
+
+v1.2.0.0
+
+Visual Studio 2008 でリビルド。
+.NET Framework 3.5のバグに対応(PrintDialog)
+
+<eof>

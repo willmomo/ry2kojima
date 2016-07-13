@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>kjmutilについて</title>
+<style type="text/css">
+h1 {
+	font-size: 18pt;
+}
+table.typeA, td.typeA {
+	border-collapse: collapse;
+	border-style: solid none solid none;
+	border-width: 1pt;
+	border-color: darkgray;
+	padding: 3pt;
+}
+</style>
+</head>
+<body>
+<h1>kjmutilについて</h1>
+<!-- ***************************************************************** -->
+<div id="マクロ">
+<p>マクロ</p>
+<table class="typeA">
+<tr>
+	<td class="typeA">_tstring</td>
+	<td class="typeA">UNICODEが定義されていると、std::wstring。定義されていないとき、std::stringになる型。</td>
+</tr>
+<tr>
+	<td class="typeA">_tostringstream</td>
+	<td class="typeA">UNICODEが定義されていると、std::wostringstream。定義されていないとき、std::ostringstreamになる型。</td>
+</tr>
+</table>
+</div>
+<!-- ***************************************************************** -->
+<div id="class kjmutil::err">
+<p>class kjmutill::err</p>
+<p>エラー情報を扱うクラス</p>
+<table class="typeA">
+<tr>
+	<td class="typeA">err()</td>
+	<td class="typeA">デフォルトコンストラクタ。インスタンス作成時のGetLastError関数の値で初期化される。</td>
+</tr>
+<tr>
+	<td class="typeA">err(DWORD dwErrCode)</td>
+	<td class="type"A>dwErrCodeで初期化されるコンストラクタ。</td>
+</tr>
+<tr>
+	<td class="typeA">DWORD get_number()</td>
+	<td class="typeA">保持しているエラー番号を取得</td>
+</tr>
+<tr>
+	<td class="typeA">void set_number(DWORD dwErrCode)</td>
+	<td class="typeA">エラー番号を設定する</td>
+</tr>
+<tr>
+	<td class="typeA">_tstring get_description()</td>
+	<td class="typeA">エラーの説明を取得。FormatMessage関数で取得される文字列。最後の改行は取り除かれている。</td>
+</tr>
+</table>
+</div>
+<!-- ***************************************************************** -->
+<div id="class kjmutil::rect">
+<p>class kjmutil::rect : public RECT</p>
+<p>RECTを扱うクラス。RECTを渡したり、受け取ったりする関数をラップする。</p>
+<table class="typeA">
+<tr>
+	<td class="typeA">rect()</td>
+	<td class="typeA">デフォルトコンストラクタ。SetRectEmpty関数を利用して、空の矩形を作成する。</td>
+</tr>
+<tr>
+	<td class="typeA">rect& screen_to_client(HWND hwnd)</td>
+	<td class="typeA">スクリーン座標をクライアント座標に変換。同名のAPIのRECTバージョン。</td>
+</tr>
+<tr>
+	<td class="typeA">rect& offset(int dx, int dy)</td>
+	<td class="typeA">矩形をずらす関数。自身を引数にしてOffsetRect関数を呼びます。</td>
+</tr>
+<tr>
+	<td class="typeA">int get_width() const</td>
+	<td class="typeA">幅を取得します。</td>
+</tr>
+<tr>
+	<td class="typeA">int get_height() const</td>
+	<td class="typeA">高さを取得します。</td>
+</tr>
+<tr>
+	<td class="typeA">static rect get_client_rect(HWND hwnd)</td>
+	<td class="typeA">kjmutil::rectを返す、GetClientRect関数。</td>
+</tr>
+<tr>
+	<td class="typeA">static rect get_window_rect(HWND hwnd);</td>
+	<td class="typeA">kjmutil::rectを返す、GetWindowRect関数。</td>
+</tr>
+<tr>
+	<td class="typeA">static rect union_rect(const RECT* lprcSrc1, const RECT* lprcSrc2)</td>
+	<td class="typeA">指定された 2 つの長方形を完全に含む、最小の長方形を作成します。</td>
+</tr>
+</table>
+</div>
+<!-- ***************************************************************** -->
+<div id="グローバル関数">
+<p>グローバル関数</p>
+<table class="typeA">
+<tr>
+	<td class="typeA">void chomp(_tstring& str)</td>
+	<td class="typeA">文字列の最後の改行を取り除く。</td>
+</tr>
+<tr>
+	<td class="typeA">BOOL move_window(HWND hWnd, const kjmutil::rect& rc, BOOL bRepaint)</td>
+	<td class="typeA">kjmutil::rectを引数にとるMoveWindow関数</td>
+</tr>
+<tr>
+	<td class="typeA">BOOL IOUtil__CopyFile(LPCTSTR lpExistingFileName, LPCTSTR lpNewFileName, BOOL bFailIfExists, int retry, int wait)</td>
+	<td class="typeA">lpExistingFileNameのファイルをlpNewFileNameにコピーします。コピー失敗時には指定回数分リトライを行います。</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

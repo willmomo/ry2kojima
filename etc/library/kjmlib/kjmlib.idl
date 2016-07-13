@@ -1,0 +1,39 @@
+// kjmlib.idl : kjmlib.dll 用の IDL ソース ファイル
+//
+
+// このファイルはタイプ ライブラリ (kjmlib.tlb) を作成するために
+// タイプ ライブラリ作成ツール MIDL によって処理されます。
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(6E38045A-4E10-45DB-BA59-486AF63CE05B),
+		dual,
+		helpstring("IApiWrap Interface"),
+		pointer_default(unique)
+	]
+	interface IApiWrap : IDispatch
+	{
+		[id(1), helpstring("ﾒｿｯﾄﾞ GetModuleFileNameAPI")] HRESULT GetModuleFileNameAPI([in] long hModule, [out,retval] BSTR* pVal);
+	};
+
+[
+	uuid(4FF529F9-F9A8-431B-8218-28C3121F8BD9),
+	version(1.0),
+	helpstring("kjmlib 1.0 ﾀｲﾌﾟ ﾗｲﾌﾞﾗﾘ")
+]
+library KJMLIBLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(6A1874C3-BCDE-41B4-997B-C3A8EBB89D0E),
+		helpstring("ApiWrap Class")
+	]
+	coclass ApiWrap
+	{
+		[default] interface IApiWrap;
+	};
+};

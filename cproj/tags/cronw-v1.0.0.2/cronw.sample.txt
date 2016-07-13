@@ -1,0 +1,12 @@
+# min hour day_of_month month day_of_week command_to_be_execcuted
+#
+
+# 毎分実行
+# * * * * * 毎分実行
+
+# 定時に実行
+0 * * * * 定時に実行
+
+# 15分毎に実行
+0,15,30,45 * * * * 15分毎に実行
+0,15,30,45 * * * * notepad.exe

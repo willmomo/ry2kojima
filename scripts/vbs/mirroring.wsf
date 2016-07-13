@@ -1,0 +1,65 @@
+<package>
+	<!--
+		PCからクリップドライブにミラーリングするスクリプト
+	-->
+	<job id="PCToClipDrive">
+		<!-- 外部 VBS ファイルの取込み(インクルード) -->
+		<script language="VBScript" src="./CMirror.vbs"></script>
+
+		<!-- メイン処理 -->
+		<script language="VBScript">
+			Option Explicit
+
+			Dim objShell
+			Dim objMirror
+			Dim objFs
+			Dim objTs
+			Dim strOne
+
+			Set objFs = WScript.CreateObject("Scripting.FileSystemObject")
+
+			Set objShell = WScript.CreateObject("WScript.Shell")
+
+			'除外定義ファイルの作成
+			Set objTs = objFs.CreateTextFile(objFs.GetParentFolderName(WScript.ScriptFullName) & "\exclude.txt", True)
+			objTs.WriteLine "Thumbs.db"
+			objTs.Close
+
+			Set objMirror = New CMirror
+			objMirror.Mode = "backup-mirror"
+			objMirror.LogPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\log"
+			objMirror.ExcludeOption = objFs.GetParentFolderName(WScript.ScriptFullName) & "\exclude.txt"
+
+			Select Case MsgBox("本番モードで実行しますか?", vbYesNoCancel, "mirroring: 動作モードの確認")
+			Case vbYes
+				objMirror.Test = False
+			Case vbNo
+				objMirror.Test = True
+			Case Else
+				WScript.Quit
+			End Select
+
+			objMirror.OrgPath = objShell.SpecialFolders("MyDocuments")
+			objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\Documents and Settings\kojima\My Documents"
+			objMirror.Run
+
+			For Each strOne In Array("pebuilder3110a", "XPdisc")
+				objMirror.OrgPath = "C:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\" & strOne
+				objMirror.Run
+			Next
+
+			For Each strOne In Array("BCDC Plus", "Becky!", "fswiki", "localvss", "prvwiki", "pubwiki", "tiger")
+				objMirror.OrgPath = "D:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\d-drv\" & strOne
+				objMirror.Run
+			Next
+
+			For Each strOne In Array("field_data", "work")
+				objMirror.OrgPath = "E:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\e-drv\" & strOne
+				objMirror.Run
+			Next
+		</script>
+	</job>
+</package>

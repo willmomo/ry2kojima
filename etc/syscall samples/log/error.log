@@ -1,0 +1,10 @@
+404	http://www.microware.ne.jp/robots.txt
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/PROCESS/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/IPC/SIGNAL/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/IPC/EVENT/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/IPC/SEMAPHORE/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/IPC/PIPE/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/IO/SERIAL/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/IO/FILE/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/MODULE/
+403	http://www.microware.ne.jp/support/technical/syscall_samples/SRC/ETC/

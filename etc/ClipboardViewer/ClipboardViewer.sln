@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClipboardViewer", "ClipboardViewer.csproj", "{31E182F4-3EF9-4E61-83BC-151A9A707FBD}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = ClipboardViewer.csproj
+		SccProjectName0 = \u0022$/ClipboardViewer\u0022,\u0020QRAAAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31E182F4-3EF9-4E61-83BC-151A9A707FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E182F4-3EF9-4E61-83BC-151A9A707FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E182F4-3EF9-4E61-83BC-151A9A707FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E182F4-3EF9-4E61-83BC-151A9A707FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>RemoveSubFolders</title>
+</head>
+<body>
+<h1>RemoveSubFolders</h1>
+
+<hr>
+
+<p>指定したフォルダの下にあるファイル/フォルダを、指定したファイル/フォルダを除いてすべて削除します。</p>
+
+<pre class="prototype">
+<small>[VB6]</small>
+<strong>Public Function RemoveSubFolders( _
+    <em class="param">strFolder </em>As String, _
+    <em class="param">strExcept </em>As String _
+) As Long</strong>
+</pre>
+
+<pre class="prototype">
+<small>[C++]</small>
+<strong>int RemoveSubFolders(
+    const char* <em class="param">strFolder</em>, 
+    const char* <em class="param">strExcept</em>
+);</strong>
+</pre>
+
+<h2>パラメータ</h2>
+
+<dl>
+<dt><em class="param">strFolder</em>
+<dd>このパラメータで指定したフォルダの下にあるファイルとフォルダを削除。
+<dt><em class="param">strExcept</em>
+<dd><em class="param">strFolder</em>で指定したフォルダの下にあるファイルとフォルダの中で、このパラメータに一致するものは、削除しない。除外するファイル/フォルダが無いときは、空文字列("")を指定してください。<br>
+[C++] <em class="param">strExcept</em>には、空文字列の代わりにNULLを指定することもできます。
+</dl>
+
+<h2>戻り値</h2>
+
+<p>正常終了のときは0を、エラーのときは0以外の値を戻します。</p>
+<p>[VB6] 戻り値を、<strong>Error</strong>関数に渡すことで、エラーの内容を文字列に変換できます。<br>
+[C++] 戻り値が、正のときは<strong>GetLastError</strong>関数の値と同じ意味です。負数のときは、<em class="param">strFolder</em>に指定した値が異常です。</p>
+
+<h2>説明</h2>
+
+<p><em class="param">strFolder</em>以下にあるファイルを、<em class="param">strExcept</em>と一致するファイルまたはフォルダを除いてすべて削除します。
+<em class="param">strExcept</em>は、単純な文字列で大文字と小文字を区別しません。フォルダ名と一致すれば、フォルダ以下すべてを削除対象外にします。</p>
+<p>間違って、c:\とか指定したら、大変なことになります。注意してください。</p>
+<p><img align="middle" src="images/removesubfolders000.png" alt="削除前のフォルダ構成"> (削除前) → (削除後) <img align="middle" src="images/removesubfolders001.png" alt="削除後のフォルダ構成"></p>
+<p>フォルダ構成が図のようになっている時、20040404フォルダ以外をすべて削除するコードは、以下のようになります。</p>
+
+<pre class="code">
+<small>[VB6]</small>
+Dim ret As Long
+ret = RemoveSubFolders("c:\libd\kioku", "20040404")
+If ret &lt;&gt; 0 Then
+    MsgBox "RemoveSubFolders error " &amp; ret &amp; ": " &amp; Error(ret)
+End If
+</pre>
+
+<pre class="code">
+<small>[C++]</small>
+int ret;
+ret = RemoveSubFolders("c:\\libd\kioku", "20040404")
+if (ret != 0) {
+    printf("RemoveSubFolders error %d\n", ret);
+}
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+// MyCom.idl : MyCom.dll 用の IDL ソース ファイル
+//
+
+// このファイルはタイプ ライブラリ (MyCom.tlb) を作成するために
+// タイプ ライブラリ作成ツール MIDL によって処理されます。
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(685E132E-B485-410E-850B-4936E56326C5),
+		dual,
+		helpstring("IMyComX Interface"),
+		pointer_default(unique)
+	]
+	interface IMyComX : IDispatch
+	{
+		[id(1), helpstring("ﾒｿｯﾄﾞ IsValid")] HRESULT IsValid([out, retval] VARIANT_BOOL *ret);
+	};
+
+[
+	uuid(C9998AAD-409E-43D9-A9F6-F9DA64AE5A29),
+	version(1.0),
+	helpstring("MyCom 1.0 ﾀｲﾌﾟ ﾗｲﾌﾞﾗﾘ")
+]
+library MYCOMLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(EC268291-0CF2-446A-AD07-5E74A1FD64AC),
+		helpstring("MyComX Class")
+	]
+	coclass MyComX
+	{
+		[default] interface IMyComX;
+	};
+};

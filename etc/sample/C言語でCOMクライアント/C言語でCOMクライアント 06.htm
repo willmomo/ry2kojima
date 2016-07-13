@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja006.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　６/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>6. ちょっとおまけ、COMインターフェイスの表現あれこれ</STRONG> 
+      ～</FONT> </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[COMインターフェイスの表現あれこれ]</B></FONT><BR><BR><FONT 
+      size=2><B>・様々な表現方法</B><BR>　結局、COMの仕様で定められた<B>COMインターフェイスのメモリ構造</B> 
+      を表現できればよいので、前述の構造体宣言以外にも、いろいろと表現方法はあります。ここでは、インターフェイスの宣言の様々なバリエーションを扱います。これらはあくまで参考であり、今回のサンプルでは利用してません。<BR><BR><B>・C++での表現</B><BR>　もともと、COMインターフェイスの仕様は 
+      C++を意識した仕様で、多くの C++コンパイラは、VptrやVTableの構造を既定で吐き出せるようになっています。　そのため、 C++で 
+      COMインターフェイスを表記した場合、C言語よりもシンプルな表記になります。以下の例が示すように、C++では関数ポインタ配列と 
+      Vptrをわざわざ分けて定義する必要はありません。また C言語のように第一引数にオブジェクトを渡す必要がないので、引数の数が一つ少なくなります。 
+      <BR><BR><PRE><FONT style="COLOR: darkblue" size=2>class _IClass1
+{
+public:
+    //IUnknown
+    virtual HRESULT __stdcall QueryInterface( REFIID riid, void **ptr ) = 0;
+    virtual ULONG   __stdcall AddRef()  = 0;
+    virtual ULONG   __stdcall Release() = 0;
+    //IDispatch
+    virtual HRESULT __stdcall GetTypeInfoCount(unsigned int *pCount) = 0;
+    virtual HRESULT __stdcall GetTypeInfo( unsigned int  iTInfo, LCID  lcid, 
+                                           ITypeInfo **ppTInfo ) = 0;
+    virtual HRESULT __stdcall GetIDsOfNames( REFIID riid ,
+                                             OLECHAR **rgszNames, unsigned int cNames,
+                                             LCID lcid, DISPID *rgDispId ) = 0;
+    virtual HRESULT __stdcall Invoke( DISPID dispIdMember, REFIID riid,
+                                      LCID  lcid, WORD  wFlags,
+                                      DISPPARAMS *pDispParams,
+                                      VARIANT *pVarResult,
+                                      EXCEPINFO *pExcepInfo, unsigned int *puArgErr ) = 0;
+    //dualインターフェイスのカスタムメソッド
+    virtual HRESULT __stdcall Calc( long x, long y, long *z ) = 0;
+};</FONT></PRE>　また、<B>C++の継承</B>を使えば、もっと簡単です。以下のような書き方ができます。 
+      (詳しくは、C++の継承の記述の知識が必要なので、説明は省略します。)<BR><BR><PRE><FONT style="COLOR: darkblue" size=2>// 継承を利用する場合
+class _IClass1 : public IDispatch
+{
+public:
+    virtual HRESULT __stdcall Calc( long x, long y, long *z ) = 0;
+};</FONT></PRE><B>・C/C++兼用マクロ</B><BR>　<B>objbase.h</B>には、C言語とC++の両方で兼用可能なマクロ 
+      <B>DECLARE_INTERFACE_</B> 
+      が用意されています。<BR>　このマクロで宣言したインターフェイスは、C言語コンパイラでもC++コンパイラでも通る兼用マクロです。もしかしたら、書籍などで 
+      <BR>STDMETHOD</B> 
+      というマクロを見たことがあるかも知れませんが、このマクロも、C言語とC++兼用のマクロです。<BR>　このマクロを使ってヘッダーファイルを作っておけば、C言語、C++の両方で利用できるわけです。<BR><BR><PRE><FONT style="COLOR: darkblue" size=2>#undef  INTERFACE
+#define INTERFACE _IClass1
+
+DECLARE_INTERFACE_( _IClass1, IDispatch )
+{
+    /* IUnknown */
+    STDMETHOD ( QueryInterface )( THIS_  REFIID riid, LPVOID *ppvObj ) PURE;
+    STDMETHOD_( ULONG, AddRef  )( THIS ) PURE;
+    STDMETHOD_( ULONG, Release )( THIS ) PURE;
+    /* IDispatch */
+    STDMETHOD ( GetTypeInfoCount )( THIS_ unsigned int *pCount ) PURE;
+    STDMETHOD ( GetTypeInfo      )( THIS_ unsigned int iTInfo, LCID  lcid, 
+                                          ITypeInfo **ppTInfo  ) PURE;
+    STDMETHOD ( GetIDsOfNames    )( THIS_ REFIID riid ,
+                                          OLECHAR **rgszNames, unsigned int cNames,
+                                          LCID lcid, DISPID *rgDispId ) PURE;
+    STDMETHOD ( Invoke           )( THIS_ DISPID dispIdMember, REFIID riid,
+                                          LCID  lcid, WORD  wFlags,
+                                          DISPPARAMS *pDispParams,
+                                          VARIANT *pVarResult,
+                                          EXCEPINFO *pExcepInfo, unsigned int *puArgErr ) PURE;
+    /* dualのカスタムメソッド */
+    STDMETHOD ( Calc )( THIS_  LONG x, LONG y, LONG *z ) PURE;
+};
+typedef _IClass1 * LPCLASS1;</FONT></PRE>　今回は、COMインターフェイスの構造を理解するのが目的なので、上記のどちらも利用してません。<BR><BR><BR></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

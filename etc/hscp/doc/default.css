@@ -1,0 +1,46 @@
+/* ‰æ–Ê•\¦‚Íí‚ÉƒSƒVƒbƒN‘Ì */
+@media screen {
+	body, td, th, h1, h2 h3 {
+		font-family: "MS UI Gothic", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	}
+}
+
+/* ˆóü‚ÍAŠî–{“I‚É–¾’©‘Ì
+   ‹­’²Œn‚Ì•¶š‚ÍAƒSƒVƒbƒN‘Ì */
+@media print {
+	body, td {
+		font-family: "‚l‚r ‚o–¾’©", serif;
+	}
+	th, strong, h1, h2, h3 {
+		font-family: "MS UI Gothic", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
+	}
+}
+
+@media all {
+	body, td, th {
+		font-size: 94%;
+	}
+	h1 {
+		font-size: 130%;
+	}
+	h2 {
+		font-size: 120%;
+	}
+	h3 {
+		font-size: 100%;
+	}
+
+	/* SL = Simple Line ‚Ì—ª‚Á‚Û‚­ */
+	table.sl {
+		border-collapse: collapse;
+		border: 1px solid black;
+	}
+	th.sl {
+		border: 1px solid black;
+	}
+	td.sl {
+		border: 1px solid black;
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+	}
+}

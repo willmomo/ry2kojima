@@ -1,0 +1,63 @@
+﻿div#header input {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+table#gameBoard {
+	border-style:solid;
+	border-width:3pt;
+	border-color:black;
+	border-collapse:collapse;
+	cursor: pointer;
+}
+
+table#gameBoard td {
+	width:50px;
+	height:50px;
+	border-style:solid;
+	border-width:1pt;
+	border-color:black;
+	text-align:center;
+}
+
+table#gameBoard td:hover {
+	background-color: yellow;
+}
+
+
+table#gameBoard td:nth-child(3n) {
+	border-right-width: 2pt;
+}
+
+table#gameBoard tr:nth-child(3n) td {
+	border-bottom-width: 2pt;
+}
+
+div#popupMenu {
+	position:absolute;
+	width:140px;
+	left:50%;
+	visibility:hidden;
+	background-color:#e0e0e0;
+}
+
+table#menuTable {
+	width:100%;
+	background-color:rgb(240,240,240);
+	border-style:solid;
+	border-width:1pt;
+	border-color:rgb(160,160,160);
+	box-shadow:2px 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+td.menu {
+	font-size:16pt;
+	height:30px;
+	border-style:none;
+	text-align:center;
+	cursor: pointer;
+}
+
+td.menu:hover {
+	background-color: rgb(220,220,255);
+}

@@ -1,0 +1,264 @@
+===============================================================================
+	便利関数
+===============================================================================
+void kjm::ods(LPCTSTR format, ...);
+	OutputDebugString を簡単に使うための関数
+void kjm::log_info(const char* signature, const char* format, ...);
+	情報ログを残す関数
+void kjm::log_error(const char* signature, const char* format, ...);
+	エラーログを残す関数
+BOOL kjm::create_directory(LPCTSTR lpPathName);
+	再帰的にディレクトリを作成できる CreateDirectory 関数
+
+
+===============================================================================
+	パス名を扱う文字列
+===============================================================================
+kjm::PathString::PathString();
+	デフォルトコンストラクタ
+kjm::PathString::PathString(const PathString& src);
+	コピーコンストラクタ
+kjm::PathString::PathString(const char* src);
+	文字列で初期化するコンストラクタ
+virtual kjm::PathString::~PathString();
+	デストラクタ
+const char* kjm::PathString::c_str() const;
+	文字列へのポインタを返す
+kjm::PathString& kjm::PathString::Append(const kjm::PathString& more);
+	パスを結合する(PathAppend 関数相当)
+kjm::PathString& kjm::PathStringoperator= (const PathString& src);
+	代入演算子
+
+
+===============================================================================
+	API関数のラッパークラス
+	インスタンス化できない static クラスです。
+===============================================================================
+static std::string kjm::win32::expand_environment_strings(LPCTSTR lpSrc);
+	ExpandEnvironmentStrings のラッパー関数
+static std::string kjm::win32::format_message(DWORD dwErrorCode);
+	エラーコードからシステムエラーメッセージを取得する。
+static std::string kjm::win32::str_replace(const std::string& src, LPCTSTR pFind, LPCTSTR pReplace);
+	文字列を置換する。VBのStrReplaceのような関数。
+
+
+===============================================================================
+	レジストリを扱うクラス
+===============================================================================
+kjm::registry::registry();
+	デフォルトコンストラクタ
+kjm::registry::registry(const kjm::registry::registry& src);
+	コピーコンストラクタ
+virtual kjm::registry::~registry();
+	デストラクタ
+LONG kjm::registry::reg_open_key_ex(HKEY hkey, LPCTSTR lpSubKey, REGSAM samDesired);
+	RegOpenKeyEx のラッパー
+LONG kjm::registry::reg_close_key();
+	RegCloseKey のラッパー
+LONG kjm::registry::reg_query_value_ex(LPTSTR lpValueName, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData) const;
+	RegQueryValueEx のラッパー
+LONG kjm::registry::reg_set_value_ex(LPCTSTR lpValueName, DWORD dwType, CONST BYTE *lpData, DWORD cbData);
+	RegSetValueEx のラッパー
+LONG kjm::registry::reg_set_value_ex(LPCTSTR lpValueName, DWORD dwData);
+	RegSetValueEx のラッパー(DWORD 値を書きこむバージョン)
+std::string kjm::registry::get_string(LPTSTR lpValueName, LPCTSTR lpDefault) const;
+	文字列を取得する関数
+kjm::registry::registry& kjm::registry::operator =(const kjm::registry::registry& rhs);
+	代入演算子
+
+
+===============================================================================
+	ユーティリティクラス
+	インスタンス化できない static クラスです。
+===============================================================================
+static DWORD kjm::util::CopyFiles(LPCTSTR pszSrcPath, LPCTSTR pszDstPath);
+	コピー元の直下にあるすべてのファイルをコピー先にコピーする
+static std::basic_string<TCHAR> kjm::util::getModuleFileName();
+	プロセスのモジュール名を取得(GetModuleFileName 関数のラッパー)
+static std::string kjm::util::GetModuleName();
+	プロセス名をstringで取得する関数
+static std::basic_string<TCHAR> kjm::util::getPrivateProfileString(LPCTSTR section, LPCTSTR key, LPCTSTR defValue, LPCTSTR iniFile);
+	ini ファイルから文字列を取得する(GetPrivateProfileString 関数のラッパー)
+static DWORD kjm::util::get_ipaddr(LPCSTR lpName);
+	ホスト名または、IP文字列からIPアドレスを取得
+static bool kjm::util::remove_folder(LPCTSTR pszPath);
+	ディレクトリを再帰的に削除する
+static std::basic_string<TCHAR> kjm::util::renameExtension(const std::basic_string<TCHAR>& path, const std::basic_string<TCHAR>& ext);
+	パス文字列の拡張子を変更する
+static std::basic_string<TCHAR> kjm::util::renameFileSpec(const std::basic_string<TCHAR>& path, const std::basic_string<TCHAR>& fname);
+	パス文字列のファイル名を変更する
+
+
+===============================================================================
+	ディレクトリ操作のメソッドを提供するクラス
+	インスタンス化できない static クラスです。
+===============================================================================
+static BOOL kjm::util::copy(LPCTSTR sourceDirName, LPCTSTR destDirName);
+	ファイルまたはディレクトリ、およびその内容を新しい場所にコピーします。
+
+
+===============================================================================
+	NOTIFYICONDATA をラップするクラス
+===============================================================================
+kjm::BiNotifyIcon::BiNotifyIcon();
+	デフォルト・コンストラクタ
+virtual kjm::BiNotifyIcon::~BiNotifyIcon();
+	デストラクタ
+BOOL kjm::BiNotifyIcon::Add(HWND hWnd, UINT uID, UINT uFlags, UINT uCallbackMessage, HICON hIcon, const char* pszTip);
+	タスクトレイにアイコンを追加する。
+BOOL kjm::BiNotifyIcon::Delete();
+	タスクトレイからアイコンを削除する
+BOOL kjm::BiNotifyIcon::Modify(UINT uFlags, UINT uCallbackMessage, HICON hIcon, char* pszTip);
+	タスクトレイアイコンの情報を変更する。
+
+
+===============================================================================
+	mutex 管理クラス
+===============================================================================
+kjm::mutex::mutex();
+	コンストラクタ
+kjm::mutex::mutex(const std::string& name);
+	ミューテックス作成つきコンストラクタ
+virtual kjm::mutex::~mutex();
+	デストラクタ
+bool kjm::mutex::create(const std::string& name) {
+	mutex の作成
+void kjm::mutex::close();
+	mutex を閉じる
+DWORD kjm::mutex::lock(DWORD dwMillisec);
+	指定時間シグナル状態になるのを待つ
+BOOL kjm::mutex::unlock();
+	mutexを開放する
+bool kjm::mutex::is_exists();
+	mutex 作成時に同名の mutex が存在したときは、ture を返す
+bool kjm::mutex::is_open();
+	mutex作成済みかどうかのテスト
+
+
+===============================================================================
+	メモリマップドファイル管理クラス
+	template<class T> class memfile;
+===============================================================================
+kjm::memfile<T>::memfile<T>();
+	コンストラクタ
+kjm::memfile<T>::memfile<T>(const std::string& name, DWORD size = 0);
+	メモリマップドファイル作成つきコンストラクタ
+virtual kjm::memfile<T>::~memfile<T>();
+	デストラクタ
+bool kjm::memfile<T>::create(const std::string& name, DWORD size);
+	メモリマップドファイルの作成
+bool kjm::memfile<T>::open(const std::string& name);
+	メモリマップドファイルを開く
+void kjm::memfile<T>::close() {
+	メモリマップドファイルを閉じる
+int kjm::memfile<T>::read(T* buffer, size_t offset, size_t size, mutex* pmtx, DWORD timeout);
+	メモリマップドファイルからデータを読み込む
+int kjm::memfile<T>::write(T* buffer, size_t offset, size_t size, mutex* pmtx, DWORD timeout);
+	メモリマップドファイルへデータを書き込む
+bool kjm::memfile<T>::is_exists();
+	memfile作成時に同名のmemfileが存在したときは、ture を返す
+bool kjm::memfile<T>::is_open()
+	memfile作成済みかどうかのテスト
+
+
+===============================================================================
+	ロックファイルを簡単に扱うクラス
+===============================================================================
+kjm::lockfile::lockfile(const std::string& fullname);
+	ファイル名を渡すコンストラクタ
+virtual kjm::lockfile::~lockfile();
+	デストラクタ
+bool kjm::lockfile::lock()
+	ロックする
+void kjm::lockfile::unlock();
+
+
+===============================================================================
+	スレッド管理クラス
+	純粋仮想クラスです。
+===============================================================================
+kjm::thread::thread();
+	コンストラクタ
+virtual kjm::thread::~thread();
+	デストラクタ
+void kjm::thread::lock();
+	スレッド間で排他処理が必要なとき、呼び出す
+void kjm::thread::unlock();
+	スレッド間で排他処理が必要なとき、呼び出す
+bool kjm::thread::still_active();
+	スレッドが動作中かどうか調べる
+void kjm::thread::run();
+	スレッドを起動する。
+virtual void kjm::thread::end() = 0;
+	スレッドを終了させる。派生クラスで定義する。
+	終了方法は、worker method の実装に依存する。
+DWORD kjm::thread::suspend();
+	スレッドの一時停止
+DWORD kjm::thread::resume();
+	スレッドの再開
+virtual kjm::thread::unsigned worker() = 0;
+	スレッドに呼び出される関数。派生クラスで定義する。
+	end methodの呼び出しで終了できるように実装する。
+DWORD kjm::thread::wait(DWORD timeout = INFINITE);
+	スレッドの終了を待つ。
+static unsigned __stdcall kjm::thread::thread_func(void* args);
+	共通のスレッド関数。
+	argsには、threadクラスから派生したクラスオブジェクトへの
+	ポインタを受け取る。p->worker() を実行するだけ。
+
+
+===============================================================================
+	イベントログにアクセスするためのクラス
+	現在のところ、バックアップのためのメソッドしかないため、インスタンス化
+	できるようになっていません。
+===============================================================================
+static BOOL kjm::event_log::backup(LPCTSTR sourceName, LPCTSTR backupFileName);
+	イベントログをバックアップする
+
+
+===============================================================================
+	プロセスの起動に関するクラス
+===============================================================================
+kjm::process::process();
+	デフォルト コンストラクタ
+virtual kjm::process::~process();
+	デストラクタ
+void kjm::process::ClearSI();
+	スタートアップ情報をクリアする
+WORD kjm::process::GetSIShowWindow() const;
+	スタートアップ情報(wShowWindow)を取得する
+void kjm::process::SetSIShowWindow(WORD newShowWindow);
+	スタートアップ情報(wShowWindow)を設定する
+void kjm::process::ClearSIShowWindow();
+	スタートアップ情報(wShowWindow)をクリア(未使用に)する
+DWORD kjm::process::GetProcessId() const;
+	プロセスID取得
+LPCTSTR kjm::process::GetCommandLine() const;
+	実行ファイルのコマンドライン取得
+virtual BOOL kjm::process::createProcess(const std::basic_string<TCHAR>& commandLine);
+	プロセスの実行
+void kjm::process::Close();
+	プロセスハンドルを閉じる。プロセスの終了ではないので注意。
+	プロセスの終了は、プロセス間の取り決めによる。
+virtual DWORD kjm::process::WaitForTermination(DWORD dwMilliseconds = INFINITE);
+	プロセスの終了を待つ
+virtual DWORD kjm::process::waitForInputIdle(DWORD dwMilliseconds = INFINITE);
+	プロセスの起動完了を待つ
+HWND kjm::process::GetProcessWindow();
+	プロセスに関連付けられたウィンドウを返す
+
+
+===============================================================================
+	class mutex の投げる例外用の型
+===============================================================================
+struct kjm::mutex_error;
+
+===============================================================================
+	class memfile の投げる例外用の型
+===============================================================================
+struct kjm::memfile_error;
+
+===============================================================================
+	class lockfile の投げる例外用の型
+===============================================================================
+struct kjm::lockfile_error;

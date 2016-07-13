@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0034)http://www.sockets.com/ms_icmp.htm -->
+<HTML><HEAD><TITLE>Microsoft's ICMP API</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#800080 link=#0000ff bgColor=#ffffff>
+<H1><A href="http://www.boardwatch.com/borgtee2.jpg"><IMG height=47 
+alt=NotWinSock src="Microsoft's ICMP API.files/not_wsa.gif" width=48 
+border=0></A><I> Microsoft's ICMP API </I></H1>
+<P>
+<HR>
+
+<P></P>
+<P><B><I><FONT size=+1>Table of Contents:</FONT></I></B></P>
+<UL>
+  <P><B><I><FONT size=+1><A 
+  href="http://www.sockets.com/ms_icmp.htm#Introduction">Introduction</A></FONT></I></B></P>
+  <P><B><I><FONT size=+1><A 
+  href="http://www.sockets.com/ms_icmp.htm#Documentation">Documentation</A></FONT></I></B></P>
+  <P><B><I><FONT size=+1><A 
+  href="http://www.sockets.com/ms_icmp.htm#Sample">Sample 
+  Application</A></FONT></I></B></P></UL>
+<P>
+<HR>
+
+<P></P>
+<P><A name=Introduction></A><B><I><FONT size=+2>Introduction</FONT></I></B></P>
+<P>The standard Berkeley Sockets SOCK_RAW socket type, is normally used to 
+create ping (echo request/reply), and sometimes traceroute applications (the 
+original traceroute application from Van Jacobson used UDP, rather than ICMP). 
+Microsoft's WinSock version 2 implementations for NT4 and Windows 95 support <A 
+href="http://www.sockets.com/ws2_stat.htm#TCPIP">raw sockets and 
+setsockopt(IP_TTL)</A>, but none of their WinSock version 1.1implementations 
+(WFWG, NT3.x or standard Windows 95) did.</P>
+<P>Microsoft has their own API for an ICMP.DLL that their ping and tracert 
+applications use (which are both non-GUI text-based console applications). This 
+is a proprietary API, and all function calls that involve network functions 
+operate in blocking mode. They still include it with WinSock 2 implementations, 
+and are documented for the <A href="http://www.sockets.com/ws_wince.htm">Windows 
+CE</A> platform (though the DLL is not yet available).</P>
+<P>
+<HR>
+
+<P></P>
+<P><A name=Documentation></A><B><I><FONT 
+size=+2>Documentation</FONT></I></B></P>
+<P>See <A 
+href="http://premium.microsoft.com/msdn/library/sdkdoc/wince/network_2gz7.htm">http://premium.microsoft.com/msdn/library/sdkdoc/wince/network_2gz7.htm</A> 
+for documentation on the Microsoft ICMP APIs for Windows CE (NOTE:&nbsp;You may 
+have to subscribe to access this premium website, but fortunately Microsoft does 
+not charge for access). I have summarized the essentials in my <A 
+href="http://www.sockets.com/MS_ICMP.H">header file</A> in my <A 
+href="http://www.sockets.com/ms_icmp.htm#Sample">sample ping 
+application</A>.</P>
+<P>I first found the Microsoft ICMP&nbsp;API documented in the Win32 SDK in 
+\MSTOOLS\ICMP, and then later on the MS&nbsp;Developers' Network CD-ROM, and 
+most recently the&nbsp;Microsoft Visual C++ ICMP.LIB and ICMPAPI.H&nbsp;became 
+available as part of the "Microsoft Platform SDK: Additional Components," which 
+is downloadable from <A 
+href="http://www.microsoft.com/msdn/sdk/other.htm">http://www.microsoft.com/msdn/sdk/other.htm</A> 
+(NOTE:&nbsp;Microsoft rearranges their website frequently, in which case this 
+URL may become invalid. If it does, please let <A 
+href="mailto:rcq@sockets.com">me</A> know. In the mean time, you can poke around 
+the SDK developers' websites and <I>maybe</I> find what you need).</P>
+<P>Microsoft <I>used to</I> disclaim this API about as strongly as possible. The 
+README.TXT that once accompanied it said:</P>
+<BLOCKQUOTE>
+  <P>[DISCLAIMER]</P>
+  <P>We have had requests in the past to expose the functions exported from 
+  icmp.dll. The files in this directory are provided for your convenience in 
+  building applications which make use of ICMPSendEcho(). Notice that the 
+  functions in icmp.dll are not considered part of the Win32 API and will not be 
+  supported in future releases. Once we have a more complete solution in the 
+  operating system, this DLL, and the functions it exports, will be dropped.</P>
+  <P><BR>[DOCUMENTATION] </P>
+  <P>The ICMPSendEcho() function sends an ICMP echo request to the specified 
+  destination IP address and returns any replies received within the timeout 
+  specified. The API is synchronous, requiring the process to spawn a thread 
+  before calling the API to avoid blocking. An open IcmpHandle is required for 
+  the request to complete. IcmpCreateFile() and IcmpCloseHandle() functions are 
+  used to create and destroy the context handle.</P></BLOCKQUOTE>
+<P>Despite this frightening warning, seems Microsoft changed their mind. It 
+doesn't look like the API going away any time soon, as it remains available in 
+new platforms. Fortunately, we have an alternative with <A 
+href="http://www.sockets.com/ws2_stat.htm#TCPIP">raw sockets and 
+setsockopt(IP_TTL)</A> support in WinSock 2 implementations.</P>
+<DL>
+  <P>
+  <HR>
+  <BR><A name=Sample></A><B><I><FONT size=+2>Sample Application</FONT></I></B>
+  <P></P>
+  <P>I have written a console ping application that emulates the Microsoft ping 
+  program shipped with Windows 95 and NT. The source code module and header file 
+  are all you need. t loads the ICMP DLL explicitly). </P>
+  <P>With Microsoft Visual C++, you can compile and link by typing <B><I>cl 
+  ms_icmp.c</I></B>. To do this, you will need to enable the build environment 
+  in the console (the "DOS box") with the VCVARS32.BAT (located in the /bin 
+  directory, e.g. c:\msdev\bin or c:\Program Files\DevStudio\bin).</P>
+  <P><A href="http://www.sockets.com/ms_icmp.c">MS_ICMP.C</A> and <A 
+  href="http://www.sockets.com/ms_icmp.h">MS_ICMP.H</A></P>
+  <P>
+  <HR>
+
+  <P></P></DL>
+<P><I><FONT size=-1>Updated 1/28/98 (c) <A href="mailto:rcq@sockets.com">Bob 
+Quinn</A>, 1995-1998 </FONT></I></P>
+<P>[<A href="http://www.sockets.com/index.html">Return to 
+Home</A>]</P></BODY></HTML>

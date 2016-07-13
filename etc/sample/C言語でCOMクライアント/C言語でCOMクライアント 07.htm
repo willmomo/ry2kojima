@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　７/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>7. おまじないの初期処理と終了処理</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja006.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[おまじないの初期処理と終了処理]</B></FONT><BR><BR><FONT 
+      size=2><B>・初期処理と終了処理</B><BR>　このページ以降、具体的な手続きを記述しますが、まず、れいによってお決まりの記述です。<BR>　COMを利用するときには、以下の二つの記述(初期処理と終了処理)が必要です。初期処理を呼ばずに 
+      COMインスタンスを作成しようとすると、エラーが返されます。今回は 
+      main関数に追加します。<BR>　なお厳密に言えば、この初期処理と終了処理は、一つのプログラム(プロセス)に１回ではなく、<B>プログラム内のスレッドごとに</B>行います。<BR><PRE><FONT style="COLOR: darkblue" size=2>    CoInitialize(0);  /* 初期化   */
+    CoUninitialize(); /* 終了処理 */</PRE></FONT>　この初期処理の役割をちょっと難しく表現すると、少し前のCOMの表現で言えば、「初期化によってアパートメントに入る」、 
+      COM+の表現で言えば、「初期化によってコンテキストが作られる、または継承される」といえます。 
+      (アパートメント、コンテキストの話は省略します。)<BR>　ここまでの作成コードです。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/step3_c.txt">Step3(step3_c.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>/*
+  COMコンポーネントの Simple Client - C言語版
+    COMのアーキテクチャを理解するために、あえてCOM用マクロの使用は
+  最小限にしてあります。
+  2000.11 (C)Yajima, Satoshi
+*/
+
+#include "stdio.h"   /* C言語の標準入出力、以下の printfで使用 */
+#include "windows.h" /* Windowsアプリケーションの基本定義ヘッダーファイル */
+#include "objbase.h" /* COM関連の基本定義ヘッダーファイル */
+
+/* ----- ----- COMに基づくバイナリ構造の定義 ----- ----- */
+typedef struct tagMyVTable {  /* VTableの定義 MyVTalbe */
+    void *p1; /* QueryInterface */
+    void *p2; /* AddRef         */
+    ULONG  (__stdcall *Release)(void* _this);
+    void *p3; /* GetTypeInfoCount */
+    void *p4; /* GetTypeInfo      */
+    void *p5; /* GetIdsOfNames    */
+    void *p6; /* Invoke           */
+    HRESULT (__stdcall *Calc )(void* _this, long x, long y, long* pRetValue);
+} MyVTable;
+
+typedef struct tagIClass1 {  /*COMインターフェイス IClass1 */
+    MyVTable *lpVtbl;
+} _IClass1;
+
+/* ----- ----- コンポーネントの CLSID と COMインターフェイスID ----- -----
+  IDLに表記された uuidの16進数をその順番のまま表記すること
+  変数名は、このソースコード上だけの問題なので、任意の名前でよい
+*/
+const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* CLSID */
+const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* IID   */
+
+/* メイン処理 */
+int main(int argc, char* argv[])
+{
+    long x, y, z;       /* プロシージャの引数、戻り値用 */
+    HRESULT hResult;    /* COM 戻り値用変数 */
+    _IClass1* pIClass1; /* COMインターフェイスポインタ */
+
+    /* COMの初期化 ◆◆追加 */
+    CoInitialize(0);
+    
+    /* COMの終了処理 ◆◆追加 */
+    CoUninitialize();
+
+    return 0;
+}
+</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja006.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

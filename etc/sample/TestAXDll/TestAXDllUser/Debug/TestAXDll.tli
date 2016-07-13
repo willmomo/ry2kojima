@@ -1,0 +1,33 @@
+// Created by Microsoft (R) C/C++ Compiler Version 12.00.9782.0 (3cbada46).
+//
+// d:\work2\testaxdlluser\debug\TestAXDll.tli
+//
+// Wrapper implementations for Win32 type library ../TestAXDll/TestAXDll.dll
+// compiler-generated file created 11/30/05 at 00:53:08 - DO NOT EDIT!
+
+#pragma once
+
+//
+// interface _clsTestAXDll wrapper method implementations
+//
+
+inline double _clsTestAXDll::RetDouble_ValLong_ValLong ( long value1, long value2 ) {
+    double _result;
+    HRESULT _hr = raw_RetDouble_ValLong_ValLong(value1, value2, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t _clsTestAXDll::RetString_ValLong_ValLong ( long value1, long value2 ) {
+    BSTR _result;
+    HRESULT _hr = raw_RetString_ValLong_ValLong(value1, value2, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline VARIANT_BOOL _clsTestAXDll::RetBoolean_ValLong_ValLong_RefDouble ( long value1, long value2, double * value3 ) {
+    VARIANT_BOOL _result;
+    HRESULT _hr = raw_RetBoolean_ValLong_ValLong_RefDouble(value1, value2, value3, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}

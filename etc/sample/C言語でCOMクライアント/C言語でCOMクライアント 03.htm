@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja003.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　３/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>3. まずCOMの基本を確認</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja002.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[まず COMの基本を確認]</B></FONT><BR><BR><FONT 
+      size=2><B>・COMコンポーネントの識別子</B><BR>　前述の Visual Basic 版 
+      COMコンポーネントの構造を、COMの観点からもう一度整理してみます。<BR>　COMコンポーネントにアクセスするには、コンポーネントを識別する識別子が必要です。識別子を指定することで、コンポーネントのインスタンスをメモリにロードできます。コンポーネントの識別子は、次の二つの形態があります。<BR><BR>　<B>ProgID</B> 
+      ---- 人間が可読できる文字列、今回の例では Project1.Class1<BR>　<B>CLSID(クラスID)</B> ---- 内部的に 
+      COMが識別する 128ビットの識別子<BR><BR>　前述の VBScriptでは、ProgIDを指定していますが、<B>ProgIDは内部的に 
+      CLSIDに変換されて</B> 
+      利用されてます。いわば、ProgIDの名前解決によって、CLSIDが求められてといるとも言えます。　今回は、できるだけクライアントを単純化するため 
+      CLSIDを直接指定することにします。もちろん、C言語レベルでも ProgIDからCLSIDを求める COM 
+      APIを利用することができます。<BR><BR><B>・COMインターフェイス</B><BR>　クライアントがコンポーネントにアクセスするとき、<B>アクセスするためのメカニズム</B>が 
+      COMインターフェイスです。COMの仕様では、この 
+      COMインターフェイスがメモリ上どうあるべきかが定義されています(下図)。<BR>　COMに準拠したプログラムは、プログラミング言語が何であるにせよ、<B>コンパイル後のメモリ構造</B>がこのようになっていなければなりません。逆にいえば、この構造に沿っていれば、<B>プログラミング言語は何でもかまいません</B>。これが、COMは「<B>バイナリ互換</B>」であると言われる理由です。<BR>　また、COMインターフェイスには、識別するためにインターフェイス名が付いていますが、内部的には、<B>128ビットのIID</B>(インターフェイスID)で識別しています。<BR>　　　　<IMG 
+      height=200 src="C言語でCOMクライアント 03.files/comif.gif" 
+      width=300><BR><BR><B>・Dualインターフェイス</B><BR>　今回は、<B>Visual Basic 
+      6.0</B>で作成した COMコンポーネントなので、dualインターフェイスと呼ばれる種類の 
+      COMインターフェイスが実装されています。dualインターフェイスの詳細は省略しますが、メモリイメージでは以下のようなインターフェイスです。<BR>　C言語のクライアントは、この 
+      dualインターフェイスを意識したコーディングが必要です。<BR>　なお、VBのCOMコンポーネントのインターフェイス名は、クラスモジュールが 
+      <B>Class1</B> なら <B>_Class1</B> 
+      という名前(<B>アンダーバーが付く</B>)になります。これは、VBが持つタイプライブラリにも反映されます。<BR>　しかし、実行中にアクセスするとき、インターフェイス名はそれほど重要ではありません。 
+      <B>実際のアクセスには IIDが使われ、</B>_Class1 という名前は、名前解決をして 
+      IIDを求めるために使うだけなので、はじめからIIDが分かっていれば、_Class1というインターフェイス名は不要です。<BR>　　　　<IMG 
+      height=200 src="C言語でCOMクライアント 03.files/comdual.gif" 
+      width=300><BR><BR></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja002.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

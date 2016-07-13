@@ -1,0 +1,11 @@
+UseProxy=0
+DownloadDirectory=D:\work\syscall samples\
+LogDirectory=D:\work\syscall samples\log\
+TimeOut=120
+RobotMode=1
+RetryNum=2
+RetryTimeSpan=10
+MimeType=image/gif=gif
+MimeType=image/jpeg=jpeg
+FileFilter=2=gif, giff
+FileFilter=1=jpg, jpeg

@@ -1,0 +1,69 @@
+// Created by Microsoft (R) C/C++ Compiler Version 12.00.8168.0 (5566dca5).
+//
+// mycom.tlh
+//
+// C++ source equivalent of Win32 type library mycom.dll
+// compiler-generated file created 08/27/03 at 16:01:24 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+//
+// Forward references and typedefs
+//
+
+struct /* coclass */ MyComX;
+struct __declspec(uuid("685e132e-b485-410e-850b-4936e56326c5"))
+/* dual interface */ IMyComX;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(IMyComX, __uuidof(IMyComX));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("ec268291-0cf2-446a-ad07-5e74a1fd64ac"))
+MyComX;
+    // [ default ] interface IMyComX
+
+struct __declspec(uuid("685e132e-b485-410e-850b-4936e56326c5"))
+IMyComX : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    VARIANT_BOOL IsValid ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+    virtual HRESULT __stdcall raw_IsValid (
+        VARIANT_BOOL * ret ) = 0;
+};
+
+//
+// Named GUID constants initializations
+//
+
+extern "C" const GUID __declspec(selectany) LIBID_MYCOMLib =
+    {0xc9998aad,0x409e,0x43d9,{0xa9,0xf6,0xf9,0xda,0x64,0xae,0x5a,0x29}};
+extern "C" const GUID __declspec(selectany) CLSID_MyComX =
+    {0xec268291,0x0cf2,0x446a,{0xad,0x07,0x5e,0x74,0xa1,0xfd,0x64,0xac}};
+extern "C" const GUID __declspec(selectany) IID_IMyComX =
+    {0x685e132e,0xb485,0x410e,{0x85,0x0b,0x49,0x36,0xe5,0x63,0x26,0xc5}};
+
+//
+// Wrapper method implementations
+//
+
+#include "mycom.tli"
+
+#pragma pack(pop)

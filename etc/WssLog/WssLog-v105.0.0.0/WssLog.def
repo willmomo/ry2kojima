@@ -1,0 +1,24 @@
+; wsslog.def : DLL 用のモジュール パラメータ宣言
+
+LIBRARY      "WssLog"
+DESCRIPTION  'WssLog Windows Dynamic Link Library'
+
+;SECTIONS
+;	.shared	READ WRITE SHARED
+
+EXPORTS
+    ; 明示的なエクスポートはここへ記述できます
+	WinssaVB_Log
+	WLGetLogLevel
+	WLSetLogLevel
+	WinssaVB_Dump
+	WLFlushLog
+	WLDeleteOldLog
+	WLSetLogPath
+	WLGetLogPath
+	WLGetMyName
+	WLSetLogNameType
+	WLGetLogNameType
+	TraceLog
+	TraceLogDeleteOldFile
+	TraceLogStart

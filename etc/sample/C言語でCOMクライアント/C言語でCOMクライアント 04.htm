@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　４/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>4. CLSID、IDを表現する</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja003.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[CLSID、IIDを表現する]</B></FONT><BR><BR><FONT 
+      size=2><B>・CLSIDとIIDの特定が必要</B><BR>　CLSID や IID 
+      をプログラムから指定する必要があります。<BR>　レジストリやタイプライブラリから実行中に調べることもでますが、コードを単純化するため、ここでは手作業で、VBで作成したコンポーネントの 
+      CLSIDやIIDを調べることにします。そして、その値を構造体としてソースコードの中に定義します。<BR><BR><B>・CLSIDを調べる</B><BR>　CLSIDを調べるには 
+      ProgIDから名前解決したり、レジストリを調べたり、当該コンポーネントのタイプライブラリを調べたりする方法があり、実行中にプログラム上から参照できますが、今回はコンポーネントへのアクセス方法そのものが目的なので、 
+      <B>Visual Studio 6.0</B>のツール <B>OLE View</B> (OLE/COM Object 
+      Viewer)を利用することにします。<BR>　OLE Viewを起動して、[File]-[View 
+      TypeLib...]メニューを開けると、対象コンポーネントの<B>タイプライブラリを開くことができます</B> 
+      。このメニューから当該コンポーネント Project1.dll を開きます。以下のような 
+      <B>IDL形式</B>のコンポーネント定義が見れます。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/project1_idl.txt">project1_idl.txt</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>    (抜粋)
+    [
+      uuid(D1890A6D-B213-11D4-AFC1-00D0B7AD59E8),
+      version(1.0)
+    ]
+    coclass Class1 {
+        [default] interface _Class1;
+    };
+</FONT></PRE>　このデータはFileメニューから保存も出来ます。前述サンプル project1.lzh では Project1.idl 
+      というファイル名で保存してあります。<BR>　<B>coclass Class1</B> という記述の上のブロック([ 
+      ]で囲まれた部分)にあるのが、クラスの属性です。その属性記述内の uuidという属性が、そのコンポーネントの CLSIDです。この例から、CLSID 
+      の値が以下の値であることが分かります。<PRE><FONT size=2>    D1890A6D-B213-11D4-AFC1-00D0B7AD59E8</FONT></PRE><BR><B>・IIDを調べる</B><BR>　同様に 
+      IIDを調べるにはレジストリを調べたり、当該コンポーネントのタイプライブラリを調べたりする方法があり、実行中にプログラム上から参照できますが、今回はアクセス方法そのものが目的なので、<B>Visual 
+      Studio 6.0</B>のツール <B>OLE View</B> (OLE/COM Object 
+      Viewer)を利用することにします。<BR>　前述のIDLファイルには、インターフェイスの定義もあります。 <PRE><FONT style="COLOR: darkblue" size=2>    (抜粋)
+    [
+      odl,
+      uuid(D1890A6C-B213-11D4-AFC1-00D0B7AD59E8),
+      version(1.0),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface _Class1 : IDispatch {
+        [id(0x60030000)]
+        HRESULT Calc(
+                        [in] long x, 
+                        [in] long y, 
+                        [out, retval] long* );
+    };
+</FONT></PRE>　インターフェイス _Class1 の上のブロック([ ]で囲まれた部分)にあるのが、インターフェイスの属性です。 
+      uuidという属性が、そのインターフェイスの IIDです。この例から、IIDの値が以下の値であることが分かります。<PRE><FONT size=2>    D1890A6C-B213-11D4-AFC1-00D0B7AD59E8</FONT></PRE><BR><B>・ソースコード上での表現</B><BR>　これらのIDは、<B>C言語</B>のソースコード上では、<B>GUID型構造体</B>で表現されます。<BR>　GUID構造体は、<B>objbase.h</B> 
+      ヘッダーファイルに定義されています。Visual Studioにも同梱されています。以下のような記述になります。前述の 
+      16進数表記を順番に以下の初期化リストに当てはめてください。 <PRE><FONT style="COLOR: darkblue" size=2>#include "objbase.h"
+
+const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* CLSID */
+const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* IID   */</FONT></PRE>　変数名 
+      CLSID_Class1 や IID__Class1 は、<B>任意の名前</B>です。<BR>　一般にクラスIDは、CLSID_ 
+      という接頭辞で始め、IIDは IID_ 
+      という接頭辞で始めます。ただし、これはあくまで慣例であって、必須要件ではありません。<BR>　なお、今回のサンプルでは、printf関数を使うので、stdio.h 
+      もインクルードします。また、筆者の好みですが、windows.h もインクルードします。現在、このプログラムでは 
+      windows.hを利用してませんが、 
+      Windowsアプリケーションなので、将来的な利用も考えて、なんとなくいれています。<BR><BR>ここまでのコードは以下のようになります。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/step1_c.txt">Step1(step1_c.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>/*
+  COMコンポーネントの Simple Client - C言語版
+    COMのアーキテクチャを理解するために、あえてCOM用マクロの使用は
+  最小限にしてあります。
+  2000.11 (C)Yajima, Satoshi
+*/
+
+#include "stdio.h"   /* C言語の標準入出力、以下の printfで使用 */
+#include "windows.h" /* Windowsアプリケーションの基本定義ヘッダーファイル */
+#include "objbase.h" /* COM関連の基本定義ヘッダーファイル */
+
+/* ----- ----- コンポーネントの CLSID と COMインターフェイスID ----- -----
+  IDLに表記された uuidの16進数をその順番のまま表記すること
+  変数名は、このソースコード上だけの問題なので、任意の名前でよい
+*/
+const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* CLSID */
+const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* IID   */
+</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja003.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

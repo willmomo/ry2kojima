@@ -1,0 +1,36 @@
+<package>
+	<job id="FreedomToClipDrive">
+		<!-- 外部 VBS ファイルの取込み(インクルード) -->
+		<script language="VBScript" src="./CMirror.vbs"></script>
+
+		<!-- メイン処理 -->
+		<script language="VBScript">
+			Option Explicit
+
+			Dim objShell
+			Dim objMirror
+			Dim objFs
+			Dim strOne
+
+			Set objFs = WScript.CreateObject("Scripting.FileSystemObject")
+
+			Set objShell = WScript.CreateObject("WScript.Shell")
+
+			Set objMirror = New CMirror
+			objMirror.Mode = "backup-mirror"
+			objMirror.LogPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\log"
+
+			For Each strOne In Array("misc", "projects", "projects_cs", "projects_old")
+				objMirror.OrgPath = objShell.SpecialFolders("MyDocuments") & "\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\Users\kojima\Documents\" & strOne
+				objMirror.Run
+			Next
+
+			For Each strOne In Array("fswiki", "localvss", "prvwiki", "pubwiki")
+				objMirror.OrgPath = "D:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\d-drv\" & strOne
+				objMirror.Run
+			Next
+		</script>
+	</job>
+</package>

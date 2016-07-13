@@ -1,0 +1,221 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<title>WssLog.dllについて</title>
+<style type="text/css">
+body {
+	font-size: 11pt;
+}
+table {
+	font-size: 100%;
+	border-collapse: collapse;
+}
+td {
+	padding: 3pt;
+}
+h1 {
+	font-size: 140%;
+}
+h2 {
+	font-size: 120%;
+}
+h3, h4 {
+	font-size: 100%;
+}
+pre.prototype {
+	padding: 3pt;
+	border: 1pt solid gray;
+}
+td.valuelist {
+	border-bottom-style: solid;
+	border-bottom-width: 1pt;
+	border-bottom-color: gray;
+}
+span.strong {
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+<h1>WssLog.dllについて</h1>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<h2>WssLog.dll Overview</h2>
+
+<p>参照する INI ファイルは、実行ファイルと同じ場所にある、<span style="font-weight:bold">WinSousa.ini</span>、実行ファイルと同じ場所にある、<span style="font-weight:bold">&lt;実行ファイル名&gt;.ini</span>。</p>
+
+<p>ログファイルの出力先は、以下の優先順位で決定される：</p>
+<ol>
+<li><span class="strong">&lt;実行ファイル名&gt;.ini</span>の<span class="strong">WssLog</span>セクション、<span class="strong">LogPath</span>キーの値。</li>
+<li><span class="strong">WinSousa.ini</span>の<span class="strong">Log</span>セクション、<span class="strong">LogPath</span>キーの値。</li>
+<li><span class="strong">WinSousa.ini</span>の<span class="strong">Pathinf</span>セクション、<span class="strong">LogPath</span>キーの値。</li>
+<li>どのエントリーも無い場合は、カレントドライブ、カレントディレクトリ直下の<span class="strong">Log</span>フォルダにする。</li>
+</ol>
+
+<p><span class="strong" style="color:red">%TEMP% などの環境変数は、使えない。[実行ファイルと同じ場所]のような、記述方法も無い。</span></p>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<h2>WssLog.dll Functions</h2>
+<table>
+<tr>
+	<td><a href="#WinssaVB_Log">WinssaVB_Log</a></td>
+</tr>
+<tr>
+	<td><a href="#WinssaVB_Dump">WinssaVB_Dump</a></td>
+</tr>
+<tr>
+	<td><a href="#Winssa_Loglevel">Winssa_Loglevel</a></td>
+</tr>
+<tr>
+	<td><a href="#WLDeleteOldLog">WLDeleteOldLog</a></td>
+</tr>
+<tr>
+	<td><a href="#WLFlushLog">WLFlushLog</a></td>
+</tr>
+<tr>
+	<td><a href="#WLGetLogLevel">WLGetLogLevel</a></td>
+	<td>現在のログレベル(トレースベル)を取得。</td>
+</tr>
+<tr>
+	<td><a href="#WLGetLogPath">WLGetLogPath</a></td>
+	<td>ログの保存先パスを取得。</td>
+</tr>
+<tr>
+	<td><a href="#WLSetLogLevel">WLSetLogLevel</a></td>
+</tr>
+<tr>
+	<td><a href="#WLSetLogPath">WLSetLogPath</a></td>
+	<td>ログの保存先パスを設定。</td>
+</tr>
+</table>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WinssaVB_Log">WinssaVB_Log</a></h3>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WinssaVB_Dump">WinssaVB_Dump</a></h3>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="Winssa_Loglevel">Winssa_Loglevel</a></h3>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WLDeleteOldLog">WLDeleteOldLog</a></h3>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WLFlushLog">WLFlushLog</a></h3>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WLGetLogLevel">WLGetLogLevel</a></h3>
+<p>現在のログレベル(トレースベル)を取得。</p>
+<pre class="prototype">
+long WINAPI WLGetLogLevel();
+</pre>
+<h4>戻り値</h4>
+<p>現在のログレベル(トレースレベル)を返す。</p>
+<h4>説明</h4>
+<p>ログレベル(トレースレベル)は、以下のいずれかの値になる。</p>
+<table>
+<tr>
+	<td class="valuelist">LOGLV_DEBUG</td>
+	<td class="valuelist">0</td>
+	<td class="valuelist">デバッグ用</td>
+</tr>
+<tr>
+	<td class="valuelist">LOGLV_TRACE</td>
+	<td class="valuelist">1</td>
+	<td class="valuelist">トレース</td>
+</tr>
+<tr>
+	<td class="valuelist">LOGLV_WARNING</td>
+	<td class="valuelist">2</td>
+	<td class="valuelist">ワーニング(通常はこのレベル以上を出力)</td>
+</tr>
+<tr>
+	<td class="valuelist">LOGLV_ERR</td>
+	<td class="valuelist">3</td>
+	<td class="valuelist">エラー</td>
+</tr>
+<tr>
+	<td class="valuelist">LOGLV_FATALERR</td>
+	<td class="valuelist">4</td>
+	<td class="valuelist">致命的エラー</td>
+</tr>
+<tr>
+	<td class="valuelist">LOGLV_INFO</td>
+	<td class="valuelist">5</td>
+	<td class="valuelist">情報</td>
+</tr>
+<tr>
+	<td class="valuelist">LOGLV_ALWAYS</td>
+	<td class="valuelist">9</td>
+	<td class="valuelist">必ずログを出す</td>
+</tr>
+</table>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WLGetLogPath">WLGetLogPath</a></h3>
+<p>ログの保存先パスを取得。</p>
+<pre class="prototype">
+int WSSLOG_API WLGetLogPath(char* pszBuffer, int nSize);
+</pre>
+
+<h4>引数</h4>
+<table>
+<tr>
+	<td class="valuelist">pszBuffer</td><td class="valuelist">パス名を取得するバッファへのポインタ</td>
+</tr>
+<tr>
+	<td class="valuelist">nSize</td><td class="valuelist"バッファのサイズ</td>
+</tr>
+</table>
+
+<h4>戻り値</h4>
+<p>パス名を受け取るために必要なバッファのサイズ。</p>
+
+<h4>説明</h4>
+<p>pszBuffer が NULL の場合、必要なバッファを返します。</p>
+
+<p>nSize で指定されたエリアが不十分な場合、nSize - 1 文字だけコピーします。</p>
+
+<!-- --------------------------------------------------------------------------
+<!-- ---------------------------------------------------------------------- -->
+<hr>
+<h3><a name="WLSetLogPath">WLSetLogPath</a></h3>
+<p>ログの保存先パスを設定。</p>
+<pre class="prototype">
+void WSSLOG_API WLSetLogPath(const char* pszBuffer);
+</pre>
+
+<h4>引数</h4>
+<table>
+<tr>
+	<td class="valuelist">pszPath</td><td class="valuelist">新しいログの保存先</td>
+</tr>
+</table>
+
+<h4>戻り値</h4>
+<p>なし</p>
+
+<h4>説明</h4>
+<p>新しいログの保存先に環境変数が含まれていた場合、展開されます。</p>
+<hr>
+<h3><a name="WLSetLogLevel">WLSetLogLevel</a></h3>
+
+</body>
+</html>

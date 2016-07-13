@@ -1,0 +1,296 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOG DISCARDABLE  0, 0, 319, 225
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "プリンタとドキュメントの列挙/削除サンプル"
+MENU IDR_MAIN
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "プリンタ一覧(&L)",IDC_STATIC,7,7,45,8
+    COMBOBOX        IDC_PRINTERS,7,19,305,96,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "印刷ドキュメント一覧(&J)",IDC_STATIC,7,37,70,8
+    LISTBOX         IDC_JOBS,7,51,305,145,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "全ての印刷ジョブを削除(&C)",IDC_PURGE,215,204,97,14
+END
+
+IDD_PINFO DIALOGEX 0, 0, 422, 347
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "プリンタ情報"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    DEFPUSHBUTTON   "閉じる(&C)",IDOK,186,326,50,14
+    LTEXT           "ServerName:",IDC_STATIC,7,8,38,8
+    LTEXT           "",IDC_SERVER_NAME,57,7,128,10,SS_SUNKEN
+    LTEXT           "PrinterName:",IDC_STATIC,7,23,38,8
+    LTEXT           "",IDC_PRINTER_NAME,57,22,128,10,SS_SUNKEN
+    LTEXT           "ShareName:",IDC_STATIC,7,38,35,8
+    LTEXT           "PortName:",IDC_STATIC,7,53,31,8
+    LTEXT           "DriverName:",IDC_STATIC,7,68,36,8
+    LTEXT           "Comment:",IDC_STATIC,7,83,30,8
+    LTEXT           "Location:",IDC_STATIC,7,98,27,8
+    LTEXT           "SepFile:",IDC_STATIC,7,113,24,8
+    LTEXT           "PrintProcessor:",IDC_STATIC,7,128,45,8
+    LTEXT           "Datatype:",IDC_STATIC,7,143,28,8
+    LTEXT           "",IDC_SHARE_NAME,57,37,128,10,SS_SUNKEN
+    LTEXT           "",IDC_PORT_NAME,57,52,128,10,SS_SUNKEN
+    LTEXT           "",IDC_DRIVER_NAME,57,67,128,10,SS_SUNKEN
+    LTEXT           "",IDC_COMMENT,57,82,128,10,SS_SUNKEN
+    LTEXT           "",IDC_LOCATION,57,97,128,10,SS_SUNKEN
+    LTEXT           "",IDC_SEP_FILE,57,112,128,10,SS_SUNKEN
+    LTEXT           "",IDC_PRINT_PROCESSOR,57,127,128,10,SS_SUNKEN
+    LTEXT           "",IDC_DATATYPE,57,142,128,10,SS_SUNKEN
+    LTEXT           "Parameters:",IDC_STATIC,7,158,35,8
+    LTEXT           "",IDC_PARAMETERS,57,157,128,10,SS_SUNKEN
+    GROUPBOX        "Attributes",IDC_STATIC,7,173,178,144
+    LTEXT           "DEFAULT:",IDC_STATIC,23,191,31,8
+    CTEXT           "",IDC_ATTRIBUTE_DEFAULT,99,190,18,10,SS_SUNKEN
+    LTEXT           "DIRECT:",IDC_STATIC,23,203,26,8
+    LTEXT           "DO_COMPLETE_FIRST:",IDC_STATIC,23,215,68,8
+    LTEXT           "ENABLE_BIDI:",IDC_STATIC,23,227,42,8
+    LTEXT           "ENABLE_DEVQ:",IDC_STATIC,23,239,47,8
+    LTEXT           "KEEPPRINTEDJOBS:",IDC_STATIC,23,251,63,8
+    LTEXT           "QUEUED:",IDC_STATIC,23,263,28,8
+    LTEXT           "SHARED:",IDC_STATIC,23,275,28,8
+    LTEXT           "WORK_OFFLINE:",IDC_STATIC,23,287,49,8
+    CTEXT           "",IDC_ATTRIBUTE_DIRECT,99,202,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_DO_COMPLETE_FIRST,99,214,18,10,
+                    SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_ENABLE_BIDI,99,226,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_ENABLE_DEVQ,99,238,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_KEEPPRINTEDJOBS,99,250,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_QUEUED,99,262,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_SHARED,99,274,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_WORK_OFFLINE,99,286,18,10,SS_SUNKEN
+    CTEXT           "",IDC_ATTRIBUTE_PUBLISHED,99,298,18,10,SS_SUNKEN
+    LTEXT           "Priority:",IDC_STATIC,194,8,23,8
+    LTEXT           "",IDC_PRIORITY,250,7,128,10,SS_SUNKEN
+    LTEXT           "DefaultPriority:",IDC_STATIC,194,23,44,8
+    LTEXT           "",IDC_DEFAULT_PRIORITY,250,22,128,10,SS_SUNKEN
+    LTEXT           "StartTime:",IDC_STATIC,194,38,31,8
+    LTEXT           "",IDC_START_TIME,250,37,128,10,SS_SUNKEN
+    LTEXT           "UntilTime:",IDC_STATIC,194,53,30,8
+    LTEXT           "Jobs:",IDC_STATIC,194,68,16,8
+    LTEXT           "",IDC_UNTIL_TIME,250,52,128,10,SS_SUNKEN
+    LTEXT           "",IDC_JOBS,250,67,128,10,SS_SUNKEN
+    GROUPBOX        "Status",IDC_STATIC,194,97,221,220
+    LTEXT           "PAUSED:",IDC_STATIC,214,118,28,8
+    CTEXT           "",IDC_STATUS_PAUSED,289,117,18,10,SS_SUNKEN
+    LTEXT           "PENDING_DELETION:",IDC_STATIC,214,130,63,8
+    CTEXT           "",IDC_STATUS_PENDING_DELETION,289,129,18,10,SS_SUNKEN
+    LTEXT           "BUSY:",IDC_STATIC,214,142,19,8
+    CTEXT           "",IDC_STATUS_BUSY,289,141,18,10,SS_SUNKEN
+    LTEXT           "DOOR_OPEN:",IDC_STATIC,214,154,40,8
+    CTEXT           "",IDC_STATUS_DOOR_OPEN,289,153,18,10,SS_SUNKEN
+    LTEXT           "ERROR:",IDC_STATIC,214,166,24,8
+    CTEXT           "",IDC_STATUS_ERROR,289,165,18,10,SS_SUNKEN
+    LTEXT           "INITIALIZING:",IDC_STATIC,214,178,40,8
+    CTEXT           "",IDC_STATUS_INITIALIZING,289,177,18,10,SS_SUNKEN
+    LTEXT           "IO_ACTIVE:",IDC_STATIC,214,190,34,8
+    CTEXT           "",IDC_STATUS_IO_ACTIVE,289,189,18,10,SS_SUNKEN
+    LTEXT           "MANUAL_FEED:",IDC_STATIC,214,202,48,8
+    CTEXT           "",IDC_STATUS_MANUAL_FEED,289,201,18,10,SS_SUNKEN
+    LTEXT           "NO_TONER:",IDC_STATIC,214,214,35,8
+    CTEXT           "",IDC_STATUS_NO_TONER,289,213,18,10,SS_SUNKEN
+    LTEXT           "NOT_AVAILABLE:",IDC_STATIC,214,226,53,8
+    CTEXT           "",IDC_STATUS_NOT_AVAILABLE,289,225,18,10,SS_SUNKEN
+    LTEXT           "OFFLINE:",IDC_STATIC,214,238,28,8
+    CTEXT           "",IDC_STATUS_OFFLINE,289,237,18,10,SS_SUNKEN
+    LTEXT           "OUT_OF_MEMORY:",IDC_STATIC,214,250,56,8
+    CTEXT           "",IDC_STATUS_OUT_OF_MEMORY,289,249,18,10,SS_SUNKEN
+    LTEXT           "OUTPUT_BIN_FULL:",IDC_STATIC,214,262,59,8
+    CTEXT           "",IDC_STATUS_OUTPUT_BIN_FULL,289,261,18,10,SS_SUNKEN
+    LTEXT           "PAGE_PUNT:",IDC_STATIC,214,274,39,8
+    CTEXT           "",IDC_STATUS_PAGE_PUNT,289,273,18,10,SS_SUNKEN
+    LTEXT           "PAPER_JAM:",IDC_STATIC,214,286,39,8
+    CTEXT           "",IDC_STATUS_PAPER_JAM,289,285,18,10,SS_SUNKEN
+    LTEXT           "PAPER_OUT:",IDC_STATIC,214,298,39,8
+    CTEXT           "",IDC_STATUS_PAPER_OUT,289,297,18,10,SS_SUNKEN
+    LTEXT           "PAPER_PROBLEM:",IDC_STATIC,317,118,56,8
+    CTEXT           "",IDC_STATUS_PAPER_PROBLEM,391,117,18,10,SS_SUNKEN
+    LTEXT           "PRINTING:",IDC_STATIC,317,130,32,8
+    CTEXT           "",IDC_STATUS_PRINTING,391,129,18,10,SS_SUNKEN
+    LTEXT           "PROCESSING:",IDC_STATIC,317,142,43,8
+    CTEXT           "",IDC_STATUS_PROCESSING,391,141,18,10,SS_SUNKEN
+    LTEXT           "PUBLISHED:",IDC_STATIC,23,299,38,8
+    LTEXT           "AveragePPM:",IDC_STATIC,194,83,39,8
+    LTEXT           "",IDC_AVERAGE_PPM,250,82,128,10,SS_SUNKEN
+    LTEXT           "TONER_LOW:",IDC_STATIC,317,154,39,8
+    CTEXT           "",IDC_STATUS_TONER_LOW,391,153,18,10,SS_SUNKEN
+    LTEXT           "UNAVAILABLE:",IDC_STATIC,317,166,47,8,NOT WS_VISIBLE
+    CTEXT           "",IDC_STATUS_UNAVAILABLE,391,165,18,10,SS_SUNKEN | NOT 
+                    WS_VISIBLE
+    LTEXT           "USER_INTERVENTION:",IDC_STATIC,317,178,68,8
+    CTEXT           "",IDC_STATUS_USER_INTERVENTION,391,177,18,10,SS_SUNKEN
+    LTEXT           "WAITING:",IDC_STATIC,317,190,28,8
+    CTEXT           "",IDC_STATUS_WAITING,391,189,18,10,SS_SUNKEN
+    LTEXT           "WARMING_UP:",IDC_STATIC,317,202,43,8
+    CTEXT           "",IDC_STATUS_WARMING_UP,391,201,18,10,SS_SUNKEN
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 218
+    END
+
+    IDD_PINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 415
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 340
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON    DISCARDABLE     "resource\\Icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAIN MENU DISCARDABLE 
+BEGIN
+    POPUP "情報(&I)"
+    BEGIN
+        MENUITEM "プリンタ情報表示(&V)",        IDM_PINFO_VIEW
+        MENUITEM "DeviceCaps印刷(&P)",          IDM_PINFO_PRINT
+    END
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "*\0"
+            VALUE "FileDescription", "enumprinters\0"
+            VALUE "FileVersion", "1, 0, 0, 0\0"
+            VALUE "InternalName", "enumprinters\0"
+            VALUE "LegalCopyright", "Copyright (C) 2004\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "enumprinters.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "* enumprinters\0"
+            VALUE "ProductVersion", "1, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

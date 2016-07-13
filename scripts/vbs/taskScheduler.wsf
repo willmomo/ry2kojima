@@ -1,0 +1,107 @@
+<package>
+	<!--
+		[タスク]の内容を表示する。
+	-->
+	<job id="taskList">
+		<script language="VBScript">
+			''Option Explicit
+			''On Error Resume Next
+
+			Dim strServerName   ' コンピュータ名
+			Dim objWMIService   ' ウィンドウズ管理サービス
+			Dim objSchTasks     ' タスク情報
+			Dim objTask         ' タスク情報
+
+			strServerName = "localhost"
+			Set objWMIService = GetObject("winmgmts:" & "{impersonationLevel=impersonate}!\\" & strServerName & "\root\cimv2")
+			Set objSchTasks = objWMIService.ExecQuery("select * from Win32_ScheduledJob")
+			
+			WScript.Echo "winmgmts:" & "{impersonationLevel=impersonate}!\\" & strServerName & "\root\cimv2"
+			
+			For Each objTask In objSchTasks
+			'   WScript.Echo objTask.Caption
+			    WScript.Echo "実行コマンド：" & objTask.Command
+			    WScript.Echo "設定日：" & objTask.DaysOfMonth
+			    WScript.Echo "設定週：" & objTask.DaysOfWeek
+			'   WScript.Echo objTask.Description'   WScript.Echo objTask.ElapsedTime'   WScript.Echo objTask.InstallDate
+			    WScript.Echo "対話許可：" & objTask.InteractWithDesktop
+			    WScript.Echo "ジョブ番号：" & objTask.JobID
+			    WScript.Echo "状態：" & objTask.JobStatus
+			'   WScript.Echo objTask.Name'   WScript.Echo objTask.Notify'   WScript.Echo objTask.Owner'   WScript.Echo objTask.Priority
+			    WScript.Echo "定期実行：" & objTask.RunRepeatedly
+			    WScript.Echo "開始時刻：" & objTask.StartTime
+			'   WScript.Echo objTask.Status'   WScript.Echo objTask.TimeSubmitted'   WScript.Echo objTask.UntilTime
+			    WScript.Echo ""
+			Next
+
+			Set objSchTasks = Nothing
+			Set objWMIService = Nothing
+
+
+		</script>
+	</job>
+
+	<!--
+		PCからクリップドライブにミラーリングするスクリプト
+	-->
+	<job id="PCToClipDrive">
+		<!-- 外部 VBS ファイルの取込み(インクルード) -->
+		<script language="VBScript" src="./CMirror.vbs"></script>
+
+		<!-- メイン処理 -->
+		<script language="VBScript">
+			Option Explicit
+
+			Dim objShell
+			Dim objMirror
+			Dim objFs
+			Dim objTs
+			Dim strOne
+
+			Set objFs = WScript.CreateObject("Scripting.FileSystemObject")
+
+			Set objShell = WScript.CreateObject("WScript.Shell")
+
+			'除外定義ファイルの作成
+			Set objTs = objFs.CreateTextFile(objFs.GetParentFolderName(WScript.ScriptFullName) & "\exclude.txt", True)
+			objTs.WriteLine "Thumbs.db"
+			objTs.Close
+
+			Set objMirror = New CMirror
+			objMirror.Mode = "backup-mirror"
+			objMirror.LogPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\log"
+			objMirror.ExcludeOption = objFs.GetParentFolderName(WScript.ScriptFullName) & "\exclude.txt"
+
+			Select Case MsgBox("本番モードで実行しますか?", vbYesNoCancel, "mirroring: 動作モードの確認")
+			Case vbYes
+				objMirror.Test = False
+			Case vbNo
+				objMirror.Test = True
+			Case Else
+				WScript.Quit
+			End Select
+
+			objMirror.OrgPath = objShell.SpecialFolders("MyDocuments")
+			objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\Documents and Settings\kojima\My Documents"
+			objMirror.Run
+
+			For Each strOne In Array("pebuilder3110a", "XPdisc")
+				objMirror.OrgPath = "C:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\" & strOne
+				objMirror.Run
+			Next
+
+			For Each strOne In Array("BCDC Plus", "Becky!", "fswiki", "localvss", "prvwiki", "pubwiki", "tiger")
+				objMirror.OrgPath = "D:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\d-drv\" & strOne
+				objMirror.Run
+			Next
+
+			For Each strOne In Array("field_data", "work")
+				objMirror.OrgPath = "E:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\e-drv\" & strOne
+				objMirror.Run
+			Next
+		</script>
+	</job>
+</package>

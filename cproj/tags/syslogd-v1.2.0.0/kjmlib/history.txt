@@ -1,0 +1,19 @@
+v1.3.0.0 (作成中)
+
+ 再帰的にディレクトリを作成する関数(kjm::util::create_directory)を追加。
+ パス名を取り除く関数(kjm::util::path_remove_filespec)を追加。
+
+v1.2.0.0 (2009/02/28)
+
+ MBCSとUNICODEを別々のライブラリになるように調整。
+
+v1.1.0.0 (2009/02/18)
+
+ thread::run 関数を thread::begin 関数に変更。process::runW(runA) 関数と競合してしまうため。
+ UNICODE 宣言の有無で、wcout と cout を切り替える、_tcout を追加。
+
+v1.0.0.0 (2009/02/12)
+
+ 新規作成
+
+<eof>

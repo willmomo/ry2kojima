@@ -1,0 +1,11 @@
+//---------------------------------------------------------------------
+// 厳密チェック、ログつき関数群
+
+#pragma once
+
+#include <cstdio>
+#include <cassert>
+
+FILE *hs_fopen(const char *filename, const char *mode);
+int hs_fputs(const char *string, FILE *stream);
+int hs_fclose(FILE *stream);

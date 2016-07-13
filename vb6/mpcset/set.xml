@@ -1,0 +1,25 @@
+<root>
+	<kishu>
+		<kishuno>1</kishuno>
+		<kishuname>機種名1</kishuname>
+		<typeno>1</typeno>
+	</kishu>
+	<kishu>
+		<kishuno>2</kishuno>
+		<kishuname>機種名2</kishuname>
+		<typeno>1</typeno>
+	</kishu>
+	<kishu>
+		<kishuno>3</kishuno>
+		<kishuname>機種名3</kishuname>
+		<typeno>13</typeno>
+	</kishu>
+	<type>
+		<typeno>1</typeno>
+		<typename>タイプ1</typename>
+	</type>
+	<type>
+		<typeno>13</typeno>
+		<typename>タイプ13</typename>
+	</type>
+</root>

@@ -1,0 +1,8 @@
+; CGITEST.def : DLL 用のモジュール パラメータの宣言
+
+LIBRARY	     "CGITEST"
+
+EXPORTS
+	HttpExtensionProc
+	GetExtensionVersion
+	TerminateExtension

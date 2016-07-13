@@ -1,0 +1,4 @@
+LIBRARY	"kjmlibvb6"
+EXPORTS
+	kjm__odbcUtil__isInstalled
+	

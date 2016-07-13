@@ -1,0 +1,89 @@
+// Created by Microsoft (R) C/C++ Compiler Version 12.00.9782.0 (3cbada46).
+//
+// d:\work2\testaxdlluser\debug\TestAXDll.tlh
+//
+// C++ source equivalent of Win32 type library ../TestAXDll/TestAXDll.dll
+// compiler-generated file created 11/30/05 at 00:53:08 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("313dad7b-e2e9-4091-aec3-34313929b4eb"))
+/* dual interface */ _clsTestAXDll;
+struct /* coclass */ clsTestAXDll;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(_clsTestAXDll, __uuidof(_clsTestAXDll));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("313dad7b-e2e9-4091-aec3-34313929b4eb"))
+_clsTestAXDll : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    double RetDouble_ValLong_ValLong (
+        long value1,
+        long value2 );
+    _bstr_t RetString_ValLong_ValLong (
+        long value1,
+        long value2 );
+    VARIANT_BOOL RetBoolean_ValLong_ValLong_RefDouble (
+        long value1,
+        long value2,
+        double * value3 );
+
+    //
+    // Raw methods provided by interface
+    //
+
+    virtual HRESULT __stdcall raw_RetDouble_ValLong_ValLong (
+        long value1,
+        long value2,
+        double * _arg3 ) = 0;
+    virtual HRESULT __stdcall raw_RetString_ValLong_ValLong (
+        long value1,
+        long value2,
+        BSTR * _arg3 ) = 0;
+    virtual HRESULT __stdcall raw_RetBoolean_ValLong_ValLong_RefDouble (
+        long value1,
+        long value2,
+        double * value3,
+        VARIANT_BOOL * _arg4 ) = 0;
+};
+
+struct __declspec(uuid("9e227fd4-7c2c-43f3-926a-a2df6dc2e6ee"))
+clsTestAXDll;
+    // [ default ] interface _clsTestAXDll
+
+//
+// Named GUID constants initializations
+//
+
+extern "C" const GUID __declspec(selectany) LIBID_TestAXDll =
+    {0x8527927d,0x1f97,0x4d76,{0xae,0x65,0xba,0x2f,0xef,0x68,0x0e,0x55}};
+extern "C" const GUID __declspec(selectany) IID__clsTestAXDll =
+    {0x313dad7b,0xe2e9,0x4091,{0xae,0xc3,0x34,0x31,0x39,0x29,0xb4,0xeb}};
+extern "C" const GUID __declspec(selectany) CLSID_clsTestAXDll =
+    {0x9e227fd4,0x7c2c,0x43f3,{0x92,0x6a,0xa2,0xdf,0x6d,0xc2,0xe6,0xee}};
+
+//
+// Wrapper method implementations
+//
+
+#include "d:\work2\testaxdlluser\debug\TestAXDll.tli"
+
+#pragma pack(pop)

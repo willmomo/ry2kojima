@@ -1,0 +1,38 @@
+// [toolbox]
+// watch_smart=0 : S.M.A.R.T情報を監視しない
+//             1 : S.M.A.R.T情報を監視する(default)
+//
+// watch_eventlog=0 : イベントログを監視しない
+//                  : イベントログを監視する(default)
+//
+[toolbox]
+watch_smart=1
+watch_eventlog=1
+
+
+// [smart]
+// interval=3600 : S.M.A.R.T情報を監視、ログに残す間隔(秒)(default=3600)
+//
+// warning=0 : S.M.A.R.T情報で異常が認められた場合に、警告ダイアログを出さない(default)
+//         1 : 出す。
+//
+// log_folder= : ログを残す場所(default= : 実行ファイルと同じ場所)
+//
+[smart]
+interval=3600
+warning=0
+log_folder=
+
+
+// [eventlog]
+// interval=3600 : イベントログを監視、ログに残す間隔(秒)(default=3600)
+//
+// warning=0 : イベントログで異常が認められた場合に、警告ダイアログを出さない(default)
+//         1 : 出す。
+//
+// log_folder= : ログを残す場所(default= : 実行ファイルと同じ場所)
+//
+[eventlog]
+interval=3600
+warning=0
+log_folder=

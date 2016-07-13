@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja106.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　６/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>6. おまじないの初期処理と終了処理</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja105.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja107.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[おまじないの初期処理と終了処理]</B></FONT><BR><BR><FONT 
+      size=2><B>・初期処理と終了処理</B><BR>　このページ以降、具体的な手続きを記述しますが、まず、れいによってお決まりの記述です。<BR>　COMを利用するときには、以下の二つの<B>COM 
+      APIの呼び出し</B>(初期処理と終了処理)が必要です。初期処理を呼ばずに COMインスタンスを作成しようとすると、エラーが返されます。今回は 
+      main関数に追加します。 (なお、今回は 
+      C++なので、グローバル関数は分かりやすくするため、グローバル関数の呼び出しには、明示的にグローバルスコープの <B>::</B> 
+      をつけておきました。)<BR>　厳密に言えば、この初期処理と終了処理は、一つのプログラム(プロセス)に１回ではなく、 
+      <B>プログラム内のスレッドごとに</B>行います。<BR></FONT><PRE><FONT style="COLOR: darkblue" size=2>    ::CoInitialize(0);  // 初期化
+    ::CoUninitialize(); // 終了処理</PRE></FONT><FONT 
+      size=2>　この初期処理の役割をちょっと難しく表現すると、少し前のCOMの表現で言えば、「初期化によってアパートメントに入る」、 
+      COM+の表現で言えば、「初期化によってコンテキストが作られる、または継承される」といえます。 
+      (アパートメント、コンテキストの話は省略します。)<BR><BR>　なお、COMにはいくつかの既成APIがあります。ほとんどのCOM関連の API 
+      は、文頭が「<B>Co</B>」で始まります。<BR><BR>　ここまでの作成コードです。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib1/step2_cpp.txt">Step2(step2_cpp.txt)</A> 
+      </FONT><PRE><FONT style="COLOR: darkblue" size=2>// C++から COMコンポーネントにアクセスする
+// (C)Yajima, Satoshi
+#include "stdio.h"
+#include "windows.h"
+#include "objbase.h"
+
+//project1.dllを元に、必要な定義ファイルを生成する
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+
+// メイン処理 ◆◆追加
+int main(int argc, char* argv[])
+{
+    long x, y, z;     // プロシージャの引数、戻り値用
+    HRESULT hResult;  // COM 戻り値用変数
+    _Class1* pClass1; // COMインターフェイスポインタ
+
+    // COMの初期化 ◆◆追加
+    ::CoInitialize(0);
+    
+    // COMの終了処理 ◆◆追加
+    ::CoUninitialize();
+
+    return 0;
+}
+</FONT></PRE></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja105.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja107.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

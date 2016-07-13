@@ -1,0 +1,243 @@
+strconcat param2 ':23 /nossh /timeout=5'
+connect param2
+if result = 1 then
+	exit
+endif
+
+logfname = "C:\ftp"
+strconcat logfname param3
+strconcat logfname "\tterm.log"
+strreplace logfname 1 "/" "\"
+; messagebox logfname "logfname"
+logopen logfname 1 0
+
+for file_no 1 9
+	int2str file_str file_no
+	call  mkcmd_eds
+	wait '/ #'
+	sendln put_cmd
+
+	int2str file_str file_no
+	call  mkcmd_cnd
+	wait '/ #'
+	sendln put_cmd
+next
+
+call  mkcmd_cnd_clear_before
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_cnd_clear_after
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_eds_clear_before
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_eds_clear_after
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_cnd_kioku
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_cnd_start
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_eds_kioku
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_eds_start
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_edconfig1
+wait '/ #'
+sendln put_cmd
+
+call  mkcmd_edstate1
+wait '/ #'
+sendln put_cmd
+
+;call  mkcmd_edstorage1
+;wait '/ #'
+;sendln put_cmd
+
+;call  mkcmd_svrcond1
+;wait '/ #'
+;sendln put_cmd
+
+call  mkcmd_gsvdlog
+wait '/ #'
+sendln put_cmd
+
+; gsvdcoreを最後にすることで、上の出力が見えるようになる
+call  mkcmd_gsvdcore
+wait '/ #'
+sendln put_cmd
+
+; 次の異常と区別するため gsvdcore は、削除する。
+wait '/ #'
+sendln 'rm /mnt/sksd/gsvdcore'
+
+wait '/ #'
+sendln 'dmesg'
+
+timeout=3
+wait '/ # /'
+sendln 'exit'
+
+logclose
+end
+
+; edt 送信コマンド
+:mkcmd_eds
+	remote_file = param3
+	strconcat remote_file '/__eds_#'
+	strconcat remote_file file_str
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__eds_#'
+	strconcat put_cmd file_str
+	return
+
+; cnd 送信コマンド
+:mkcmd_cnd
+	remote_file = param3
+	strconcat remote_file '/__cnd_#'
+	strconcat remote_file file_str
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__cnd_#'
+	strconcat put_cmd file_str
+	return
+
+; gsvdcore 送信コマンド
+:mkcmd_gsvdcore
+	remote_file = param3
+	strconcat remote_file '/gsvdcore'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /mnt/sksd/gsvdcore'
+	return
+
+; __cnd_clear_before 送信コマンド
+:mkcmd_cnd_clear_before
+	remote_file = param3
+	strconcat remote_file '/__cnd_clear_before'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__cnd_clear_before'
+	return
+
+; __cnd_clear_after 送信コマンド
+:mkcmd_cnd_clear_after
+	remote_file = param3
+	strconcat remote_file '/__cnd_clear_after'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__cnd_clear_after'
+	return
+
+; __eds_clear_before 送信コマンド
+:mkcmd_eds_clear_before
+	remote_file = param3
+	strconcat remote_file '/__eds_clear_before'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__eds_clear_before'
+	return
+
+; __eds_clear_after 送信コマンド
+:mkcmd_eds_clear_after
+	remote_file = param3
+	strconcat remote_file '/__eds_clear_after'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__eds_clear_after'
+	return
+
+; __cnd_kioku 送信コマンド
+:mkcmd_cnd_kioku
+	remote_file = param3
+	strconcat remote_file '/__cnd_kioku'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__cnd_kioku'
+	return
+
+; __cnd_start 送信コマンド
+:mkcmd_cnd_start
+	remote_file = param3
+	strconcat remote_file '/__cnd_start'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__cnd_start'
+	return
+
+; __eds_kioku 送信コマンド
+:mkcmd_eds_kioku
+	remote_file = param3
+	strconcat remote_file '/__eds_kioku'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__eds_kioku'
+	return
+
+; __cnd_start 送信コマンド
+:mkcmd_eds_start
+	remote_file = param3
+	strconcat remote_file '/__eds_start'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/__eds_start'
+	return
+
+; edconfig1 送信コマンド
+:mkcmd_edconfig1
+	remote_file = param3
+	strconcat remote_file '/edconfig1'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/edconfig1'
+	return
+
+; edstate1 送信コマンド
+:mkcmd_edstate1
+	remote_file = param3
+	strconcat remote_file '/edstate1'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /data/gsvd/edstate1'
+	return
+
+; edstorage1 送信コマンド
+:mkcmd_edstorage1
+	remote_file = param3
+	strconcat remote_file '/edstorage1'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /mnt/sksd/edstorage1'
+	return
+
+; svrcond1 送信コマンド
+:mkcmd_svrcond1
+	remote_file = param3
+	strconcat remote_file '/svrcond1'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /mnt/sksd/svrcond1'
+	return
+
+; gsvd.log 送信コマンド
+:mkcmd_gsvdlog
+	remote_file = param3
+	strconcat remote_file '/gsvd.log'
+	put_cmd = 'ftpput 172.22.101.254 '
+	strconcat put_cmd remote_file
+	strconcat put_cmd ' /vendor/gsvd/gsvd.log'
+	return

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja107.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　７/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>7. インスタンスの作成</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja106.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja108.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[インスタンスの作成]</B></FONT><BR><BR><FONT 
+      size=2><B>・COMコンポーネントのインスタンスを作成</B><BR>　COMコンポーネントを利用するには、メモリ上にインスタンスをロードする必要があります(インスタンスの作成)。<BR>　Visual 
+      BasicでCOMクライアントを作ったとき、COMコンポーネントのインスタンスの作成には、 CreateObject関数や 
+      Newキーワードを使います。ここでは、これに相当する記述を C++で行います。そのためには、<B>CoCreateInstance</B>という 
+      COM APIを利用します。 <PRE><FONT style="COLOR: darkblue" size=2>    hResult = ::CoCreateInstance((REFCLSID) CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                                 (REFIID)   IID__Class1, (LPVOID*)&amp;pClass1);
+    if( ! SUCCEEDED(hResult) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }</FONT></PRE>　第一引数で <B>CLSID</B>を指定します。CLSID_Class1 は 
+      #importディレクティブによって生成された定義です。<BR>　第二引数は難しいアグリゲーションで使います。今回は使用しないので、0です。最近では、あまり使うことはないと思います。<BR>　第三引数は 
+      DLLであることを意味しています。<BR>　第四引数は 
+      アクセスに使用する<B>インターフェイスのIID</B>です。COMコンポーネントへは、インターフェイスでのみアクセスできます。 
+      IID__Class1は、#importディレクティブによって生成された定義です。<BR>　第五引数は 
+      COMインターフェイスを受け取る<B>ポインタ変数(のアドレス)</B> 
+      です。ポインタ変数の内容は、クライアント自身が初期化するのではなく、CoCreateInstanceの呼び出しによって、自動的に設定されます。<BR><BR>　戻り値によって、エラーが判別できます。正常に終了すれば、hResultの最上位ビットは 
+      0 です。 
+      <B>SUCCEEDEDマクロ</B>は、最上位ビットをチェックしてエラーかどうかを判別します。<BR><BR>　なお、引数の詳しい情報はドキュメントを参照してください。Platform 
+      SDKの COM API関連のレファレンスはほとんどが 
+      C++ベースで記載されています。<BR>　また、これの以外にインスタンスの作り方は色々とあります。<B>CoGetClassObject</B>という 
+      COM APIを使って <B>クラスファクトリ</B>と呼ばれるオブジェクトを直接操作したり、または<B>モニカオブジェクト</B> 
+      を利用したりします。これら別の方法については、ここでは省略します。<BR><BR><B>・#importディレクティブが生成する定義</B><BR>　#importディレクティブに 
+      <B>named_guids</B>オプションをつけて自動生成される定義には、以下の命名規則があります。<BR>　もし、元々のクラス名やインターフェイス名が分からなければ、生成された 
+      project1.tlh ヘッダーファイルの内容を調べるのが手っ取り早い方法です。<BR><BR>　　CLSID ---- 
+      CLSID_クラス名<BR>　　IID ---- IID_インターフェイス名<BR><BR>　ここまでの完成コードです。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib1/step3_cpp.txt">Step3(step3_cpp.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>// C++から COMコンポーネントにアクセスする
+// (C)Yajima, Satoshi
+
+#include "stdio.h"
+#include "windows.h"
+#include "objbase.h"
+
+//project1.dllを元に、必要な定義ファイルを生成する
+#import "project1.dll" no_namespace named_guids raw_interfaces_only
+
+// メイン処理
+int main(int argc, char* argv[])
+{
+    long x, y, z;     //プロシージャの引数、戻り値用
+    HRESULT hResult;  // COM 戻り値用変数
+    _Class1* pClass1; // COMインターフェイスポインタ
+
+    // COMの初期化
+    ::CoInitialize(0);
+    
+    // インスタンスの作成(CLSIDとIIDを指定して、ポインタ pClass0 を取得)
+    // [VB] Set obj = New Project1.Class1　◆◆追加
+    hResult = ::CoCreateInstance((REFCLSID) CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                                 (REFIID)   IID__Class1, (LPVOID*)&amp;pClass1);
+    if( ! SUCCEEDED(hResult) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }
+    
+    // COMの終了処理
+    ::CoUninitialize();
+
+    return 0;
+}</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja106.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja108.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

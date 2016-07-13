@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="APPBAR">
+</Property><Property Name="ソリューション ファイル" Value="C:\Users\kojima\Downloads\Appbar\APPBAR.sln">
+</Property><Property Name="Date" Value="2012年7月25日">
+</Property><Property Name="Time" Value="12:06:29">
+</Property></Properties><Event ErrorLevel="2" Project="C:\Users\kojima\Downloads\Appbar\APPBAR.VCP" Source="APPBAR" Description="プロジェクト ファイルが破損しているためプロジェクトを読み込めません。">
+</Event><Event ErrorLevel="2" Project="APPBAR" Source="APPBAR.VCP" Description="プロジェクトはアップグレードに失敗しました。">
+</Event><Event ErrorLevel="3" Project="APPBAR" Source="APPBAR.VCP" Description="未変換">
+</Event></UpgradeLog>

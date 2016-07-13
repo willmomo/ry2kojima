@@ -1,0 +1,6 @@
+LIBRARY	hsutil
+
+VERSION 1.0
+
+EXPORTS
+	HsFindWindow

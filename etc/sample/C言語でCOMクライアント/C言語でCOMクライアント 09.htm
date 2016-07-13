@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja009.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　　９/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>9. メソッド呼び出し</STRONG> ～</FONT> 
+</TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja010.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[メソッド呼び出し]</B></FONT><BR><BR><FONT 
+      size=2><B>・COMインターフェイスを利用してメソッド呼び出し</B><BR>　今回のサンプルのインターフェイスポインタ変数 
+      pClass1の関数アドレステーブルは、 
+      CoCreateInstanceのタイミングでアドレス値が設定されています。この関数アドレスのテーブルを使ってメソッドを呼び出します。呼び出し方は、<B>C言語の通常の関数ポインタの使い方</B>と同じです。<BR><PRE><FONT style="COLOR: darkblue" size=2>    pIClass1-&gt;lpVtbl-&gt;Calc( (void*)pIClass1, x, y, &amp;z );  
+    printf("Result = %d\n", z );</FONT></PRE>　インターフェイスポインタ pClass1 
+      は、Vptr(変数名lpVtbl)によって、<B>間接的に</B> 
+      関数配列のテーブルをポイントしている点を注意してください(直接的ではない)。つまり、関数を呼び出す部分は「<B>lpVtbl</B>-&gt;Calc」となります。<BR>　また、<B>VBで扱われる引数と戻り値</B>が、どう反映されるか注意してください。この呼び出しを 
+      VB流に記述すると、 <PRE><FONT style="COLOR: darkblue" size=2>    z = obj.Calc( x, y )</FONT></PRE>となります。<BR>　C言語レベルでは、オブジェクトという概念を表記する専用の構文はないので、 
+      VB上で表現された<B>オブジェクト</B>(上記例の変数名obj)は、<B>C言語関数の第一引数</B> 
+      にオプジェクトへのポインタとして渡します。オブジェクトへのポインタとは、すなわち、インターフェイスポインタのことです。VBでのオブジェクト変数は、内部では 
+      COMインターフェイスポインタとして実装されています。<BR>　<B>VBの戻り値</B>は、C言語レベルで見た場合(というよりは 
+      COMレベルで見た場合)、 <B>最後の引数にポインタとして</B>渡ります。 
+      COMレベルの戻り値は、通常、<B>HRESULT型のステータスコード</B>です。 VB自身もCOMのやり取りをするとき、VB上の戻り値を 
+      COMレベルのメソッドの最後の引数に置き換えています。<BR><BR>　ちなみに 
+      <B>C++</B>であれば、オブジェクトという概念があるので、以下のような記述になります。VBにとっての戻り値は 
+      C言語と同様に最後の引数になりますが、第一引数にオブジェクトを渡す必要もありませんし、Vptrを記述する必要もあります。 C++コンパイラは 
+      Vptrを内部的に自動生成します。 <PRE><FONT style="COLOR: darkblue" size=2>    pIClass1-&gt;Calc( x, y, &amp;z );</FONT></PRE>　これら三つの言語の記述をまとめると、以下のようになります。<PRE><FONT size=2>　　[ＶＢ　]　z = obj.Calc( x, y );   'objはオブジェクト変数
+　　[Ｃ　　]　pIClass1-&gt;<B>Vptr</B>-&gt;Calc( (void*) <B>オブジェクトポインタ</B>, x, y, <B>&amp;VB戻り値</B>);
+　　[Ｃ＋＋]　pIClass1-&gt;Calc( x, y, <B>&amp;VB戻り値</B> );
+</FONT></PRE>　ここまでのコードは次のとおりです。<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/step5_c.txt">Step5(step5_c.txt)</A> 
+<PRE><FONT style="COLOR: darkblue" size=2>/*
+  COMコンポーネントの Simple Client - C言語版
+    COMのアーキテクチャを理解するために、あえてCOM用マクロの使用は
+  最小限にしてあります。
+  2000.11 (C)Yajima, Satoshi
+*/
+
+#include "stdio.h"   /* C言語の標準入出力、以下の printfで使用 */
+#include "windows.h" /* Windowsアプリケーションの基本定義ヘッダーファイル */
+#include "objbase.h" /* COM関連の基本定義ヘッダーファイル */
+
+/* ----- ----- COMに基づくバイナリ構造の定義 ----- ----- */
+typedef struct tagMyVTable {  /* VTableの定義 MyVTalbe */
+    void *p1; /* QueryInterface */
+    void *p2; /* AddRef         */
+    ULONG  (__stdcall *Release)(void* _this);
+    void *p3; /* GetTypeInfoCount */
+    void *p4; /* GetTypeInfo      */
+    void *p5; /* GetIdsOfNames    */
+    void *p6; /* Invoke           */
+    HRESULT (__stdcall *Calc )(void* _this, long x, long y, long* pRetValue);
+} MyVTable;
+
+typedef struct tagIClass1 {  /*COMインターフェイス IClass1 */
+    MyVTable *lpVtbl;
+} _IClass1;
+
+/* ----- ----- コンポーネントの CLSID と COMインターフェイスID ----- -----
+  IDLに表記された uuidの16進数をその順番のまま表記すること
+  変数名は、このソースコード上だけの問題なので、任意の名前でよい
+*/
+const GUID  CLSID_Class1 =
+    {0xd1890A6d,0xB213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* CLSID */
+const GUID  IID__Class1 =
+    {0xd1890a6c,0xb213,0x11d4,{0xaf,0xc1,0x00,0xd0,0xb7,0xad,0x59,0xe8}}; /* IID   */
+
+/* メイン処理 */
+int main(int argc, char* argv[])
+{
+    long x, y, z;       /* プロシージャの引数、戻り値用 */
+    HRESULT hResult;    /* COM 戻り値用変数 */
+    _IClass1* pIClass1; /* COMインターフェイスポインタ */
+
+    /* COMの初期化 */
+    CoInitialize(0);
+    
+    /* インスタンスの作成(CLSIDとIIDを指定して、ポインタ pClass0 を取得) */
+    /* [VB] Set obj = New Project1.Class1 */
+    hResult = CoCreateInstance(&amp;CLSID_Class1, 0, CLSCTX_INPROC_SERVER,
+                               &amp;IID__Class1, (void**)&amp;pIClass1);
+    if( ! SUCCEEDED( hResult ) ) {
+        printf("ERROR occured = %08x\n", hResult);
+        return 0;
+    }
+    
+    /* 引数用データ設定 */
+    x = 10;
+    y = 20;
+
+    /* Calcメソッドの呼び出し */
+    /* [VB] z =   obj.Calc( x, y )
+    ◆◆追加*/pIClass1-&gt;lpVtbl-&gt;Calc( (void*)pIClass1, x, y, &amp;z );  
+    printf("Result = %d\n", z );
+
+    /* COMの終了処理 */
+    CoUninitialize();
+
+    return 0;
+}</FONT></PRE></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja010.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

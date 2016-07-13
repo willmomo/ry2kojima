@@ -1,0 +1,159 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOG DISCARDABLE  0, 0, 204, 126
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Wmkabox2"
+FONT 11, "ＭＳ Ｐゴシック"
+BEGIN
+    DEFPUSHBUTTON   "ABOXファイルの作成(&C)",IDC_CREATE,58,7,87,26
+    PUSHBUTTON      "詳細(&O) >>",IDC_OPTION,58,34,87,14
+    LTEXT           "開始日付(&S)",IDC_STATIC,7,71,41,8
+    EDITTEXT        IDC_START,64,68,71,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "(YYYYMMDD)",IDC_STATIC,141,71,45,8
+    LTEXT           "終了日付(&E)",IDC_STATIC,7,89,40,8
+    EDITTEXT        IDC_END,64,86,71,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "(YYYYMMDD)",IDC_STATIC,141,89,45,8
+    LTEXT           "出力ファイル(&O)",IDC_STATIC,7,107,53,8
+    EDITTEXT        IDC_OUTPUT,64,104,121,14,ES_AUTOHSCROLL | WS_DISABLED
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 197
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_APPL                ICON    DISCARDABLE     "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_E001                "コマンドラインの引数に不正なオプションが指定されています。"
+    IDS_E002                """-1=YYMMDD""オプションで指定された日付が正しい日付ではありません。"
+    IDS_E003                """-s=YYMMDD""オプションで日付が指定されていません。"
+    IDS_E004                """-s=YYMMDD""オプションでマージ終了日付が正しい日付ではありません。"
+    IDS_E005                """-e=YYMMDD""オプションで日付が指定されていません。"
+    IDS_E006                """-e=YYMMDD""オプションでマージ終了日付が正しい日付ではありません。"
+    IDS_E007                """-o=出力ファイル名""で出力ファイル名が指定されていません。"
+    IDS_E008                """-a=日,[日…]の指定が不正です。"
+    IDS_E020                "前回処理日付が正しい日付ではありません。"
+    IDS_E021                "営業日付が正しい日付ではありません。"
+    IDS_E022                "マージ開始日付が正しい日付ではありません。"
+    IDS_E023                "マージ終了日付が正しい日付ではありません。"
+    IDS_E024                "マージ開始日付とマージ終了日付が逆転しています。"
+    IDS_E040                "m5103ファイル読み込みに失敗しました。"
+    IDS_E041                "ABOXデータの登録に失敗しました。"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_E042                "m5103ファイルの有効データ長の読み込みに失敗しました。"
+    IDS_E043                "指定された期間に該当するm5103ファイルはひとつも存在しません。"
+    IDS_E044                "m5103用データエリア確保に失敗しました。"
+    IDS_E060                "ABOXファイルの書きこみに失敗しました。"
+    IDS_E061                "ABOXファイルのオープンに失敗しました。"
+    IDS_E080                "バックアップファイルの書きこみに失敗しました。"
+    IDS_E081                "コピー元ファイルの読み込みに失敗しました。"
+    IDS_E082                "バックアップデータ用のメモリの確保に失敗しました。"
+    IDS_E083                "バックアップファイルのオープンに失敗しました。"
+    IDS_E084                "コピー元ファイルのオープンに失敗しました。"
+    IDS_E100                "指定された日付が正しい日付ではありません。"
+    IDS_E101                "営業日付が正しい日付ではありません。"
+    IDS_E102                "MkABoxFile15.exeの起動に失敗しました。"
+    IDS_E120                "前回処理日付の更新に失敗しました。"
+    IDS_E130                "自動作成オプションの指定値が数値ではありません。"
+    IDS_E131                "自動作成オプションの指定値が0～31の間にありません。"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

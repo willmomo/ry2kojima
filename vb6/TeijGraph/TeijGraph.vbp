@@ -1,0 +1,37 @@
+Type=Exe
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\System32\stdole2.tlb#OLE Automation
+Reference=*\G{EF53050B-882E-4776-B643-EDA472E8E3F2}#2.7#0#C:\Program Files\Common Files\system\ado\msado15.dll#Microsoft ActiveX Data Objects 2.7 Library
+Object={92D71E90-25A8-11CF-A640-9986B64D9618}#6.0#0; Olch2x32.ocx
+Object={B02F3647-766B-11CE-AF28-C3A2FBE76A13}#3.0#0; SPR32X30.ocx
+Form=frmMain.frm
+Object={6FBA474E-43AC-11CE-9A0E-00AA0062BB4C}#1.0#0; sysinfo.ocx
+IconForm="frmMain"
+Startup="frmMain"
+ExeName32="TeijGraph.exe"
+Command32=""
+Name="TeijGraph"
+HelpContextID="0"
+CompatibleMode="0"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=0
+ServerSupportFiles=0
+CompilationType=0
+OptimizationType=0
+FavorPentiumPro(tm)=0
+CodeViewDebugInfo=0
+NoAliasing=0
+BoundsCheck=0
+OverflowCheck=0
+FlPointCheck=0
+FDIVCheck=0
+UnroundedFP=0
+StartMode=0
+Unattended=0
+Retained=0
+ThreadPerObject=0
+MaxNumberOfThreads=1
+
+[MS Transaction Server]
+AutoRefresh=1

@@ -1,0 +1,17 @@
+LIBRARY	RKLOG
+
+EXPORTS
+	RKLogVB
+	RKLGetLogLevel
+	RKLSetLogLevel
+	RKLGetLogPrefix
+	RKLSetLogPrefix
+	RKLGetLogPath
+	RKLSetLogPath
+	RKLGetLogModule
+	RKLSetLogModule
+	RKLClearLog
+	RKLGetLogPeriod
+	RKLSetLogPeriod
+	RKLSaveOptions
+	RKLLoadOptions

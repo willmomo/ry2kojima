@@ -1,0 +1,634 @@
+// Created by Microsoft (R) C/C++ Compiler Version 12.00.9782.0 (fcb3a066).
+//
+// c:\work\b21\debug\basp21.tlh
+//
+// C++ source equivalent of Win32 type library basp21.dll
+// compiler-generated file created 01/26/06 at 10:45:05 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+namespace BASP21Lib {
+
+//
+// Forward references and typedefs
+//
+
+struct /* coclass */ Basp21;
+struct __declspec(uuid("607e85b0-3b9c-11d1-863c-00000e4e0ad6"))
+/* dual interface */ IBasp21;
+struct /* coclass */ Socket;
+struct __declspec(uuid("b8a3f531-d91f-11d2-8fe7-000000000000"))
+/* dual interface */ ISocket;
+struct /* coclass */ FTP;
+struct __declspec(uuid("7571dc40-718d-11d3-99d3-0040263fc34e"))
+/* dual interface */ IFTP;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(IBasp21, __uuidof(IBasp21));
+_COM_SMARTPTR_TYPEDEF(ISocket, __uuidof(ISocket));
+_COM_SMARTPTR_TYPEDEF(IFTP, __uuidof(IFTP));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("5a99a823-3b97-11d1-863c-00000e4e0ad6"))
+Basp21;
+    // [ default ] interface IBasp21
+
+struct __declspec(uuid("607e85b0-3b9c-11d1-863c-00000e4e0ad6"))
+IBasp21 : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetResult))
+    long Result;
+    __declspec(property(get=GetCodePage,put=PutCodePage))
+    long CodePage;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    _variant_t Split (
+        _bstr_t regstr,
+        _bstr_t target,
+        long limit );
+    _bstr_t Match (
+        _bstr_t regstr,
+        _bstr_t target );
+    _bstr_t Replace (
+        _bstr_t regstr,
+        _bstr_t target );
+    long Translate (
+        _bstr_t regstr,
+        _bstr_t target,
+        VARIANT * out );
+    _bstr_t SendMail (
+        _bstr_t server,
+        _bstr_t to,
+        _bstr_t from,
+        _bstr_t subj,
+        _bstr_t body,
+        _bstr_t file );
+    long FileCheck (
+        _bstr_t fname );
+    long Sort (
+        VARIANT * pVal,
+        long asdes,
+        long offset,
+        long length );
+    _variant_t ReadDir (
+        _bstr_t dirname );
+    _bstr_t Space ( );
+    long IsNum (
+        _bstr_t str );
+    _bstr_t strftime (
+        _bstr_t format );
+    _variant_t FGrep (
+        _bstr_t fname,
+        _bstr_t regstr,
+        long max,
+        long opt );
+    _bstr_t RepTagChar (
+        _bstr_t str );
+    _variant_t BinaryRead (
+        _bstr_t fname );
+    _bstr_t HAN2ZEN (
+        _bstr_t str );
+    _bstr_t sprintf (
+        _bstr_t format,
+        const _variant_t & args );
+    _bstr_t SendMailEx (
+        _bstr_t logfile,
+        _bstr_t server,
+        _bstr_t to,
+        _bstr_t from,
+        _bstr_t subj,
+        _bstr_t body,
+        _bstr_t file );
+    HRESULT Debug (
+        const _variant_t & vstr,
+        long opt );
+    _bstr_t StrConv (
+        _bstr_t str,
+        long conv );
+    long FormSaveAs (
+        const _variant_t & array,
+        _bstr_t formname,
+        _bstr_t fpath );
+    _bstr_t Form (
+        const _variant_t & array,
+        _bstr_t formname,
+        long type );
+    _variant_t FormBinary (
+        const _variant_t & array,
+        _bstr_t formname );
+    long BinaryWrite (
+        const _variant_t & array,
+        _bstr_t fpath,
+        long mode );
+    _bstr_t FormFileName (
+        const _variant_t & array,
+        _bstr_t formname,
+        long type );
+    long FormFileSize (
+        const _variant_t & array,
+        _bstr_t formname );
+    _variant_t ReadMail (
+        const _variant_t & filename,
+        _bstr_t para,
+        _bstr_t dirname );
+    _variant_t RcvMail (
+        _bstr_t svname,
+        _bstr_t user,
+        _bstr_t pass,
+        _bstr_t command,
+        _bstr_t dirname );
+    long Execute (
+        _bstr_t cmd,
+        long mode,
+        VARIANT * psdout );
+    long KconvFile (
+        _bstr_t infile,
+        _bstr_t outfile,
+        long outtype,
+        long intype );
+    _variant_t Kconv (
+        const _variant_t & indata,
+        long outtype,
+        long intype );
+    _variant_t BinaryConcat (
+        const _variant_t & a,
+        const _variant_t & b );
+    _variant_t SplitB (
+        _bstr_t regstr,
+        const _variant_t & target,
+        long limit );
+    long DebugClear ( );
+    _variant_t ByteArray (
+        _bstr_t data,
+        long mode );
+    _variant_t MatchEx (
+        _bstr_t regstr,
+        _bstr_t target,
+        long mode );
+    _variant_t Counter (
+        _bstr_t para,
+        long ctr );
+    _bstr_t Version (
+        long type );
+    _bstr_t Base64 (
+        _bstr_t str,
+        long mode );
+    long W3get (
+        _bstr_t arg );
+    _bstr_t GetTempFile (
+        _bstr_t dir );
+    _variant_t MidB (
+        const _variant_t & str,
+        long start,
+        long len );
+    long MatchB (
+        _bstr_t regstr,
+        const _variant_t & target );
+    _variant_t SortMail (
+        _bstr_t dir,
+        _bstr_t header,
+        long opt,
+        _bstr_t filter,
+        long del );
+    HRESULT Sleep (
+        long sec );
+    _bstr_t MD5 (
+        _bstr_t str,
+        long type );
+    _variant_t Execute2 (
+        _bstr_t cmd,
+        long mode );
+    long GetResult ( );
+    long GetCodePage ( );
+    void PutCodePage (
+        long pVal );
+    long FlushMail (
+        _bstr_t server,
+        _bstr_t maildir,
+        _bstr_t logfile );
+
+    //
+    // Raw methods provided by interface
+    //
+
+    virtual HRESULT __stdcall raw_Split (
+        BSTR regstr,
+        BSTR target,
+        long limit,
+        VARIANT * pvaVariant ) = 0;
+    virtual HRESULT __stdcall raw_Match (
+        BSTR regstr,
+        BSTR target,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Replace (
+        BSTR regstr,
+        BSTR target,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Translate (
+        BSTR regstr,
+        BSTR target,
+        VARIANT * out,
+        long * plong ) = 0;
+    virtual HRESULT __stdcall raw_SendMail (
+        BSTR server,
+        BSTR to,
+        BSTR from,
+        BSTR subj,
+        BSTR body,
+        BSTR file,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_FileCheck (
+        BSTR fname,
+        long * plVal ) = 0;
+    virtual HRESULT __stdcall raw_Sort (
+        VARIANT * pVal,
+        long asdes,
+        long offset,
+        long length,
+        long * ptime ) = 0;
+    virtual HRESULT __stdcall raw_ReadDir (
+        BSTR dirname,
+        VARIANT * pvaVariant ) = 0;
+    virtual HRESULT __stdcall raw_Space (
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_IsNum (
+        BSTR str,
+        long * plVal ) = 0;
+    virtual HRESULT __stdcall raw_strftime (
+        BSTR format,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_FGrep (
+        BSTR fname,
+        BSTR regstr,
+        long max,
+        long opt,
+        VARIANT * pVariant ) = 0;
+    virtual HRESULT __stdcall raw_RepTagChar (
+        BSTR str,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_BinaryRead (
+        BSTR fname,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_HAN2ZEN (
+        BSTR str,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_sprintf (
+        BSTR format,
+        VARIANT args,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_SendMailEx (
+        BSTR logfile,
+        BSTR server,
+        BSTR to,
+        BSTR from,
+        BSTR subj,
+        BSTR body,
+        BSTR file,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Debug (
+        VARIANT vstr,
+        long opt ) = 0;
+    virtual HRESULT __stdcall raw_StrConv (
+        BSTR str,
+        long conv,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_FormSaveAs (
+        VARIANT array,
+        BSTR formname,
+        BSTR fpath,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Form (
+        VARIANT array,
+        BSTR formname,
+        long type,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_FormBinary (
+        VARIANT array,
+        BSTR formname,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_BinaryWrite (
+        VARIANT array,
+        BSTR fpath,
+        long mode,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_FormFileName (
+        VARIANT array,
+        BSTR formname,
+        long type,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_FormFileSize (
+        VARIANT array,
+        BSTR formname,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_ReadMail (
+        VARIANT filename,
+        BSTR para,
+        BSTR dirname,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_RcvMail (
+        BSTR svname,
+        BSTR user,
+        BSTR pass,
+        BSTR command,
+        BSTR dirname,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Execute (
+        BSTR cmd,
+        long mode,
+        VARIANT * psdout,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_KconvFile (
+        BSTR infile,
+        BSTR outfile,
+        long outtype,
+        long intype,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Kconv (
+        VARIANT indata,
+        long outtype,
+        long intype,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_BinaryConcat (
+        VARIANT a,
+        VARIANT b,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_SplitB (
+        BSTR regstr,
+        VARIANT target,
+        long limit,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_DebugClear (
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_ByteArray (
+        BSTR data,
+        long mode,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_MatchEx (
+        BSTR regstr,
+        BSTR target,
+        long mode,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Counter (
+        BSTR para,
+        long ctr,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Version (
+        long type,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Base64 (
+        BSTR str,
+        long mode,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_W3get (
+        BSTR arg,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_GetTempFile (
+        BSTR dir,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_MidB (
+        VARIANT str,
+        long start,
+        long len,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_MatchB (
+        BSTR regstr,
+        VARIANT target,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_SortMail (
+        BSTR dir,
+        BSTR header,
+        long opt,
+        BSTR filter,
+        long del,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Sleep (
+        long sec ) = 0;
+    virtual HRESULT __stdcall raw_MD5 (
+        BSTR str,
+        long type,
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Execute2 (
+        BSTR cmd,
+        long mode,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall get_Result (
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall get_CodePage (
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall put_CodePage (
+        long pVal ) = 0;
+    virtual HRESULT __stdcall raw_FlushMail (
+        BSTR server,
+        BSTR maildir,
+        BSTR logfile,
+        long * pVal ) = 0;
+};
+
+struct __declspec(uuid("b8a3f532-d91f-11d2-8fe7-000000000000"))
+Socket;
+    // [ default ] interface ISocket
+
+struct __declspec(uuid("b8a3f531-d91f-11d2-8fe7-000000000000"))
+ISocket : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetResult))
+    long Result;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long Connect (
+        _bstr_t svr,
+        long port,
+        long timeout );
+    long ReadLine (
+        VARIANT * data );
+    long Write (
+        const _variant_t & data );
+    long WriteHex (
+        _bstr_t data );
+    long Read (
+        VARIANT * data,
+        long mode );
+    long Close ( );
+    _variant_t Read2 (
+        long mode );
+    _variant_t ReadLine2 ( );
+    long GetResult ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+    virtual HRESULT __stdcall raw_Connect (
+        BSTR svr,
+        long port,
+        long timeout,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_ReadLine (
+        VARIANT * data,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Write (
+        VARIANT data,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_WriteHex (
+        BSTR data,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Read (
+        VARIANT * data,
+        long mode,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Close (
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Read2 (
+        long mode,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_ReadLine2 (
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall get_Result (
+        long * pVal ) = 0;
+};
+
+struct __declspec(uuid("7571dc41-718d-11d3-99d3-0040263fc34e"))
+FTP;
+    // [ default ] interface IFTP
+
+struct __declspec(uuid("7571dc40-718d-11d3-99d3-0040263fc34e"))
+IFTP : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    long Connect (
+        _bstr_t svr,
+        _bstr_t user,
+        _bstr_t pass );
+    long Close ( );
+    long GetFile (
+        _bstr_t remote,
+        _bstr_t local,
+        long type );
+    long OpenLog (
+        _bstr_t file,
+        long mode );
+    long PutFile (
+        _bstr_t local,
+        _bstr_t remote,
+        long type );
+    long DeleteFile (
+        _bstr_t remote );
+    long CloseLog ( );
+    long RenameFile (
+        _bstr_t oldfile,
+        _bstr_t newfile );
+    _variant_t GetDir (
+        _bstr_t remote,
+        long mode );
+    long command (
+        _bstr_t cmd );
+    _bstr_t GetReply ( );
+    long PutToday (
+        _bstr_t local,
+        _bstr_t remote,
+        long type );
+
+    //
+    // Raw methods provided by interface
+    //
+
+    virtual HRESULT __stdcall raw_Connect (
+        BSTR svr,
+        BSTR user,
+        BSTR pass,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_Close (
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_GetFile (
+        BSTR remote,
+        BSTR local,
+        long type,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_OpenLog (
+        BSTR file,
+        long mode,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_PutFile (
+        BSTR local,
+        BSTR remote,
+        long type,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_DeleteFile (
+        BSTR remote,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_CloseLog (
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_RenameFile (
+        BSTR oldfile,
+        BSTR newfile,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_GetDir (
+        BSTR remote,
+        long mode,
+        VARIANT * pVal ) = 0;
+    virtual HRESULT __stdcall raw_command (
+        BSTR cmd,
+        long * pVal ) = 0;
+    virtual HRESULT __stdcall raw_GetReply (
+        BSTR * pVal ) = 0;
+    virtual HRESULT __stdcall raw_PutToday (
+        BSTR local,
+        BSTR remote,
+        long type,
+        long * pVal ) = 0;
+};
+
+//
+// Named GUID constants initializations
+//
+
+extern "C" const GUID __declspec(selectany) LIBID_BASP21Lib =
+    {0x607e85a1,0x3b9c,0x11d1,{0x86,0x3c,0x00,0x00,0x0e,0x4e,0x0a,0xd6}};
+extern "C" const GUID __declspec(selectany) CLSID_Basp21 =
+    {0x5a99a823,0x3b97,0x11d1,{0x86,0x3c,0x00,0x00,0x0e,0x4e,0x0a,0xd6}};
+extern "C" const GUID __declspec(selectany) IID_IBasp21 =
+    {0x607e85b0,0x3b9c,0x11d1,{0x86,0x3c,0x00,0x00,0x0e,0x4e,0x0a,0xd6}};
+extern "C" const GUID __declspec(selectany) CLSID_Socket =
+    {0xb8a3f532,0xd91f,0x11d2,{0x8f,0xe7,0x00,0x00,0x00,0x00,0x00,0x00}};
+extern "C" const GUID __declspec(selectany) IID_ISocket =
+    {0xb8a3f531,0xd91f,0x11d2,{0x8f,0xe7,0x00,0x00,0x00,0x00,0x00,0x00}};
+extern "C" const GUID __declspec(selectany) CLSID_FTP =
+    {0x7571dc41,0x718d,0x11d3,{0x99,0xd3,0x00,0x40,0x26,0x3f,0xc3,0x4e}};
+extern "C" const GUID __declspec(selectany) IID_IFTP =
+    {0x7571dc40,0x718d,0x11d3,{0x99,0xd3,0x00,0x40,0x26,0x3f,0xc3,0x4e}};
+
+//
+// Wrapper method implementations
+//
+
+#include "c:\work\b21\debug\basp21.tli"
+
+} // namespace BASP21Lib
+
+#pragma pack(pop)

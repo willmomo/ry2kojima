@@ -1,0 +1,38 @@
+<package>
+	<job>
+		<script language="VBScript">
+			WScript.Echo "Job ÇéwíËÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB"
+			WScript.Echo "ó·"
+			WScript.Echo "cscript //job:lifecheck """ & WScript.ScriptFullName & """"
+			WScript.Echo "cscript //job:cleanup """ & WScript.ScriptFullName & """"
+			WScript.Echo "cscript //job:incbackup """ & WScript.ScriptFullName & """"
+			WScript.Echo "cscript //job:mirbackup """ & WScript.ScriptFullName & """"
+			WScript.Echo "cscript //job:defragall """ & WScript.ScriptFullName & """"
+		</script>
+	</job>
+	<job id="lifecheck">
+		<script language="VBScript" src="kjmlib.vbs" />
+		<script language="VBScript" src="sendjobmail.vbs" />
+		<script language="VBScript" src="lifecheck.vbs" />
+	</job>
+	<job id="cleanup">
+		<script language="VBScript" src="kjmlib.vbs" />
+		<script language="VBScript" src="sendjobmail.vbs" />
+		<script language="VBScript" src="cleanup.vbs" />
+	</job>
+	<job id="incbackup">
+		<script language="VBScript" src="kjmlib.vbs" />
+		<script language="VBScript" src="sendjobmail.vbs" />
+		<script language="VBScript" src="incbackup.vbs" />
+	</job>
+	<job id="mirbackup">
+		<script language="VBScript" src="kjmlib.vbs" />
+		<script language="VBScript" src="sendjobmail.vbs" />
+		<script language="VBScript" src="mirbackup.vbs" />
+	</job>
+	<job id="defragall">
+		<script language="VBScript" src="kjmlib.vbs" />
+		<script language="VBScript" src="sendjobmail.vbs" />
+		<script language="VBScript" src="defragall.vbs" />
+	</job>
+</package>

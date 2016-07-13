@@ -1,0 +1,237 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>rkProcess クラス</title>
+</head>
+<body>
+
+<h1>rkProcess クラス</h2>
+
+<h2>概要</h2>
+
+<p>CreateProcess API によって実行されるプロセスとハンドルを管理するクラス。
+プロセスの終了は、アプリケーション間の取り決めによる。</p>
+
+<h2>rkProcess クラス メンバ</h2>
+
+<table border=1 class=sl>
+	<tr>
+		<th class=sl align=left colspan=2>コンストラクタ/デストラクタ</th>
+	</tr>
+	<tr>
+		<td class=sl><a href=#rkProcess>rkProcess</a></td>
+		<td class=sl>デフォルト コンストラクタ</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#~rkProcess>~rkProcess</a></td>
+		<td class=sl>デストラクタ</td>
+	</tr>
+	<tr>
+		<th class=sl align=left colspan=2>スタートアップ情報アクセス メンバ</th>
+	</tr>
+	<tr>
+		<td class=sl><a href=#ClearSI>ClearSI</a></td>
+		<td class=sl>スタートアップ情報をクリアする</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#GetSIShowWindow>GetSIShowWindow</a></td>
+		<td class=sl>STARTUPINFO::wShowWindow の値を取得する</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#SetSIShowWindow>SetSIShowWindow</a></td>
+		<td class=sl>STARTUPINFO::wShowWindow に値を設定する</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#ClearSIShowWindow>ClearSIShowWindow</a></td>
+		<td class=sl>STARTUPINFO::wShowWindow を使わないようにする</td>
+	</tr>
+	<tr>
+		<th class=sl align=left colspan=2>プロセス情報アクセス メンバ</th>
+	</tr>
+	<tr>
+		<td class=sl><a href=#GetProcessId>GetProcessId</a></td>
+		<td class=sl>起動したプロセスの ID を取得する</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#GetCommandLine>GetCommandLine</a></td>
+		<td class=sl>プロセスを起動したときのコマンドラインを取得する</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#GetProcessWindow>GetProcessWindow</a></td>
+		<td class=sl>起動したプロセスに関連したウィンドウ ハンドルを取得する</td>
+	</tr>
+	<tr>
+		<th class=sl align=left colspan=2>その他の処理</th>
+	</tr>
+	<tr>
+		<td class=sl><a href=#Create>Create</a></td>
+		<td class=sl>プロセスを実行する</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#Close>Close</a></td>
+		<td class=sl>プロセスのハンドルを閉じる (プロセスを終了するわけではない)</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#WaitForTermination>WaitForTermination</a></td>
+		<td class=sl>プロセスの終了を待つ</td>
+	</tr>
+	<tr>
+		<td class=sl><a href=#WaitForInputIdle>WaitForInputIdle</a></td>
+		<td class=sl>プロセスの起動完了を待つ</td>
+	</tr>
+</table>
+
+<!-- rkProcess::rkProcess -->
+<h2><a name=rkProcess>rkProcess::rkProcess</a></h2>
+<p>rkProcess()</p>
+
+<h3>解説</h3>
+<p>コンストラクタ。メンバの初期化を行います。</p>
+
+<!-- rkProcess::~rkProcess -->
+<h2><a name=~rkProcess>rkProcess::~rkProcess</a></h2>
+<p>virtual ~rkProcess()</p>
+
+<h3>解説</h3>
+<p>デストラクタ。Create 関数実行後、Close 関数を呼び出されていないときは、自動で呼び出します。</p>
+
+<!-- rkProcess::ClearSI -->
+<h2><a name=ClearSI>rkProcess::ClearSI</a></h2>
+<p>VOID ClearSI()</p>
+
+<h3>解説</h3>
+<p>プロセス起動時に使用する STARTUPINFO の情報全てをクリアします。</p>
+
+<!-- rkProcess::ClearSIShowWindow -->
+<h2><a name=ClearSIShowWindow>rkProcess::ClearSIShowWindow</a></h2>
+<p>VOID ClearSIShowWindow()</p>
+
+<h3>解説</h3>
+<p>プロセス起動時に使用する STARTUPINFO の wShowWindow メンバを未使用状態にします。0 にするのとも違いますが、
+値は、0 になります。</p>
+
+<!-- rkProcess::Close -->
+<h2><a name=Close>rkProcess::Close</a></h2>
+<p>VOID Close()</p>
+<h3>解説</h3>
+<p>Create したプロセスのハンドルをクローズします。<br>
+プロセスを終了するわけではないので、注意が必要です。<br>
+プロセスの終了自体は、アプリケーション同士の取り決めで行ってください。</p>
+<p>一度 Close したオブジェクトは、再度 Create メンバ関数を呼ぶことができます。</p>
+
+<!-- rkProcess::Create -->
+<h2><a name=Create>rkProcess::Create</a></h2>
+<p>virtual BOOL Create(LPTSTR lpCommandLine)</p>
+<h3>引数</h3>
+<dl>
+<dt><em>lpCommandLine</em>
+<dd>実行ファイルの文字列。詳細は、CreateProcess API の引数 lpCommandLine を参照。
+</dl>
+<h3>戻り値</h3>
+<p>関数が成功すると、0 以外の値が返ります。<br>
+関数が失敗すると、0 が返ります。拡張エラー情報を取得するには、GetLastError 関数を使います。<br>
+すでに Create 関数実行済みで、Close していない場合も 0 が帰ります。その場合、拡張エラー情報は 0 です。</p>
+<h3>解説</h3>
+<p>lpCommandLine で指定したファイルを実行します。<br>
+実行するアプリケーションの属性を、SetSI*** メンバ関数であらかじめ設定してから、この関数を呼び出します。</p>
+
+<!-- rkProcess::GetCommandLine -->
+<h2><a name=GetCommandLine>rkProcess::GetCommandLine</a></h2>
+<p>LPCTSTR GetCommandLine() const</p>
+
+<h3>戻り値</h3>
+<p>Create 関数に渡した文字列の内容を保持するポインタを返します。</p>
+
+<h3>解説</h3>
+<p>戻り値のポインタの中身は、Create 関数を呼び出した後は、そのときの引数の内容。
+一度も Create 関数を呼び出していないときは、空文字列になります。</p>
+
+<!-- rkProcess::GetProcessId -->
+<h2><a name=GetProcessId>rkProcess::GetProcessId</a></h2>
+<p>DWORD GetProcessId() const</p>
+
+<h3>戻り値</h3>
+<p>Create したプロセスの ID を返します。<br>
+まだ、Create 関数を呼び出していない場合や、エラーになった場合 0 を返します。</p>
+
+<!-- rkProcess::GetProcessWindow -->
+<h2><a name=GetProcessWindow>rkProcess::GetProcessWindow</a></h2>
+<p>HWND GetProcessWindow()</p>
+
+<h3>戻り値</h3>
+<p>実行したプロセスに関連するウィンドウ ハンドルを返します。<br>
+ウィンドウが見つからない場合は、NULL を返します。</p>
+
+<h3>解説</h3>
+<p>実行したプロセスに関連するウィンドウ ハンドルを取得します。<br>
+複数のウィンドウが存在する場合は、EnumWindows API によって、列挙される
+最初のウィンドウを戻します。</p>
+
+<!-- rkProcess::GetSIShowWindow -->
+<h2><a name=GetSIShowWindow>rkProcess::GetSIShowWindow</a></h2>
+<p>WORD GetSIShowWindow() const</p>
+
+<h3>戻り値</h3>
+<p>設定してある、STARTUPINFO::wShowWindow の値を返します。</p>
+
+<!-- rkProcess::SetSIShowWindow -->
+<h2><a name=SetSIShowWindow>rkProcess::SetSIShowWindow</a></h2>
+<p>VOID SetSIShowWindow(WORD newShowWindow)</p>
+
+<h3>引数</h3>
+<p>新しく設定する STARTUPINFO::wShowWindow の値。
+設定可能な値は、STARTUPINFO を参照してください。</p>
+
+<!-- rkProcess::WaitForInputIdle -->
+<h2><a name=WaitForInputIdle>rkProcess::WaitForInputIdle</a></h2>
+<p>virtual DWORD WaitForInputIdle(DWORD dwMilliseconds = INFINITE)</p>
+
+<h3>引数</h3>
+<dl>
+	<dt><em>dwMilliseconds</em>
+	<dd>タイムアウト時間を、ミリ秒単位で指定します。<br>
+	詳しくは、::WaitForInputIdle API の引数 dwMilliseconds を参照してください。
+</dl>
+
+<h3>戻り値</h3>
+<p>::WaitForInputIdle API の戻り値を参照してください。</p>
+
+<h3>解説</h3>
+<p>Create 実行後、アプリケーションの起動完了を待つことが出来ます。</p>
+
+<!-- rkProcess::WaitForTermination -->
+<h2><a name=WaitForTermination>rkProcess::WaitForTermination</a></h2>
+<p>virtual DWORD WaitForTermination(DWORD dwMilliseconds = INFINITE)</p>
+<h3>引数</h3>
+<dl>
+<dt><em>dwMilliseconds</em>
+<dd>タイムアウト時間を、ミリ秒単位で指定します。<br>
+詳しくは、WaitForSingleObject API の引数 dwMilliseconds を参照してください。
+</dl>
+<h3>戻り値</h3>
+<p>WaitForSingleObject API の戻り値を参照してください。</p>
+<h3>解説</h3>
+<p>アプリケーションの終了を待ちます。Create したアプリケーションを
+アプリケーション同士の取り決めに従って、終了させた後、この関数を使って
+完全に終了するまで待つことが出来ます。</p>
+
+<h2>サンプル</h2>
+
+<pre>
+rkProcess proc;
+if (proc.Create("notepad.exe")) {
+    proc.WaitForInputIdle(3000);
+	
+    SendMessage(proc.GetProcessWindow(), WM_CLOSE, 0, 0);
+    proc.WaitForTermination(3000);
+    proc.Close();
+}
+</pre>
+
+<hr>
+
+<p align="right"><small>新規作成 : 2003/10/16<br>
+連絡先 : <a href="mailto:ry2kojima@halsys.co.jp">小島</a></small></p>
+
+</body>
+</html>

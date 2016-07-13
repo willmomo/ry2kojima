@@ -1,0 +1,415 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="jp.rkojima.sampleaudiomanager.MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btnToggleMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/music" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+				<TextView
+		                android:id="@+id/textView1"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="left|top"
+		                android:text="メディア"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+				<TextView
+				    	android:gravity="right"
+		                android:id="@+id/tvMusic"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="15/15"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+			</LinearLayout>
+			
+            <SeekBar
+                android:id="@+id/sbMusic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDownMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/btnUpMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btnToggleRing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/call" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+				<TextView
+		                android:id="@+id/textView21"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="left|top"
+		                android:text="着信"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+				<TextView
+				    	android:gravity="right"
+		                android:id="@+id/tvRing"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="15/15"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+			</LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbRing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_row="1" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDownRing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/btnUpRing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btnToggleNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notification" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+				<TextView
+		                android:id="@+id/textView31"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="left|top"
+		                android:text="通知"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+				<TextView
+				    	android:gravity="right"
+		                android:id="@+id/tvNotification"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="15/15"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+			</LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_row="1" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDownNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/btnUpNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btnToggleVoiceCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/voice_call" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+				<TextView
+		                android:id="@+id/textView41"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="left|top"
+		                android:text="通話"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+				<TextView
+				    	android:gravity="right"
+		                android:id="@+id/tvVoiceCall"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="15/15"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+			</LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbVoiceCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_row="1" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDownVoiceCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/btnUpVoiceCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btnToggleAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alarm" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+				<TextView
+		                android:id="@+id/textView51"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="left|top"
+		                android:text="アラーム"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+				<TextView
+				    	android:gravity="right"
+		                android:id="@+id/tvAlarm"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="15/15"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+			</LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_row="1" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDownAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/btnUpAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btnToggleSystem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/system" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+				<TextView
+		                android:id="@+id/textView61"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="left|top"
+		                android:text="システム"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+				<TextView
+				    	android:gravity="right"
+		                android:id="@+id/tvSystem"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="15/15"
+		                android:textAppearance="?android:attr/textAppearanceSmall" />
+			</LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbSystem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_row="1" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDownSystem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/btnUpSystem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ToggleButton
+            android:id="@+id/tbRingerNormal"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textOn="Normal"
+            android:textOff="Normal"
+            android:text="Normal" />
+
+        <ToggleButton
+            android:id="@+id/tbRingerSilent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textOn="Silent"
+            android:textOff="Silent"
+            android:text="Silent" />
+
+        <ToggleButton
+            android:id="@+id/tbRingerVibrate"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textOn="Vibrate"
+            android:textOff="Vibrate"
+            android:text="Vibrate" />
+
+    </LinearLayout>
+    
+</LinearLayout>
+</ScrollView>

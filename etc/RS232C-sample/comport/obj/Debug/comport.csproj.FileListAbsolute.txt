@@ -1,0 +1,5 @@
+E:\work\comport\bin\Debug\comport.exe
+E:\work\comport\bin\Debug\comport.pdb
+E:\work\comport\obj\Debug\ResolveAssemblyReference.cache
+E:\work\comport\obj\Debug\comport.exe
+E:\work\comport\obj\Debug\comport.pdb

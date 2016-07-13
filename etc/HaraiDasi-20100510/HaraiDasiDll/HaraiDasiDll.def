@@ -1,0 +1,5 @@
+EXPORTS
+	scriptOpen
+	scriptClose
+	scriptGetLine
+	scriptCompare

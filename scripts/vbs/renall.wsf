@@ -1,0 +1,72 @@
+<package>
+	<job id="renall">
+		<runtime>
+			<named name="p" helpstring="検索するパス" type="string" />
+			<named name="s" helpstring="サブフォルダまで検索する" />
+			<named name="t" helpstring="リネーム後に重複が発生しないか確認する(テストモード)" />
+			<unnamed name="文字列1" helpstring="変更するファイル名の一部(正規表現)" type="string" required="true" />
+			<unnamed name="文字列2" helpstring="'文字列1' を置き換える文字列" type="string" required="true" />
+		</runtime>
+		<script language="vbscript" src="libvbs/forcecscript.vbs" />
+		<script language="vbscript" src="libvbs/forfiles.vbs" />
+		<script language="vbscript" src="libvbs/filecmp.vbs" />
+		<script language="vbscript">
+			Option Explicit
+			
+			If IsRunningOnCScript = False Then
+				WScript.Quit(ForceOnCScript(Null))
+			End If
+			
+			Function RenameFunc(isdir, path)
+				Dim fso: Set fso = WScript.CreateObject("Scripting.FileSystemObject")
+				Dim reg: Set reg = WScript.CreateObject("VBScript.RegExp")
+				reg.Pattern = mask
+				reg.IgnoreCase = True
+				reg.Global = False
+				
+				Dim newPath: newPath = fso.BuildPath(fso.GetParentFolderName(path), reg.Replace(fso.GetFileName(path), repl))
+				WScript.Echo newPath
+				If isdir Then
+					If WScript.Arguments.Named.Exists("t") Then
+						If fso.FolderExists(newPath) Then
+							WScript.Echo "重複: " & path
+						End If
+					Else
+						fso.MoveFolder path, newPath
+					End If
+				Else
+					If WScript.Arguments.Named.Exists("t") Then
+						If fso.FileExists(newPath) Then
+							WScript.Echo "重複: " & path
+							If FileCmp(path, newPath) Then
+								WScript.Echo "同じファイル"
+							Else
+								WScript.Echo "違うファイル"
+							End IF
+						End If
+					Else
+						fso.MoveFile path, newPath
+					End If
+				End If
+			End Function
+			
+			If WScript.Arguments.Unnamed.Count <> 2 Then
+				WScript.Echo "renall.wsf /? で、オプションを確認してください。"
+				WScript.Quit -1
+			End If
+			
+			' 検索パスを設定
+			' 引数付きの /p オプションの指定がなければ、カレントディレクトリ
+			Dim path: path = WScript.CreateObject("WScript.Shell").CurrentDirectory
+			If WScript.Arguments.Named.Exists("p") Then
+				If Not IsEmpty(WScript.Arguments.Named("p")) Then
+					path = WScript.Arguments.Named("p")
+				End If
+			End If
+			
+			Dim mask: mask = WScript.Arguments.Unnamed(0)
+			Dim repl: repl = WScript.Arguments.Unnamed(1)
+			Call ForFiles(path, mask, True, GetRef("RenameFunc"))
+		</script>
+	</job>
+</package>

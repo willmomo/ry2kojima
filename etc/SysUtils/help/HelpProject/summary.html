@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>概要</title>
+</head>
+<body>
+<h1>概要</h1>
+
+<p>SysUtilsは、C++とVB6で汎用的に使える処理をまとめたものです。</p>
+
+<h2>VB6での使用法</h2>
+
+<p>mdlSysUtils.basを使用したいプロジェクトに追加します。<br>
+参照設定の「Microsoft Scripting Runtime」にチェックを入れます。<br>
+以上で、SysUtilsの関数が使用できるようになります。</p>
+
+<table class="noframe">
+<tr><td class="noframe"><a href="images/summary000.png"><img src="images/summary000m.png" alt="[参照設定]ダイアログの例"></a></td></tr>
+<tr><td class="noframe">図のように、Microsoft Scripting Runtimeにチェックを入れます。</td></tr>
+</table>
+
+<h2>C++での使用法</h2>
+
+<p>SysUtils.cppとSysUtils.hを使用したいプロジェクトに追加します。<br>
+プロジェクトの設定ダイアログを開いて、設定の対象は[すべての構成]を選択。
+[リンク]タブのカテゴリ[一般]を選択して、
+リンクするライブラリにshlwapi.libを追加します。</p>
+
+<table class="noframe">
+<tr><td class="noframe"><a href="images/summary001.png"><img src="images/summary001m.png" alt="[プロジェクトの設定]ダイアログの例"></td></a></tr>
+<tr><td class="noframe">図のように、shlwapi.libをリンクするライブラリに追加します。</td></tr>
+</table>
+
+<p>次に、左のツリーからSysUtils.cppを探して、選択状態にします。<br>
+タブは[C/C++]を選択。カテゴリは[プリコンパイル済みヘッダー]を選択して、[プイコンパイル済みヘッダを使用しない]を選択します。</p>
+
+<table class="noframe">
+<tr><td class="noframe" align="center"><a href="images/summary003.png">
+	<img src="images/summary003m.png" alt="[プロジェクトの設定]ダイアログの例"></a></td></tr>
+<tr><td class="noframe">図のように、[プリコンパイル済みヘッダを使用しない]を選択します。</td></tr>
+</table>
+
+<p>以上で、SysUtilsの関数が使用できるようになります。</p>
+
+</body>
+</html>

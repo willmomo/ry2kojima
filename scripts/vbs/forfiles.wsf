@@ -1,0 +1,66 @@
+<package>
+	<job id="EmptyFolder">
+		<runtime>
+			<description>空のフォルダを列挙します。</description>
+			<named name="p" helpstring="検索するパス" type="string" required="false" />
+			<named name="m" helpstring="検索マスク(正規表現)" type="string" required="false" />
+			<named name="s" helpstring="サブディレクトリも検索" type="simple" required="false" />
+			<named name="delete" helpstring="見つけた空フォルダを削除する" type="simple" required="false" />
+		</runtime>
+		<script language="vbscript" src="forcecscript.vbs" />
+		<script language="vbscript" src="forfiles.vbs" />
+		<script language="vbscript">
+			Option Explicit
+			If Not IsRunningOnCScript Then
+				WScript.Echo "cscriptで動かしてください。"
+				WScript.Quit(1)
+			End If
+			WScript.Echo "Running //job:EmptyFolder"
+			Function FindEmptyFolderFunc(isdir, path)
+				If isdir Then
+					Dim fso: Set fso = WScript.CreateObject("Scripting.FileSystemObject")
+					Dim obj: Set obj = fso.GetFolder(path)
+					If obj.Files.Count = 0 And obj.SubFolders.Count = 0 Then
+						WScript.Echo path
+						If WScript.Arguments.Named.Exists("delete") Then
+							obj.Delete
+						End If
+					End IF
+				End If
+			End Function
+			
+			Dim path, mask, subdir
+			If WScript.Arguments.Named.Exists("p") Then
+				path = WScript.Arguments.Named("p")
+			Else
+				path = WScript.CreateObject("WScript.Shell").CurrentDirectory
+			End If
+			If WScript.Arguments.Named.Exists("m") Then
+				mask = WScript.Arguments.Named("m")
+			Else
+				mask = ""
+			End If
+			If WScript.Arguments.Named.Exists("s") Then
+				subdir = True
+			Else
+				subdir = False
+			End If
+			
+			Call ForFiles(path, mask, subdir, GetRef("FindEmptyFolderFunc"))
+		</script>
+	</job>
+	<job>
+		<script language="vbscript" src="forfiles.vbs" />
+		<script language="vbscript">
+			Option Explicit
+			
+			Function RenameFunc(isdir, path)
+				WScript.Echo isdir, path
+			End Function
+			
+			Dim path: path = "C:\Users\kojima\SkyDrive\tools\ElectronicObserver\KCAPI\resources\swf\ships"
+			Dim mask: mask = "xqjemfzdbjox"
+			Call ForFiles(path, mask, True, GetRef("EchoFunc"))
+		</script>
+	</job>
+</package>

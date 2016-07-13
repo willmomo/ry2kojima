@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja102.htm -->
+<HTML><HEAD><TITLE>C++でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=silver><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C++でCOMクライアント　　２/１０</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>2. 今回のC++クライアントの概要</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja103.htm">[次頁]</A><BR></FONT><BR><FONT 
+      size=3><B>[今回のC言語クライアントの概要]</B></FONT><BR><BR><FONT 
+      size=2><B>・利用するVBコンポーネントについて</B><BR>　今回は、<B>Visual Basic 6.0 の ActiveX 
+      DLL</B> として作成した COMコンポーネントを、 <B>C++クライアントから</B>アクセスしてみます。Visual Basic 
+      で作成した ActiveX 
+      DLLの概要は以下のとおりです。メソッドは、二つの引数を受け取り、加算した結果を戻り値として返します。<BR>　このサンプルは、「C言語で 
+      COMクライアント」コーナーと同じサンプルです。 <BR><BR>　プロジェクトの種類: ActiveX DLL<BR>　プロジェクト名　　: 
+      Project1 (ダウンロード:<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib1/project1.lzh">project1.lzh</A> 
+      同梱のReadMe.txtをお読みください)<BR>　クラスモジュール名: Class1<BR>　メソッド:</FONT> <PRE><FONT style="COLOR: darkblue" size=2>    'メソッドCalc
+    Public Function Calc(ByVal x As Long, ByVal y As Long) As Long
+        Calc = x + y
+    End Function</FONT></PRE><FONT size=2>　これを 
+      COMの観点から見ると、以下の特徴を持つコンポーネントであるといえます。<BR><BR>　ProgID: 
+      Project1.Class1<BR>　<B>クラス名: Class1</B><BR>　クラスID: (Visual 
+      Basicでは見えない)<BR>　<B>インターフェイス: 
+      _Class(dualインターフェイス)</B><BR>　　　　　　　　　　つまり、IDispatchから継承して、Calcメソッドを追加されたインターフェイス<BR><BR>　この 
+      COMコンポーネントに対して、もし <B>VBScriptからアクセスする</B>場合、以下のような記述になります。 </FONT><PRE><FONT style="COLOR: darkblue" size=2>    'インスタンスの作成と呼び出し
+    Dim obj, x, y, z
+    Set obj = CreateObject("Project1.Class1")  'インスタンスの作成、Project1.Class1 は ProgID
+    x = 10
+    y = 20
+    z = obj.Calc( x, y ) 'メソッドの呼び出し
+    Set obj = Nothing    'インスタンスの破棄</FONT></PRE><FONT size=2>　この 
+      VBScriptと同様のアクセスを <B>C++</B> から行ってみます。<BR>　今回のコードでは、スマートポインタやATLの背後に隠れる 
+      <B>COMを理解することが目的</B>なので、スマートポインタもATLも利用していません。<BR>　今回の内容を理解して上で、Visual 
+      C++が生成するスマートポインタ定義を見ると、スマートポインタが何をしているか理解する上での助けにもなります。<BR><BR></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja101.htm">[前頁]</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja103.htm">[次頁]</A><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <FONT 
+size=2>(サンプルコードの加工、利用は可)</FONT> <!-- Normal Footer --><LEFT><FONT 
+size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

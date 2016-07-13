@@ -1,0 +1,532 @@
+// Created by Microsoft (R) C/C++ Compiler Version 12.00.9782.0 (a642ec40).
+//
+// basp21.tli
+//
+// Wrapper implementations for Win32 type library basp21.dll
+// compiler-generated file created 01/26/06 at 10:46:43 - DO NOT EDIT!
+
+#pragma once
+
+//
+// interface IBasp21 wrapper method implementations
+//
+
+inline _variant_t IBasp21::Split ( _bstr_t regstr, _bstr_t target, long limit ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_Split(regstr, target, limit, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _bstr_t IBasp21::Match ( _bstr_t regstr, _bstr_t target ) {
+    BSTR _result;
+    HRESULT _hr = raw_Match(regstr, target, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IBasp21::Replace ( _bstr_t regstr, _bstr_t target ) {
+    BSTR _result;
+    HRESULT _hr = raw_Replace(regstr, target, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IBasp21::Translate ( _bstr_t regstr, _bstr_t target, VARIANT * out ) {
+    long _result;
+    HRESULT _hr = raw_Translate(regstr, target, out, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IBasp21::SendMail ( _bstr_t server, _bstr_t to, _bstr_t from, _bstr_t subj, _bstr_t body, _bstr_t file ) {
+    BSTR _result;
+    HRESULT _hr = raw_SendMail(server, to, from, subj, body, file, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IBasp21::FileCheck ( _bstr_t fname ) {
+    long _result;
+    HRESULT _hr = raw_FileCheck(fname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IBasp21::Sort ( VARIANT * pVal, long asdes, long offset, long length ) {
+    long _result;
+    HRESULT _hr = raw_Sort(pVal, asdes, offset, length, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t IBasp21::ReadDir ( _bstr_t dirname ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_ReadDir(dirname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _bstr_t IBasp21::Space ( ) {
+    BSTR _result;
+    HRESULT _hr = raw_Space(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IBasp21::IsNum ( _bstr_t str ) {
+    long _result;
+    HRESULT _hr = raw_IsNum(str, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IBasp21::strftime ( _bstr_t format ) {
+    BSTR _result;
+    HRESULT _hr = raw_strftime(format, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _variant_t IBasp21::FGrep ( _bstr_t fname, _bstr_t regstr, long max, long opt ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_FGrep(fname, regstr, max, opt, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _bstr_t IBasp21::RepTagChar ( _bstr_t str ) {
+    BSTR _result;
+    HRESULT _hr = raw_RepTagChar(str, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _variant_t IBasp21::BinaryRead ( _bstr_t fname ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_BinaryRead(fname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _bstr_t IBasp21::HAN2ZEN ( _bstr_t str ) {
+    BSTR _result;
+    HRESULT _hr = raw_HAN2ZEN(str, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IBasp21::sprintf ( _bstr_t format, const _variant_t & args ) {
+    BSTR _result;
+    HRESULT _hr = raw_sprintf(format, args, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IBasp21::SendMailEx ( _bstr_t logfile, _bstr_t server, _bstr_t to, _bstr_t from, _bstr_t subj, _bstr_t body, _bstr_t file ) {
+    BSTR _result;
+    HRESULT _hr = raw_SendMailEx(logfile, server, to, from, subj, body, file, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline HRESULT IBasp21::Debug ( const _variant_t & vstr, long opt ) {
+    HRESULT _hr = raw_Debug(vstr, opt);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IBasp21::StrConv ( _bstr_t str, long conv ) {
+    BSTR _result;
+    HRESULT _hr = raw_StrConv(str, conv, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IBasp21::FormSaveAs ( const _variant_t & array, _bstr_t formname, _bstr_t fpath ) {
+    long _result;
+    HRESULT _hr = raw_FormSaveAs(array, formname, fpath, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IBasp21::Form ( const _variant_t & array, _bstr_t formname, long type ) {
+    BSTR _result;
+    HRESULT _hr = raw_Form(array, formname, type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _variant_t IBasp21::FormBinary ( const _variant_t & array, _bstr_t formname ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_FormBinary(array, formname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long IBasp21::BinaryWrite ( const _variant_t & array, _bstr_t fpath, long mode ) {
+    long _result;
+    HRESULT _hr = raw_BinaryWrite(array, fpath, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IBasp21::FormFileName ( const _variant_t & array, _bstr_t formname, long type ) {
+    BSTR _result;
+    HRESULT _hr = raw_FormFileName(array, formname, type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IBasp21::FormFileSize ( const _variant_t & array, _bstr_t formname ) {
+    long _result;
+    HRESULT _hr = raw_FormFileSize(array, formname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t IBasp21::ReadMail ( const _variant_t & filename, _bstr_t para, _bstr_t dirname ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_ReadMail(filename, para, dirname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _variant_t IBasp21::RcvMail ( _bstr_t svname, _bstr_t user, _bstr_t pass, _bstr_t command, _bstr_t dirname ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_RcvMail(svname, user, pass, command, dirname, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long IBasp21::Execute ( _bstr_t cmd, long mode, VARIANT * psdout ) {
+    long _result;
+    HRESULT _hr = raw_Execute(cmd, mode, psdout, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IBasp21::KconvFile ( _bstr_t infile, _bstr_t outfile, long outtype, long intype ) {
+    long _result;
+    HRESULT _hr = raw_KconvFile(infile, outfile, outtype, intype, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t IBasp21::Kconv ( const _variant_t & indata, long outtype, long intype ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_Kconv(indata, outtype, intype, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _variant_t IBasp21::BinaryConcat ( const _variant_t & a, const _variant_t & b ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_BinaryConcat(a, b, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _variant_t IBasp21::SplitB ( _bstr_t regstr, const _variant_t & target, long limit ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_SplitB(regstr, target, limit, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long IBasp21::DebugClear ( ) {
+    long _result;
+    HRESULT _hr = raw_DebugClear(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t IBasp21::ByteArray ( _bstr_t data, long mode ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_ByteArray(data, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _variant_t IBasp21::MatchEx ( _bstr_t regstr, _bstr_t target, long mode ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_MatchEx(regstr, target, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _variant_t IBasp21::Counter ( _bstr_t para, long ctr ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_Counter(para, ctr, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _bstr_t IBasp21::Version ( long type ) {
+    BSTR _result;
+    HRESULT _hr = raw_Version(type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _bstr_t IBasp21::Base64 ( _bstr_t str, long mode ) {
+    BSTR _result;
+    HRESULT _hr = raw_Base64(str, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IBasp21::W3get ( _bstr_t arg ) {
+    long _result;
+    HRESULT _hr = raw_W3get(arg, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IBasp21::GetTempFile ( _bstr_t dir ) {
+    BSTR _result;
+    HRESULT _hr = raw_GetTempFile(dir, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _variant_t IBasp21::MidB ( const _variant_t & str, long start, long len ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_MidB(str, start, len, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long IBasp21::MatchB ( _bstr_t regstr, const _variant_t & target ) {
+    long _result;
+    HRESULT _hr = raw_MatchB(regstr, target, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t IBasp21::SortMail ( _bstr_t dir, _bstr_t header, long opt, _bstr_t filter, long del ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_SortMail(dir, header, opt, filter, del, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline HRESULT IBasp21::Sleep ( long sec ) {
+    HRESULT _hr = raw_Sleep(sec);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IBasp21::MD5 ( _bstr_t str, long type ) {
+    BSTR _result;
+    HRESULT _hr = raw_MD5(str, type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline _variant_t IBasp21::Execute2 ( _bstr_t cmd, long mode ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_Execute2(cmd, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long IBasp21::GetResult ( ) {
+    long _result;
+    HRESULT _hr = get_Result(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IBasp21::GetCodePage ( ) {
+    long _result;
+    HRESULT _hr = get_CodePage(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IBasp21::PutCodePage ( long pVal ) {
+    HRESULT _hr = put_CodePage(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IBasp21::FlushMail ( _bstr_t server, _bstr_t maildir, _bstr_t logfile ) {
+    long _result;
+    HRESULT _hr = raw_FlushMail(server, maildir, logfile, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+//
+// interface ISocket wrapper method implementations
+//
+
+inline long ISocket::Connect ( _bstr_t svr, long port, long timeout ) {
+    long _result;
+    HRESULT _hr = raw_Connect(svr, port, timeout, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long ISocket::ReadLine ( VARIANT * data ) {
+    long _result;
+    HRESULT _hr = raw_ReadLine(data, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long ISocket::Write ( const _variant_t & data ) {
+    long _result;
+    HRESULT _hr = raw_Write(data, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long ISocket::WriteHex ( _bstr_t data ) {
+    long _result;
+    HRESULT _hr = raw_WriteHex(data, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long ISocket::Read ( VARIANT * data, long mode ) {
+    long _result;
+    HRESULT _hr = raw_Read(data, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long ISocket::Close ( ) {
+    long _result;
+    HRESULT _hr = raw_Close(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t ISocket::Read2 ( long mode ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_Read2(mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline _variant_t ISocket::ReadLine2 ( ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_ReadLine2(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long ISocket::GetResult ( ) {
+    long _result;
+    HRESULT _hr = get_Result(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+//
+// interface IFTP wrapper method implementations
+//
+
+inline long IFTP::Connect ( _bstr_t svr, _bstr_t user, _bstr_t pass ) {
+    long _result;
+    HRESULT _hr = raw_Connect(svr, user, pass, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::Close ( ) {
+    long _result;
+    HRESULT _hr = raw_Close(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::GetFile ( _bstr_t remote, _bstr_t local, long type ) {
+    long _result;
+    HRESULT _hr = raw_GetFile(remote, local, type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::OpenLog ( _bstr_t file, long mode ) {
+    long _result;
+    HRESULT _hr = raw_OpenLog(file, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::PutFile ( _bstr_t local, _bstr_t remote, long type ) {
+    long _result;
+    HRESULT _hr = raw_PutFile(local, remote, type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::DeleteFile ( _bstr_t remote ) {
+    long _result;
+    HRESULT _hr = raw_DeleteFile(remote, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::CloseLog ( ) {
+    long _result;
+    HRESULT _hr = raw_CloseLog(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IFTP::RenameFile ( _bstr_t oldfile, _bstr_t newfile ) {
+    long _result;
+    HRESULT _hr = raw_RenameFile(oldfile, newfile, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _variant_t IFTP::GetDir ( _bstr_t remote, long mode ) {
+    VARIANT _result;
+    VariantInit(&_result);
+    HRESULT _hr = raw_GetDir(remote, mode, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _variant_t(_result, false);
+}
+
+inline long IFTP::command ( _bstr_t cmd ) {
+    long _result;
+    HRESULT _hr = raw_command(cmd, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IFTP::GetReply ( ) {
+    BSTR _result;
+    HRESULT _hr = raw_GetReply(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline long IFTP::PutToday ( _bstr_t local, _bstr_t remote, long type ) {
+    long _result;
+    HRESULT _hr = raw_PutToday(local, remote, type, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}

@@ -1,0 +1,1380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META name="GENERATOR" content="IBM HomePage Builder 2001 V5.0.4.1 for Windows">
+<TITLE></TITLE>
+<LINK rel="stylesheet" href="http://www.microware.ne.jp/support/technical/syscall_samples/hpbsite.css" type="text/css">
+</HEAD>
+<BODY>
+<H1 align="center">OS-9サンプルプログラム集</H1>
+<P align="right">日本ラディシス株式会社<BR>
+最終更新日：'02-5-20</P>
+<P align="center">＜＜目次＞＞</P>
+<UL>
+  <LI><A href="#SEC1">はじめに</A>
+  <UL>
+    <LI><A href="#SEC2">目的</A>
+    <LI><A href="#SEC3">想定する読者</A>
+    <LI><A href="#SEC4">検証動作環境</A>
+    <LI><A href="#SEC5">使用上の注意</A>
+  </UL>
+  <LI><A href="#SEC6">前準備・特記事項</A>
+  <UL>
+    <LI><A href="#SEC7">前準備</A>
+    <LI><A href="#SEC8">特記事項</A>
+  </UL>
+  <LI><A href="#SEC9">ダウンロード</A>
+  <UL>
+    <LI><A href="#SEC10">ディレクトリ構成</A>
+  </UL>
+  <LI><A href="#SEC11">サンプルプログラム例</A>
+  <UL>
+    <LI><A href="#SEC12">サンプル凡例</A>
+    <UL>
+      <LI><A href="#SEC13">実行したい内容</A>
+    </UL>
+    <LI><A href="#SEC14">プロセス操作</A>
+    <UL>
+      <LI><A href="#SEC15">子プロセスをforkするには？</A>
+      <LI><A href="#SEC16">プロセスのプライオリティ（優先度）を変更するには？</A>
+    </UL>
+    <LI><A href="#SEC17">プロセス間通信</A>
+    <UL>
+      <LI><A href="#SEC18">シグナルの使い方は？</A>
+      <LI><A href="#SEC19">シグナルハンドラ実行中にシグナルを受信したらどうなる？</A>
+      <LI><A href="#SEC20">シグナルを送りたいプロセスのIDを知るには？</A>
+      <LI><A href="#SEC21">イベントの使い方は？</A>
+      <LI><A href="#SEC22">セマフォの使い方は？</A>
+      <LI><A href="#SEC23">パイプでデータを受け渡しするには？</A>
+    </UL>
+    <LI><A href="#SEC24">I/O</A>
+    <UL>
+      <LI><A href="#SEC25">シリアルポートを使って通信するには？</A>
+      <LI><A href="#SEC26">シリアル通信で表示が止まるのを解除するには？</A>
+      <LI><A href="#SEC27">相手が送ったデータが相手にエコーされるのを止めるには？</A>
+      <LI><A href="#SEC28">バイナリデータの通信をすると通信が止まってしまう。</A>
+      <LI><A href="#SEC29">ボーレートなど設定を変更するには？</A>
+      <LI><A href="#SEC30">受信データがあるか確認してから読み込みを行いたい</A>
+      <LI><A href="#SEC31">他の処理をしておき、データを受信したら読み込みを行いたい</A>
+      <LI><A href="#SEC32">一定時間内に入力があったかどうかを知りたい</A>
+      <LI><A href="#SEC33">1プロセスがオープンできるI/Oの最大パス数を増やすには？</A>
+      <LI><A href="#SEC34">ディレクトリ内のファイルの一覧を取得したい</A>
+    </UL>
+    <LI><A href="#SEC35">モジュール</A>
+    <UL>
+      <LI><A href="#SEC36">モジュールをロードするには？</A>
+      <LI><A href="#SEC37">プロセス間でデータ領域を共有したい（データモジュールの使い方）</A>
+    </UL>
+    <LI><A href="#SEC38">その他</A>
+    <UL>
+      <LI><A href="#SEC39">システムをリセットするには？</A>
+      <LI><A href="#SEC40">現在の日時を知るには？</A>
+    </UL>
+  </UL>
+</UL>
+<P><BR>
+<BR>
+</P>
+<H2><A name="SEC1">はじめに</A></H2>
+<H4><A name="SEC2">目的</A></H4>
+<P>本サンプル集はOS-9の各種システムコールを使用したサンプルプログラムの例を集めたものです。具体的な操作内容に対応する完結したサンプルプログラムを提供することで、実際のアプリケーションを作成する際のプロトタイピングに適用できることを目指して作成されています。サンプル例は今後も追加される予定です。</P>
+<H4><A name="SEC3">想定する読者</A></H4>
+<P>OS-9ユーザでOS-9によるアプリケーションプログラミングを予定しており、OS-9について基本的な知識を有している読者（少なくともOS-9システムを起動したことがある、いくつかシェル上でプログラムを実行したことがある、Hawk
+によるリモートデバッグを実行したことがある程度）。</P>
+<H4><A name="SEC4">検証動作環境</A></H4>
+<UL>
+  <LI>ホスト：PC/AT互換機 AMD Athlon 700MHz 256MBメモリ、Microsoft
+  Windows2000 Professional
+  <LI>ターゲット：Hitachi Solution Engine MS7750SE01
+  (SH-4 200MHz)
+  <LI>OS-9 Embedded Systems for SH-4 V3.0
+</UL>
+<H4><A name="SEC5">使用上の注意</A></H4>
+<P>本サンプル集は、当社における実機上の環境で動作確認をしていますが、すべてのOS-9のバージョンで確認をしているわけではありません。また、本サンプルを利用してプログラムを作成して戴くのは自由ですが、ユーザ様で作成したプログラムの動作保証をしているものではありません。<BR>
+なお、本サンプルの内容に関するご質問、問い合わせは受付けておりませんのであらかじめご了承ください。</P>
+<H2><A name="SEC6">前準備・特記事項</A></H2>
+<H4><A name="SEC7">前準備</A></H4>
+<P>サンプルプログラムの実行にあたり、OS-9ターゲットボードの設定を行っておきます。OS-9が起動し、ネットワークが利用できる状態になっていることを確認してください。ターゲット上にATA
+FLASH などのファイルシステムがあるのが望ましい環境です。これはサンプルプログラムによってはファイルシステムを使用するものがあること、ファイルシステム上にエラーメッセージ定義ファイルがあると動作検証時に有用であるためです。ファイルシステムが無い場合はRAMディスクを作成して利用することもできます。<BR>
+Hawkによるデバッグを行う場合、ターゲットに</P>
+<UL>
+  <LI>spfndpd, spfndpdc, pk, pkman, pkdvr 
+</UL>
+<P>モジュールが必要ですので、ブートファイルに含めておいてください。さらに</P>
+<PRE>$ spfndpd&lt;&gt;&gt;&gt;/nil&amp;</PRE>
+<P>を実行してHawkデバッガデーモンを起動しておくことでターゲットの接続準備は完了です。</P>
+<P>※システムのデフォルトデバイス（/dd）上にエラーメッセージ定義ファイルがあると、システムコールでエラーがあった場合にエラーコード以外に具体的なエラー内容を知ることができます。具体的にはホスト（PC）上の
+MWOS/OS9000/SRC/SYS/errmsg ファイルを、ターゲットのファイルシステム上の
+/dd/SYS/errmsg にコピーします。/dd はデフォルトデバイスであり、実際には
+/mhc1 などのデバイスに相当します。デフォルトデバイスを確認するにはターゲット上で</P>
+<PRE>$ dir /dd</PRE>
+<P>を実行してください。エラー（000:221 Module
+Not Found.）になる場合</P>
+<PRE>$ alias /dd /mhc1</PRE>
+<P>を実行してエイリアスを作成します。後はその下に
+SYS ディレクトリを作成してさらにその下に
+errmsg をコピーします。</P>
+<H4><A name="SEC8">特記事項</A></H4>
+<UL>
+  <LI>サンプルプログラム中の CHECK() マクロはシステムコールのエラーをチェックし、エラーであればメッセージを表示するマクロです。あくまでエラー表示のみであり、エラー対応処理などは含まれていない点に注意してください。これはサンプルとしてのソースをなるべく簡単にするためです。具体的にどんなエラーになるかを確認した上でエラー処理を盛り込んでいくようにしてください。<BR><BR>
+  <LI>サンプルプログラムは単体で実行できますが、単に実行してもあまり意味のあるメッセージは得られません。具体的な処理についてはソースを参照して動作を理解してください。<BR>
+  <BR>
+  <LI>サンプルによっては Hawk で実行状態を変えるため、Hawk
+  の使い方に慣れておいてください。特に
+  <UL>
+    <LI>ブレークポイントの設定方法
+    <LI>変数の書き換え方法
+  </UL>
+  ができるようにしてください。<BR>
+  <BR>
+  <LI>Hawk ではプログラムの実行途中でも Refork
+  (矢印が戻っているアイコン）を行えばプログラムの先頭から再び実行できます。<BR>
+  <BR>
+  <LI>exit() まで実行したプログラムは Refork しないと再び実行することはできません。<BR>
+  <BR>
+  <LI>printf の出力はバッファリングされるため、場合によっては表示されるタイミングとプログラムのステップ実行とが一致しない場合があります。<BR>
+  <BR>
+  <LI>サンプルによっては Hawk のコンポーネントのプロパティを変更しているものがあります（使用するライブラリ、コンパイルオプションなど）。独自に作成したコンポーネントで見たことのないエラーになる場合は、サンプルのコンポーネントのプロパティと比較してみてください。</UL>
+<H2><A name="SEC9">ダウンロード</A></H2>
+<P>以下のリンクから全サンプルソースおよびプログラムをダウンロードすることができます。</P>
+<P><A href="http://www.microware.ne.jp/support/technical/syscall_samples/SYSCALL.zip">OS-9サンプルプログラムZIPファイル</A>　（約640KB）</P>
+<H4><A name="SEC10">ディレクトリ構成</A></H4>
+<PRE>SYSCALL ----- CMDS       : サンプルプログラムオブジェクトの格納ディレクトリ
+         |--- PROJECT    : 全サンプルプログラムのプロジェクトファイル
+         |--- RELS       : ビルド用中間ファイルの格納ディレクトリ
+         |--- SRC        : 各種サンプルプログラム
+         |--- index.html : 本ファイル</PRE>
+<P>ダウンロードしたファイルは C:\SYSCALL の下に展開されることを前提で作成されています。異なるディレクトリに展開する場合は、<A href="http://www.microware.ne.jp/support/technical/os9faq.html">OS-9 FAQ</A> にある Hawk のプロジェクトファイルの移動
+を参照してください。</P>
+<P>Hawk では、SYSCALL/PROJECT の下にある samples.psp
+を読み込むことで、各種サンプルプログラムをコンパイル・リンク・ダウンロードすることができます。</P>
+<H2><A name="SEC11">サンプルプログラム例</A></H2>
+<P>下記はサンプルプログラムの凡例の説明である。</P>
+<H3><A name="SEC12">サンプル凡例</A></H3>
+<H4><A name="SEC13">実行したい内容</A></H4>
+<TABLE border="1">
+  <CAPTION>例：モジュール名<IMG src="file_icon.gif" width="24" height="24" border="0"><BR>
+  （ファイルアイコンで、該当するサンプルソースのディレクトリに移動する）</CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="86%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD align="center">＜サンプルの動作が記載されている＞</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD align="center">＜サンプル中で使用している主要なシステムコールを表す＞</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD align="center">＜サンプルの実行方法、動作確認の方法・ポイント、注意事項などがまとめられている＞</TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P><BR><BR>
+</P>
+<H3><A name="SEC14">プロセス操作</A></H3>
+<H4><A name="SEC15">子プロセスをforkするには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例１：fork_cmd <A href="SRC/00147_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" ALT="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="86%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>親プロセスから子プロセスを生成する。ここでは子プロセスとして
+      procs コマンドを実行する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_exec(), _os_fork(), _os_wait()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>_os_exec()の前にブレークポイントを設定し、各種変数を書き換えてforkさせてみる。
+      <UL>
+        <LI>実行される procs コマンドを存在しないモジュールにしてみる（ソースを書き換えて再コンパイルすること。実行中にargを書き換えようとしてもできない点に注意）。<BR>
+        →000:216 のエラーになるはずである。当然子プロセスの生成に失敗しているので、その後の_os_wait()も失敗する。<BR>
+        <BR>
+        <LI>子プロセスに引き継ぐパス数（pathcnt）を2、または1にした時、画面の表示がどうなるか。（ヒント：プロセスはデフォルトで標準入力、標準出力、標準エラー出力の3つのパスを持っている。）<BR>
+        →何も表示されない。これは標準出力が子プロセスに引き継がれないためプロセスI/Oに何も表示されない。<BR><BR>
+        <LI>オーファンプロセス（orphan）を1にて生成した時の
+        procs表示のId、PId の値を確認する。<BR>→fork_cmd が生成した procs コマンドのPId（親プロセスID）は0になる。これは親がいないプロセスを表わす。子プロセスは切り離された存在となるため、_os_wait()は失敗する。</UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P><BR>
+</P>
+<TABLE border="1">
+  <CAPTION>例２：fork_child, fork_parent <A href="SRC/00147_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>親プロセスから子プロセスを生成する。与えられた引数と環境変数を表示する簡単なプログラムを子プロセスとして実行する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_exec(), _os_fork(), _os_wait()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>fork_child, fork_parent をターゲットに loadしておく。
+      <UL>
+        <LI>fork_parent モジュールを実行し、fork_childが表示する_environ の値を確認する。Hawkデバッガから実行した場合と、シェルプロンプト上（コンソール）から実行した場合でどのように変わるか。<BR>
+        →Hawkデバッガから実行した場合 _environには何も設定されないが、シェル上から実行した場合SHELL環境変数などが設定されることが確認できる。シェル上で
+        printenv コマンドを実行してみると良い。<BR><BR>
+        <LI>fork_child モジュールをシェル上から直接実行したらどうなるか。適当に引数も指定してみる。<BR>
+        →fork_child に渡した引数が確認できる。実行後
+        &quot;Error #000:456&quot;と表示されるのは、fork_child
+        の最終行 exit(456); による。通常、コマンド正常終了時のステータスは0であり、シェルは0以外はエラーと見なすため、このように表示される。fork_parent
+        から実行した場合は_os_wait()でfork_child
+        の終了ステータスがそのまま得られ、エラーにはならない点にも注意すること。つまり、子プロセスの終了ステータスは完全にアプリケーション依存であり、どのような値で終了してもかまわない。<BR><BR>
+        <LI>fork_parent の _os_wait()にブレークポイントを設定して実行した後、コンソール上で
+        procs コマンドを実行してみる。<BR>
+        →以下の表示が確認できる。
+        <PRE> Id PId Thd Grp.Usr  Prior  MemSiz Sig S    CPU Time   Age Module &amp; I/O
+                                     :
+  7   5   1   0.0     128   16.00k   0 d        0.00  0:00 fork_parent &lt;&gt;&gt;&gt;pks01
+  8   7   1   0.0     128    0.00k   0 -        0.00  0:00 &lt;none&gt;
+  9   4   1   0.0     128   56.00k   0 *        0.00  0:00 procs &lt;&gt;&gt;&gt;term</PRE>この &lt;none&gt;とは、fork_parent によって生成されたfork_child
+        プロセスである。fork_child 内には待ち合わせ処理は無く、実行されるとすぐに終了する。fork_parent
+        プロセスは_os_wait()を発行する前の状態で停止しているわけだが、この状態の子プロセス、すなわち親プロセスが_os_wait()を発行する前に子プロセスが終了した状態の子プロセスをゾンビ（zombie）プロセスと呼ぶ。この状態を解消するには親プロセスが_os_wait()を発行する。デバッガでstep
+        実行した後、再度コンソール上でprocs を実行すると、ゾンビプロセスが消滅したことが確認できる。</UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC16">プロセスのプライオリティ（優先度）を変更するには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：setprio <A href="SRC/00147_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>親プロセスから sleep コマンドを子プロセスとして生成し、親プロセスは自分自身と子プロセスのプロセス優先度をそれぞれ変更する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_exec(), _os_fork(), _os_wait(), os_id(),
+      _os_setpr()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>setprio をターゲットにロードし、コンソールからバックグラウンドで実行する。
+      <PRE>$ setprio &amp;</PRE>
+      この後すぐに procs を実行する。<BR>
+      →setprio プロセスと sleep コマンドの優先度がそれぞれ
+      200、100 に変更されていることが確認できる。</TD></TR></TBODY></TABLE>
+<H3><A name="SEC17">プロセス間通信</A></H3>
+<H4><A name="SEC18">シグナルの使い方は？</A></H4>
+<TABLE border="1">
+  <CAPTION>例１：sig_send, sig_recv <A href="SRC/IPC/00522_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>シグナルハンドラを登録したプログラムにシグナルを送ってみる。プログラムは60秒間スリープ動作を行うので、その間にシグナルを送るとどのように動作するかを確認する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_intercept(), _os_rte(), _os_sleep(),
+      _os_send()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>sig_send, sig_recv をターゲットにロードし、コンソールからバックグラウンドで実行する。
+      <PRE>$ sig_recv &amp;</PRE>
+      <UL>
+        <LI>この後（60秒以内に） sig_recv に sig_send
+        を使用してシグナルを送る。下記はプロセス番号が3の
+        sig_recv にシグナル番号1000を送る場合。
+        <PRE>$ sig_send 1000 3
+（何度か繰り返し実行してみる）</PRE>
+        ticks に残りのスリープtick 数が格納されて_os_sleep()
+        から復帰し、かつ sigcount がインクリメントされることでシグナルハンドラが実行されたことが確認できる。注意する点として、
+        <UL>
+          <LI>tick とはOS-9システムの最小スケジューリング単位。デフォルトは
+          10ms/1tick（=1秒間に100 tick ）。この値は
+          init モジュールで変更することができる（詳細はユーザーズマニュアルを参照）。ただしシステムによって1
+          tick が何ms に相当するかは変わり得るため、秒単位で待ち合わせを行いたい場合は
+          sig_recv の例のように 最上位ビット（0x80000000）を立て、必要な秒数に
+          256 を掛けた値を tick として用いる。
+          <LI>ticks は値渡しではなくアドレス渡しであり、入出力両方の引数として使用される。sig_recv
+          では ticks に値を再代入することなく　_os_sleep()
+          を呼び出しているため、何度シグナルを送ったとしても初期値で設定した60秒後には必ず
+          tick は0 となり、この後無期限にスリープする。<BR><BR>
+        </UL>
+        <LI>sig_recv を実行した後、何もしないで60秒待ってみる。はじめに実行される
+        _os_sleep() は期限付きスリープのため、60病後に自動的に
+        _os_sleep() から復帰する。この時の
+        signal
+        の値は（シグナルを受けていないので）0
+        となる。<BR><BR>
+        <LI>9999番のシグナルを送ると sig_recv は終了する。
+        <PRE>$ sig_send 9999 3</PRE>
+        <LI>sig_recv を実行した後、システム・アボートシグナル（強制終了シグナル。シグナル番号４）を送る。
+        <PRE>$ sig_send 4 3</PRE>シグナルハンドラは実行されず、プロセスは強制的に終了される。
+      </UL>
+      ※シグナル使用全般の注意点
+      <UL>
+        <LI>シグナルハンドラ内では printf() などのI/Oを伴うCライブラリは使用できない。
+        <LI>_os_intercept()でシグナルハンドラを登録した場合、シグナルハンドラからの復帰には
+        _os_rte() を使用する。簡易な引数で同様なことを実現する
+        intercept() を使用した場合は _os_rte()を呼ぶ必要はない。
+        <LI>signal() はシグナル番号毎にシグナルハンドラを登録することができる。この場合も_os_rte()を呼ぶ必要はない。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC19">シグナルハンドラ実行中にシグナルを受信したらどうなる？</A></H4>
+<TABLE border="1">
+  <CAPTION>例２：sig_recurs, sig_send <A href="SRC/IPC/00522_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>シグナルハンドラを登録したプログラムにシェルからシグナルを送ってみる。プログラムは故意にシグナルハンドラ内で時間のかかる処理を行う。シグナルハンドラ実行中にシグナルを受信したらどうなるかを確認する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_intercept(), _os_rte(), _os_sleep(),
+      os_send()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>sig_recurs, sig_send をターゲットにロードし、コンソールからバックグラウンドで実行する。
+      <PRE>$ sig_recurs &amp;</PRE>
+      <UL>
+        <LI>この後 sig_recurs に sig_send を使用してシグナルを数回送る。下記はsig_test
+        のプロセス番号が3の場合。シェルに mshell
+        を使っている場合は CTRL+A を押すと直前のコマンドを再入力できるので活用すると良い。この例ではシグナルハンドラ内の処理で時間が掛かることを模擬するために
+        for 文によるループを行っている。このループ値はシステムによっては速すぎたり長すぎたりする場合があるので必要に応じて調整する。
+        <PRE>$ sig_send 1000 3
+$ sig_send 1000 3
+$ sig_send 1000 3
+   ＜待つ＞</PRE>
+        <UL>
+          <LI>2回目以降のシグナルはすぐに受信されずにキューイングされるが、最終的に全てのシグナルが実行されたことが
+          sigcount の値で確認できる。
+          <LI>_os_sleep() から返る signal の値は一番始めに送信したシグナル番号であり、キューイングされた分のシグナル番号は（_os_sleep()
+          の戻り値では）わからない点に注意する（必要ならそれらはシグナルハンドラ内で確認すること）。
+          <LI>シグナルのキュー個数はinit モジュールの初期値に従う。デフォルトは32。キュー
+          を超えた分のシグナルは捨てられる。
+        </UL></UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC20">シグナルを送りたいプロセスのIDを知るには？</A></H4>
+<P>これにはいくつか方法があり、UNIXのようにファイルシステム上にプロセスIDを格納したファイル（～.pidなど）経由で読み書きする、イベントに値を書いて読み書きする、などの手法がある。</P>
+<TABLE border="1">
+  <CAPTION>例１：sig_send_file, sig_recv_file <A href="SRC/IPC/00522_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>シグナルを受信するプロセスがデフォルトデバイス（/dd）上のファイルに自プロセスIDを書き込み、それを送信側で読み出してシグナルを送信する。（デフォルトデバイスはウィザードでRAMディスクやFLASHカードに設定することができる。）</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_intercept(), _os_rte(), _os_sleep(),
+      _os_id(), fopen(), fprintf(), fclose()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>sig_recv_file, sig_send_file をターゲットにロードする。
+      <UL>
+        <LI>コンソールからバックグラウンドで sig_recv_file
+        を実行する。
+        <PRE>$ sig_recv_file &amp;</PRE>
+        表示されたプロセス番号とファイルに書き込まれたプロセス番号が
+        procs コマンドの表示と一致することを確認した後、sig_send_file
+        を実行する。
+        <PRE>$ sig_send_file 1000 &amp;</PRE>
+        正しくシグナルが送られることを確認する。<BR><BR>
+        <LI>複数個、sig_recv_file を実行した後でsig_send_file
+        を実行してみる。
+        <PRE>$ sig_recv_file &amp;
+$ sig_recv_file &amp;
+$ sig_recv_file &amp;
+$ sig_send_file 1000</PRE>sig_recv.pid が最後に実行した sig_recv_file
+        のプロセス番号で上書きされ、sig_send_file
+        がそのプロセスにシグナルを送ることを確認する。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P><BR>
+</P>
+<TABLE border="1">
+  <CAPTION>例２：sig_send_ev, sig_recv_ev <A href="SRC/IPC/00522_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>シグナルを受信するプロセスがイベントを生成し、プロセス番号を直接イベント値として書き込む。送信側はイベント値を直接読み出して送信する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_intercept(), _os_rte(), _os_sleep(),
+      _os_id(), _os_ev_creat(), _os_ev_link(),
+      _os_ev_unlink(), os_ev_set(), _os_ev_read()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>sig_recv_ev, sig_send_ev をターゲットにロードする。
+      <UL>
+        <LI>コンソールからバックグラウンドで sig_recv_ev
+        を実行する。
+        <PRE>$ sig_recv_ev &amp;</PRE>
+        表示されたプロセス番号と events コマンドで表示される現在のイベント値が
+        procs コマンドの表示と一致することを確認した後、sig_send_ev
+        を実行する。
+        <PRE>$ sig_send_ev 1000 &amp;</PRE>
+        正しくシグナルが送られることを確認する。<BR><BR>
+        <LI>複数個、sig_recv_ev を実行した後でsig_send_ev
+        を実行してみる。
+        <PRE>$ sig_recv_ev &amp;
+$ sig_recv_ev &amp;
+$ sig_recv_ev &amp;
+$ sig_recv_ev &amp;
+$ sig_recv_ev &amp;
+$ sig_recv_ev &amp;
+$ sig_send_ev 1000</PRE>sig_event.pid が最後に実行した sig_recv_ev
+        のプロセス番号で上書きされ、sig_send_ev がそのプロセスにシグナルを送ることを確認する。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC21">イベントの使い方は？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ev_sig, ev_wait <A href="SRC/IPC/00167_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>イベントを生成し、イベントの受信、送信を行う。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_ev_creat(), _os_ev_link(), _os_ev_unlink(),
+      _os_ev_signal(), _os_ev_wait()</TD>
+    </TR>
+    <TR>
+      <TD align="center">j確認ポイント</TD>
+      <TD>ev_wait, ev_sig をターゲットに load しておく。
+      <UL>
+        <LI>ev_wait を実行しておく。
+        <PRE>$ ev_wait &amp;</PRE>
+        この後、events コマンド（イベント表示コマンド）を実行すると、event_test
+        というイベントが作成されていることが確認できる。Wait,
+        Signal それぞれのインクリメント値が-1, 1になっているのも確認すること。この後、ev_sig
+        を実行してイベントシグナルを発生させる。
+        <PRE>$ ev_sig event_test</PRE>
+        イベントが送られ、<U>直前の</U>イベント値（０）が表示される。events コマンドを実行して、現在値が変化していることを確認する。再び
+        ev_sig を実行し、直前のイベント値がインクリメントされていることを確認する。さらに
+        ev_sig を実行すると、イベント値が
+        ev_wait
+        でwait しているイベント値（３）の範囲になり、ev_wait
+        がwait 状態から抜ける。ev_wait は最後に作成したイベントを削除する。<BR><BR>
+        <LI>ev_wait を実行していない状態で ev_sig を実行してみる。
+        <PRE>$ ev_sig event_test</PRE>
+        イベントをリンクできない旨のエラーとなる。このように、存在しないイベントをリンクしようとしてもエラーとなる。イベントを利用するにはev_wait
+        で行っているように_os_ev_creat()
+        でイベントを生成する必要がある点に注意すること。この例ではev_sig
+        は必ず ev_wait でイベントが生成されることを期待する作りになっているが、ある一つのイベントを利用する複数のプロセスが存在する時、どちらのプロセスが先にイベントを生成するかのタイミングが不明な場合は、それぞれで
+        _os_ev_link() を実行し、エラーとなるかどうかをチェックした上で
+        _os_ev_creat() を行うようにする。（sig_wait.c
+        を参照）<BR><BR>
+        <LI>ev_wait を実行しておく。
+        <PRE>$ ev_wait &amp;</PRE>
+        この後、ev_wait にシグナル（イベントシグナルではない！）を送ってみる。
+        <PRE>$ procs
+ Id PId Thd Grp.Usr  Prior  MemSiz Sig S    CPU Time   Age Module &amp; I/O
+  2   0   1   0.0     128   24.00k   0 s        0.01   ??? spfndpd &lt;&gt;&gt;&gt;nil
+  3   5   1   0.0     128   16.00k   0 e        0.00  0:00 <B>ev_wait &lt;&gt;&gt;&gt;term</B>
+  4   0   1   0.0     128   20.00k   0 e        0.04   ??? spf_rx
+  5   0   1   0.0     128   40.00k   0 w        0.09   ??? mshell &lt;&gt;&gt;&gt;term
+  6   5   1   0.0     128   56.00k   0 *        0.01  0:00 procs &lt;&gt;&gt;&gt;term
+$    kill -1000 <B>3</B>   ←ev_waitのプロセス番号
+（killコマンドの１つめの引数はシグナル番号を表わす。ここでは値に特に意味はない。）</PRE>ev_wait のシグナルハンドラが実行されたのが確認できる（sigcount
+        がインクリメントされている）。さらに、_os_ev_wait()
+        がシグナルエラーで終了していることも確認できる（ev_wait
+        ではシグナルエラーで_os_ev_wait()が終了した場合、再度_os_ev_wait()
+        を実行するようになっている）。何度か同様にkill
+        コマンドを実行し、その都度 sigcount がインクリメントされていくこと、イベント値に変化はないことなどを確認する。このようにプロセス間通信のシグナルとイベントシグナルは扱いが異なっている点に注意すること。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC22">セマフォの使い方は？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：sem_test <A href="SRC/IPC/00335_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>セマフォを作成し、排他的な処理を模擬するメッセージを出力する。<BR>
+      <BR>
+      ※本サンプルはセマフォの使い方を示すために、作成したセマフォ構造体に絶対アドレスを使用してアクセスするという「行儀の悪い」処理となっている。本来は後述するデータモジュールを使用してアクセスする方法が望ましい。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_sema_init(), _os_sema_p(), _os_sema_v(),
+      _os_sleep(), _os_permit()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>sem_test をターゲットにロードする。
+      <UL>
+        <LI>コンソールからバックグラウンドで sem_test
+        を実行する。実行後、10秒ほど待つ。
+        <PRE>$ sem_test &amp;
++3
+$ start C:\awrk\SYSCALL\SRC\IPC\semaphore\sem_test.c
+  _os_id(&amp;proc_id, &amp;prio, &amp;age, &amp;sche, &amp;group, &amp;user)
+  _os_sema_init(sem)
+    allocated semaphore address = <B>0ffe0ec8</B>
+  _os_sema_p(sem)
+    RESOURCE GET -----------&gt; (3)
+    RESOURCE RELEASE &lt;------- (3)
+  _os_sema_v(sem)
+  _os_sema_p(sem)
+    RESOURCE GET -----------&gt; (3)
+              :</PRE>
+        このメッセージは、排他的に使用したいリソースへのアクセスを模擬したメッセージである。括弧内の数字はプロセス番号を示す。この段階ではまだ他にアクセスするプロセスが存在せず、3番プロセスがリソースの取得・解放を繰返している。上記の&quot;allocated
+        semaphore address = ....&quot;で示されたアドレスが、3番プロセスが持っているセマフォ構造体のアドレスである（この値はシステムによって異なる）。次にもう一つ、sem_test
+        をバックグラウンドで実行する。この時、上記で表示されたセマフォ構造体のアドレスを引数に指定する。
+        <PRE>$ sem_test 0ffe0ec8 &amp;</PRE>
+        通常、OS-9では他のプロセス内の領域を勝手に参照することは許されないため、ここでは引数で指定したセマフォ構造体の領域に
+        _os_permit() によるアクセス許可を行っている（繰返すがこれはセマフォの使用として好ましい方法ではない）。
+        <PRE>start C:\awrk\SYSCALL\SRC\IPC\semaphore\sem_test.c
+  _os_id(&amp;proc_id, &amp;prio, &amp;age, &amp;sche, &amp;group, &amp;user)
+    semaphore address = 0ffe0ec8
+  _os_permit(sem, sizeof(semaphore), MP_WORLD_ACCESS, proc_id)
+  _os_sema_p(sem)
+    RESOURCE RELEASE &lt;------- (3)
+  _os_sema_v(sem)
+    RESOURCE GET -----------&gt; (6)
+  _os_sema_p(sem)
+    RESOURCE RELEASE &lt;------- (6)
+  _os_sema_v(sem)
+    RESOURCE GET -----------&gt; (3)
+  _os_sema_p(sem)
+    RESOURCE RELEASE &lt;------- (3)
+  _os_sema_v(sem)
+    RESOURCE GET -----------&gt; (6)
+  _os_sema_p(sem)
+             :</PRE>
+        メッセージ内容を確認すると、それぞれのプロセスがリソースの取得・解放を交互に行っていることが確認できる。&quot;RESOURCE
+        GET&quot; と &quot;RESOURCE RELEASE&quot;
+        で表示されるプロセス番号は必ず一対になっている点に注意する。さらに多くのプロセスを起動してメッセージを確認してみるのも良い。
+        <PRE>$ sem_test 00ffe0ec8 &amp;
+$ sem_test 00ffe0ec8 &amp;</PRE>
+        <LI>sem_test.c のプログラムソース中の65行目からの
+        <PRE>#if 1
+        ticks = 1;      /* give up time slice */
+        _os_sleep(&amp;ticks, &amp;signal);
+#endif</PRE>
+        という処理を、
+        <PRE>#if 0</PRE>
+        に書き換え（_os_sleep() を止める）、コンパイル・リンクしてターゲットにロードして実行してみる。
+        <PRE>$ sem_test &amp;
+$ sem_test 00ffe0ec8 &amp;</PRE>
+        <PRE>  _os_sema_p(sem)
+    RESOURCE GET -----------&gt; (3)
+    RESOURCE RELEASE &lt;------- (3)
+  _os_sema_v(sem)
+  _os_sema_p(sem)
+    RESOURCE GET -----------&gt; (3)
+            :</PRE>先の例とは異なり、始めに実行したプロセスしかセマフォを取得できない。これは
+        UltraCライブラリ・リファレンス・マニュアル内
+        _os_sema_v() の説明にある通り、_os_sema_v()
+        を実行した後もプロセスに与えられたタイムスライス内で再度
+        _os_sema_p() （52行目）が実行されるため、それ以外のプロセスはいつまで経ってもセマフォを取得することはできない。従って、ループでセマフォ取得・解放を行うようなプログラムを作成する場合はこの例のように明示的にタイムスライスを放棄してやる必要がある。なおこの注意点はセマフォを使用した場合のみであり、イベントを使用する場合はこうした配慮は必要ない。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC23">パイプでデータを受け渡しするには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例１：pipe_read, pipe_write <A href="SRC/IPC/00742_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>名前付きパイプを作成し、データを書き込む。一方のプログラムでパイプからデータを読み出す。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_create(), _os_open(), _os_read(), _os_write()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>pipe_send, pipe_write をターゲットにロードする。
+      <UL>
+        <LI>コンソールからバックグラウンドで pipe_write
+        を実行する。
+        <PRE>$ pipe_write &amp;</PRE>
+        /pipe/test という名前付きパイプが作成され、データが書き込まれるが（それを読み出すプロセスがまだ存在しないので）一時的にパイプのバッファがFULL
+        になり、_os_write() の実行完了待ちとなる。
+        <PRE>$ dir -e /pipe
+$ procs -a</PRE>
+        を実行するとパイプにデータが 260
+        バイト書き込まれていることがわかる。さらに
+        pipe_write が I_WRITE システムコールを発行して待機していることがわかる。次に
+        pipe_read を同じくバックグラウンドで実行する。
+        <PRE>$ pipe_read &amp;</PRE>
+        pipe_read がパイプからデータを読み出すことでパイプのバッファに空きが生まれ、pipe_write
+        が動作する。メッセージが交錯するため見づらいが、注意して見ると
+        pipe_write は最終的に _os_sleep() を発行して待ち状態になってること、さらに
+        pipe_read は _os_read() を発行し、パイプからのデータを待ち受ける状態になっていること、書き込みデータはFIFO
+        で（順番が狂うことなく）読み出しできていること、が確認できる。下記を実行するとパイプ中のデータは
+        0 バイトであり、書き込み・読み出しの全てが完了していることがわかる。
+        <PRE>$ dir -e /pipe
+$ procs -a</PRE>
+        次に pipe_write プロセスを kill コマンドで終了させてみる。（下記は
+        pipe_write プロセスが3番の場合）
+        <PRE>$ kill 3</PRE>
+        パイプに書き込むプロセスが終了することで、_os_read()
+        がEOFを検出し、結果として pipe_read
+        も終了する。<BR><BR>
+        <LI>pipe_write を実行していない状態で pipe_read
+        のみ実行する。
+        <PRE>$ pipe_read</PRE>上記の実行例と同様に、パイプへの書き込みプロセスがいないため
+        _os_read() がEOFを検出する。
+      </UL>
+      ※特記事項
+      <UL>
+        <LI>パイプのサイズは pipe ディスクリプタで定義されている。デフォルトは
+        256 バイトで、これは MWOS/OS9000/&lt;CPU&gt;/PORTS/&lt;PORTS&gt;/PIPE/config.des
+        で定義されている。
+        <LI>パイプを生成した後 _os_read() がEOFを検出して終了することを避けるには、_os_create()
+        に加えて _os_open() でパスをオープンしてやる必要がある。
+        <PRE>    CHECK(_os_create(&quot;/pipe/test&quot;, FAM_READ|FAM_WRITE,
+                     &amp;path, FAP_READ|FAP_WRITE));
+    <B>CHECK(_os_open(&quot;/pipe/test&quot;, S_IREAD, &amp;path));</B></PRE></UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H3><A name="SEC24">I/O</A></H3>
+<H4><A name="SEC25">シリアルポートを使って通信するには？</A></H4>
+<P>※シリアル通信のサンプルを実行する場合の前準備</P>
+<UL>
+  <LI>評価ボード上の使っていないシリアルポート（コンソール以外のポート）と他のマシン（パソコンなど）をRS-232Cクロスケーブルで接続して他のマシン上でターミナルソフトを実行しておく。<BR><BR>
+  <LI>シリアルポートを初期化しておく。下記は /t3
+  の例だが、ターゲットによってポートの名称は異なるのでマニュアル&quot;OS-9
+  for &lt;CPU&gt; 使用の手引き&quot;で確認しておく。
+  <PRE>$ iniz /t3</PRE>
+  <LI>シリアルポートの設定を確認する。特に最終行のボーレート、パリティなどを確認する。
+  <PRE>$ xmode /t3
+        :
+        :
+Unit Configuration Options:
+     baud=9600  parity=none  stopbits=1  wordsize=8  RTS=DISABLED</PRE>
+  <LI>シリアルポートの設定を変更する場合は
+  <PRE>$ xmode baud=38400 /t3</PRE>などのように指定する。変更した場合、ターミナルソフト側も同様に変更すること。
+</UL>
+<TABLE border="1">
+  <CAPTION>例：ser_out <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>引数で指定したデバイスに指定した文字列を出力する。OS-9では
+      UNIX などと同じユニファイドI/Oを採用しており、デバイスをオープンするとそこからパス番号が得られるので、それを使用して
+      read/write を行う。具体的には _os_open(&quot;/t1&quot;,
+      mode, &amp;path) といった形のシステムコールを発行する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_write(), _os_close()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_out をターゲットにロードしておく。
+      <UL><LI>シリアルにデータを出力してみる。
+        <PRE>$ ser_out /t3 abcdef</PRE>相手のターミナルに指定した文字列が出力される。ここでは指定した文字列に改行その他の変更は何も行われない点に注意すること。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P><BR>
+</P>
+<TABLE border="1">
+  <CAPTION>例：ser_in <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>引数で指定したデバイスからデータを読み込む。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_in をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_in /t3</PRE>相手のターミナルから適当な文字列を入力する。入力した文字が相手ターミナル上に表示される点、エンターキーを押すか、_os_read()
+        の引数で指定した最大文字数（ここでは80文字）を入力すると
+        ser_in の _os_read() から復帰する点を確認する。</UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC26">シリアル通信で表示が止まるのを解除するには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_pause <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>固定の文字列を指定したデバイスに出力する。引数でページの一時停止のON/OFFの切り替えを行う。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_writeln(), _os_close(), os_gs_popt(),
+      os_ss_popt()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_pause をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルにデータを出力する。
+        <PRE>$ ser_pause /t3</PRE>
+        相手のターミナルに文字列（ポーの詩）が出力される。1ページ（24行）出力すると、自動的にその出力が一時停止することを確認する。一時停止を解除するにはターミナルソフト上で何かキーを入力する。同時に
+        ser_pause も _os_writeln() で一時停止していることに注意すること。_os_writeln()
+        は行単位で文字列を出力する場合に適した関数であり、最大
+        count で指定した文字列長か、\n が見つかるまで文字列を出力する。<BR><BR>
+        <LI>上記 xmode コマンドの出力を確認する。
+        <PRE>          :
+Mode Options:
+     noupc  bsb  del  echo  lf  pause  noinsm
+Other Variable Options:
+     nulls=0  page=24  tabsiz=4  time=0
+          :</PRE>
+        この Mode Option 中の&quot;pause&quot;が、ページの一時停止を行うかどうかの指定となる。次に
+        ser_pause の引数に off を付加して実行する。
+        <PRE>$ ser_pause /t3 off</PRE>
+        この場合、一時停止が行われずに全ての文字列が出力されることが確認できる。ソースを確認すると、_os_ss_opt()
+        により、シリアルポートのパスオプションで、ページの一時停止フラグを落としていることがわかる。さらに、
+        <PRE>$ xmode /t3 nopause</PRE>
+        によりあらかじめ一時停止のフラグを落とした状態で
+        <PRE>$ ser_pause /t3</PRE>
+        を実行すると、同様に一時停止せずに出力が行われることが確認できる。つまり一時停止のデフォルト動作は
+        xmode の設定に依存し、それを _os_ss_popt()
+        で変更することができる。まとめると下記表のようになる。<BR>
+        <BR>
+        <TABLE border="1">
+          <TBODY>
+            <TR>
+              <TD rowspan="2" colspan="2"></TD>
+              <TH colspan="2">xmode の状態</TH>
+            </TR>
+            <TR>
+              <TH align="center">pause</TH>
+              <TH align="center">nopause</TH>
+            </TR>
+            <TR>
+              <TH rowspan="3">ser_pause の引数</TH>
+              <TH>指定無し（デフォルト）</TH>
+              <TD>停止する</TD>
+              <TD>停止しない</TD>
+            </TR>
+            <TR>
+              <TH>on</TH>
+              <TD>停止する</TD>
+              <TD>停止する</TD>
+            </TR>
+            <TR>
+              <TH>off</TH>
+              <TD>停止しない</TD>
+              <TD>停止しない</TD>
+            </TR>
+          </TBODY>
+        </TABLE><BR>xmode の設定はそのデバイスディスクリプタが持つ初期値に依存し、この初期値はデバイスディスクリプタを作り直すことで変更することができる。
+      </UL>
+      ※特記事項
+      <UL>
+        <LI>1ページの単位は、前回一時停止した行からの行数となる。（2度連続して
+        ser_pause を実行すると、2回目はすぐに一時停止するように見える）
+        <LI>ターミナル側からの入力はバッファリングされる。従って入力バッファに文字があるとそれがページの一時停止解除の入力とみなされ、一時停止が行われない場合がある。
+        <PRE>$ dump /t3</PRE>を実行しバッファリングされた文字列を吐き出させるとよい。
+      </UL></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC27">相手が送ったデータが相手にエコーされるのを止めるには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_noecho <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイスのエコーバックをOFFにした後、そのデバイスからデータを読み込む。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close(), _os_gs_popt(),
+      _os_ss_popt()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_noecho をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_noecho /t3</PRE>相手のターミナルから適当な文字列を入力する。入力した文字は相手ターミナル上に表示されない点を確認する。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC28">バイナリデータの通信をすると通信が止まってしまう。</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_bin <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイスでバイナリデータを扱えるように設定を行った後、データを256バイト読み込む。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close(), os_gs_popt(),
+      os_ss_popt(), _os_gs_luopt(), _os_ss_luopt()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_bin をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_bin /t3</PRE>ターミナルソフト上から SYSCALL/SRC/IO/SERIAL/binary.dat
+        (0x00～0xff までのキャラクタが格納されている）を送信する。TeraTerm
+        の場合、メニューから File -&gt; Sendfile...
+        を選んで送信する（バイナリオプションをチェックすること）。全てのデータが正常に読み込まれることが確認できる。ser_bin
+        では論理ユニット・スタティック・ストレージの内容を書き換えて
+        XON/XOFF、キーボードインタラプトなどの文字を無効にしている。
+      </UL>
+      ※特記事項
+      <UL>
+        <LI>ser_bin ではデータの読み込み後、_os_ss_luopt()
+        で元の論理ユニット・スタティック・ストレージの内容を復元している。これは論理ユニット・スタティック・ストレージの場合、それを書き換えたプログラムが終了しても内容は書き換えたままになるため。この動作はパスオプションの場合と異なる点に注意すること。
+        <LI>この方法でバイナリデータを送受信する場合、XON/XOFFによるフロー制御は行われないため、データが消失する可能性がある。その場合、上位層のソフトでデータの整合性のチェックを行うか、シリアルドライバを修正してCTS/RTSを使ったハードウェアフロー制御を行うようにする必要がある。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC29">ボーレートなど設定を変更するには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_chgmode <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイスのボーレート・パリティを変更し、テスト用文字列を出力する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_write(), _os_close(), _os_gs_luopt(),
+      _os_ss_luopt()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_chgmode をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルにデータを出力する。この時の引数は左から
+        デバイス名、ボーレート、パリティ、ストップビットの指定となる。指定する値は論理ユニット・スタティック・ストレージのメンバに指定する値と等しく、10進数で指定する。設定値については&quot;OS-9/X86,RISCデバイス・ディスクリプタ/コンフィグレーション・モジュールリファレンス&quot;マニュアル中の&quot;SCFデバイス・ディスクリプタ-&gt;SCFデバイス・ディスクリプタ・フィールド・リファレンス-&gt;論理ユニット・スタティック・ストレージ・フィールド&quot;の
+        v_baud, v_parity, v_stopbits を参照。なお指定する値の範囲チェックなどは行っていないので、設定値には注意すること。下記の例は
+        baud 19200bps, parity odd, stopbit 2bit の指定となる。なおシリアルのデバイスドライバによってはサポートされていないボーレートや組み合わせがあるので注意すること。
+        <PRE>$ ser_chgmode /t3 16 1 2</PRE>
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC30">受信データがあるか確認してから読み込みを行いたい</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_ready <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイス上にデータがあるかチェックし、無い場合は5秒間遅延を行った後、データの有無を再度チェックする。データ受信後、そのデータを表示する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close(), _os_gs_ready()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_ready をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_ready /t3</PRE>遅延処理を繰返すメッセージが表示されるので、この5秒間の遅延の間にターミナルソフト上から何文字か文字を入力してみる。入力後、_os_gs_ready()
+        で入力した文字列がカウントされ、ループが終了する。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC31">他の処理をしておき、データを受信したら読み込みを行いたい</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_sendsig <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイスにデータが受信したらシグナルを送信するようにしておき、無期限のsleep
+      に入る。データ受信後、そのデータを表示する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close(), _os_ss_sendsig(),
+      _os_gs_ready(), _os_intercept()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_sendsig をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_sendsig /t3</PRE>
+        sleep するので相手ターミナルソフト上で何か文字を入力すると、シグナルハンドラが実行され、データが読み込まれることが確認できる。<BR>
+        <BR>
+        <LI>ser_sendsig を実行し、コンソール（ser_sendsig
+        を起動したターミナル）で CTRL+C などのキーボード割り込みを発生させてみる。シグナルハンドラが実行されるが、再びデータの受信待ちに入る。ことが確認できる。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC32">一定時間内に入力があったかどうかを知りたい</A></H4>
+<TABLE border="1">
+  <CAPTION>例１：ser_timeout <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイスのパスオプションに、読み込みタイムアウト時間（10秒）を設定した後、データの読み込みを待つ。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close(), _os_gs_popt(),
+      _os_ss_popt()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_timeout をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_timeout /t3</PRE>
+        10秒間何もしないと、_os_read() がタイムアウトで復帰する。エラーなどにはならない点を確認する。<BR><BR>
+        <LI>ser_timeout を実行し、相手ターミナルソフト上から文字を入力してみる。
+        <PRE>$ ser_timeout /t3</PRE>_os_read() で指定した読み込みサイズ（10バイト）を読み込むか、相手ターミナルでエンターキーを押すまで_os_read()
+        は復帰しない点に注意する。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<TABLE border="1">
+  <CAPTION>例２：ser_alarm <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>指定したデバイスの読み込み待ちに対して一定時間（10秒）後にI/Oを中断させるシグナルを送信する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_read(), _os_close(), _os_intercept(),
+      _os_alarm_set(), _os_alarm_delete()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_alarm をターゲットにロードしておく。
+      <UL>
+        <LI>シリアルからデータを読み込む。
+        <PRE>$ ser_alarm /t3</PRE>
+        10秒間何もしないと、_os_read() がアラームによるシグナルで中断される。<BR>
+        <BR>
+        <LI>ser_alarm を実行し、相手ターミナルソフト上から文字を入力してみる。
+        <PRE>$ ser_alarm /t3</PRE>_os_read() で指定した読み込みサイズ（10バイト）を読み込むか、相手ターミナルでエンターキーを押すまで_os_read()
+        は復帰しない点に注意する。入力があった場合、設定してあるアラームを削除している点に注意すること。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<TABLE border="1">
+  <CAPTION>例３：ser_select <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>標準入力（コンソール）上で任意のキー入力を待ち合わせる。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>select(), _os_read()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_select をターゲットにロードしておく。
+      <UL>
+        <LI>キー入力待ち合わせを行う。
+        <PRE>$ ser_select</PRE>
+        10秒間何もしないと、select() がタイムアウトで復帰する。エラーなどにはならない点を確認する。<BR>
+        <BR>
+        <LI>ser_select を実行し、標準入力（コンソール。ser_select
+        を実行したターミナル）上で何か文字を入力してみる。
+        <PRE>$ ser_select</PRE>入力直後、select() から復帰し、select() の戻り値に入力のあったパスの個数が返ることを確認する。入力されたキーが何か知りたい場合は
+        _os_read() で読み込める。</UL>
+      ※特記事項
+      <UL>
+        <LI>例えばシステムブート時、キー入力によって処理を振り分けるなどに利用することができる。
+        <LI>プログラム上では入力されたキーを表示しているが、それとは別に同時に入力キーが画面に表示される。これはコンソールのエコーがONになっているためである。上記
+        ser_noecho の例を参照。例えば
+        <PRE>$ tmode noecho
+$ ser_select   ←画面には表示されない</PRE>で入力した場合、プログラム上のキー表示しか行われないことが確認できる。</UL></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC33">1プロセスがオープンできるI/Oの最大パス数を増やすには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：ser_path <A href="SRC/IO/00527_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>通常、１つのプロセスがオープンできるパス数は32個までとなっているがこれをシステムコールで変更し、変更が適用されていることを確認する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_open(), _os_close(), _os_ioconfig()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>ser_path をターゲットにロードしておく。
+      <UL>
+        <LI>プログラムを実行する。
+        <PRE>$ ser_path</PRE>
+        ダミー用に　/nil デバイスがオープンされる。32個のパス数－3個（標準入力/出力/エラー出力で既に3個使われているため）まで正常にオープンでき、それ以降のオープンはエラーになる。その後
+        _os_ioconfig() により<U>追加分</U>のパスを設定することで、32個以上パスがオープンできることが確認できる。</UL>
+      ※特記事項
+      <UL>
+        <LI>通常、システムコールのエラーはエラー表示マクロ（common.h内
+        DISP_ERR）により詳細が表示されるが、今回は表示されない。理由を考察せよ（<A HREF="" TITLE="パスを使い切っているため perror()でerrmsgファイルをオープンできないから。">ここ</A>にカーソルを合わせると答えが表示される（表示されない場合はHTMLソースを参照のこと））。
+        <LI>_os_ioconfig() で増やすことのできるパスは
+        _os_open() でオープンできるパスのみ。fopen()
+        はCライブラリ内で32個固定となっており、これを増やすことはできない。
+        <LI>_os_ioconfig() はそれを呼び出したプロセスのパス数を増加させる。従ってパス数を増やしたいプロセスはそれぞれ
+        _os_ioconfig() をコールする必要がある。なお増加後はそのプロセスが終了すれば使用していたリソースは全て開放されるため、特に後始末などは必要ない。
+      </UL></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC34">ディレクトリ内のファイルの一覧を取得したい</A></H4>
+<TABLE border="1">
+  <CAPTION>例：file_dir <A href="SRC/IO/00720_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>カレントディレクトリ上に存在するファイルの一覧を表示する。引数でディレクトリ名を指定するとそのディレクトリ下のファイルの一覧を表示する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>opendir(), readdir(), closedir()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>file_dir をターゲットにロードしておく。
+      <UL>
+        <LI>プログラムを実行する。
+        <PRE>$ file_dir
+あるいは
+$ file_dir /mhc1</PRE>カレントディレクトリあるいは /mhc1 ディレクトリ下のファイルの一覧が表示される。右側の16進数はファイルが存在するアドレスを表す。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H3><A name="SEC35">モジュール</A></H3>
+<H4><A name="SEC36">モジュールをロードするには？</A></H4>
+
+<TABLE border="1">
+  <CAPTION>例：mod_load <A href="SRC/00560_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>引数で指定したモジュールをカレントディレクトリ上のファイルシステムからロードする。mdir
+      コマンドを実行して正常にロードされたかどうかを表示する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_load()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>mod_load をターゲットにロードしておく。またロードのテスト用に適当なモジュールをターゲットのファイルシステム（FLASHなど）上に存在させておく。
+      <UL>
+        <LI>モジュールをロードする。下記例では tlenetd
+        モジュールをロードしている。
+        <PRE>$ mod_load telnetd</PRE>
+        もしカレントディレクトリ上に引数で指定したモジュールが存在すれば、モジュールがロードされたことが
+        mdir コマンドの結果で確認できる。<BR>
+        <BR>
+        <LI>再度モジュールをロードする。下記例では tlenetd
+        モジュールをロードしている。
+        <PRE>$ mod_load telnetd</PRE>
+        既にメモリ上にロードされたモジュールをロードすると、リンクカウントだけがインクリメントされることが確認できる。<BR>
+        <BR>
+      </UL>
+      ※特記事項
+      <UL>
+        <LI>カレントディレクトリに存在しないモジュールをロードしようとしてもエラーになる。
+        <LI>mod_head はモジュールの先頭アドレス、mod_exec
+        はモジュールヘッダを除いたモジュール本体の先頭アドレスを表す。特に
+        mod_exec はデータモジュール（後述）にアクセスする場合に使用することが多い。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC37">プロセス間でデータ領域を共有したい（データモジュールの使い方）</A></H4>
+<TABLE border="1">
+  <CAPTION>例１：mod_dat <A href="SRC/00560_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>データモジュールを作成して値を書き込み、結果を
+      dump コマンドで出力する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_datmod(), _os_link()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>mod_dat をターゲットにロードしておく。
+      <UL>
+        <LI>プログラムを実行する。
+        <PRE>$ mod_dat</PRE>
+        データモジュールが作成され、内部に値が書き込まれたことが
+        dump コマンドで確認できる。再度 mod_dat
+        を実行する。
+        <PRE>$ mod_dat </PRE>_os_datmod() が既知モジュールである旨のエラー（000:231）になるが、_os_link()
+        を行うことで値にアクセスできることが確認できる。これはつまり他のプロセスが作成したデータモジュールにアクセスするには、
+        _os_link() を呼び出せば必要かつ十分であることを示している。
+      </UL>
+      ※特記事項
+      <UL>
+        <LI>データモジュールに初期値を設定しておいてそれをリブート後も使用したい場合は、本サンプルのような初期値設定プログラムを使用して初期値を格納した後、シェルから
+        <PRE>$ save test_datmod</PRE>
+        を実行して、ファイルシステム上に保存する。その後はいつでも
+        <PRE>$ load test_mod</PRE>で、初期値をもったデータモジュールがメモリにロードされる。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P><BR>
+</P>
+<TABLE border="1">
+  <CAPTION>例２：mod_dat2 <A href="SRC/00560_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>データモジュールはあくまで共有するための空間を提供するだけで、各アクセスの排他制御は行われない。ここではを使用してデータモジュールにデータを書き込む。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_datmod(), _os_link(), _os_sema_init(),
+      _os_sema_p(), _os_sema_v()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>mod_dat2 をターゲットにロードしておく。
+      <UL>
+        <LI>プログラムをバックグラウンドで実行する。引数の１とは、実行したプロセスを特定するため指定。
+        <PRE>$ mod_dat2 1 &amp;</PRE>
+        続いて引数を２にしてもう一つ実行する。
+        <PRE>$ mod_dat2 2 &amp;</PRE>mod_dat2 の内部では引数に応じてデータモジュール内に&quot;one&quot;,
+        &quot;two&quot; の文字列を格納する。動作時、セマフォにより排他制御が行われ、交互に
+        one 、 two が書き込まれていることがわかる。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H3><A name="SEC38">その他</A></H3>
+<H4><A name="SEC39">システムをリセットするには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：sys_reset <A href="SRC/00438_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>ブート・ストラップ・コード内のリセット処理を呼び出し、システムのリセットを行う。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_getsys()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>sys_reset をターゲットにロードしておく。
+      <UL>
+        <LI>プログラムを実行する。
+        <PRE>$ sys_reset</PRE>カウントダウンが行われ、約5秒後にシステムがリセットされる。
+      </UL>
+      ※特記事項
+      <UL>
+        <LI>本プログラムはシステムステートプログラムとして動作するため、ルートPSECTとして
+        sysansi_cstart.r をリンクしている。さらにモジュールのオーナー
+        を 0.0 （ス－パユーザ）に設定している。（Hawk
+        sys_reset コンポーネントの Properties -&gt;
+        Link -&gt; Category: Customization を参照）
+        <LI>ソース中の rom_start() はブート・ストラップ・コード（romcore）の
+        sysreset: エントリを呼び出す。romcore
+        のソースは
+        MWOS/OS9000/&lt;CPU&gt;/PORTS/&lt;PORTS&gt;/ROM/ROMCORE/sysinit.c
+        が相当する。
+      </UL>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<H4><A name="SEC40">現在の日時を知るには？</A></H4>
+<TABLE border="1">
+  <CAPTION>例：gettime <A href="SRC/00438_00000"><IMG src="file_icon.gif" width="24" height="24" border="0" alt="sample_dir"></A></CAPTION>
+  <TBODY>
+    <TR>
+      <TH>項目</TH>
+      <TH width="85%">内容</TH>
+    </TR>
+    <TR>
+      <TD align="center">動作概要</TD>
+      <TD>システム時刻を読み出し画面に表示する。</TD>
+    </TR>
+    <TR>
+      <TD align="center">使用システムコール</TD>
+      <TD>_os_getime(), _sysdate()</TD>
+    </TR>
+    <TR>
+      <TD align="center">確認ポイント</TD>
+      <TD>gettime をターゲットにロードしておく。
+      <UL>
+        <LI>プログラムを実行する。
+        <PRE>$ gettime</PRE>_os_getime() による 1970年1月1日からの経過秒数、1秒あたりのtick数、現在のtick
+        数が表示される。ここで得られる値は秒単位であるため、年月日などを得るために
+        _sysdate() を呼び出し表示する。参考用に date
+        コマンドの実行結果も併せて表示される。_sysdate()
+        ではうるう年などの計算も考慮される。
+      </UL>
+      
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+</BODY>
+</HTML>

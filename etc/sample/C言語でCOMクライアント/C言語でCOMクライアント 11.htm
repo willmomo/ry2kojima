@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.asahi-net.or.jp/~kv8s-yjm/another/yja011.htm -->
+<HTML><HEAD><TITLE>C言語でCOMクライアント</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<META content="MSHTML 6.00.2900.2769" name=GENERATOR></HEAD>
+<BODY vLink=#800080 link=#0000ff bgColor=#c0c0c0><!-- 表題 -->
+<TABLE width=740>
+  <TBODY>
+  <TR align=middle>
+    <TD><FONT color=#408040 size=5>C言語でCOMクライアント　１１/１１</FONT><BR><FONT 
+      color=#408040 size=4>～ <STRONG>11. まとめとサンプル</STRONG> ～</FONT> 
+  </TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=right><FONT color=#800000 
+      size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT> </TD></TR></TBODY></TABLE>
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja010.htm">[前頁]</A>　　<FONT 
+      color=#606060>[次頁]</FONT><BR></FONT><BR><FONT 
+      size=3><B>[まとめとサンプル]</B></FONT><BR><BR><FONT 
+      size=2>　今回は、COMインターフェイスを実感してもらうために、 C言語でインターフェイスを記述してもらいました。<BR>　Coで始まる 
+      COM APIを呼び出す以外は、普通の C言語の構文でできることが分かったと思います。つまり、COMは 
+      特定の<B>プログラミング言語に依存しない</B>構造になっています。<BR><BR>　以下に今回の手順をまとめておきます。<BR><BR>　・CLSID、IIDを定義する 
+      <A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja004.htm">４</A><BR>　　→ 
+      objbase.h をインクルードする<BR>　　→ GUID型構造体を利用<BR><BR>　・インターフェイスを定義する <A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja005.htm">５</A><BR>　　→ 
+      VptrとVtableを表現<BR><BR>　・スレッド単位の初期処理、終了処理を追加する <A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja007.htm">７</A><BR>　　→ 
+      CoInitialize, CoUninitializeの呼び出し<BR><BR>　・インスタンスを作成する <A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja008.htm">８</A><BR>　　→ 
+      インスタンスへのアクセスのため、インターフェイスポインタ変数を宣言<BR>　　→ 
+      CoCreateInstanceの呼び出し<BR><BR>　・メソッドを呼び出す <A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja009.htm">９</A><BR>　　→ 
+      Vptrを利用した間接参照<BR>　　→ 第一引数はオブジェクトポインタ、VB戻り値は最後の引数<BR><BR>　・インスタンスの解放 <A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja010.htm">１０</A><BR>　　→ 
+      Releaseメソッドを呼び出す<BR><BR><B>※サンプル</B><BR>　ここに、今回説明に利用したサンプルプログラムを添付します。COMプログラミングの参考にご利用ください。<BR>　ダウンロード後、解凍して、まずは同梱の 
+      ReadMe.txt をお読みください。<BR>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/project1.lzh">VB版COMコンポーネント(project1.lzh)</A> 
+      Visual Basic 6.0対応の ActiveX DLLプロジェクトです。<BR>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/lib0/simpleclient.lzh">C言語版COMクライアント(simpleclient.lzh)</A> 
+      Visual C++ 6.0対応の Win32 Console 
+      Applicationプロジェクトです。<BR><BR><B>※おまけ　～文字列の扱いについて～</B><BR>　なお、今回は文字列の扱いについて説明しませんでした。Win32環境のCOMでは、文字列を 
+      <B>Unicode</B>として扱っています。また、文字列のデータ型は 
+      <B>BSTR</B>という特殊な可変長文字列です。さらに文字列を引数として渡すには、mallocやreallocなのでメモリ操作をしてはいけません。COM専用の<B>メモリアロケータ</B>を使う必要があります。文字列操作については、機会があれば説明します。文字列操作の説明は、COMの書籍などにも記述されています。今回の説明内容が理解できれば、 
+      COMの書籍を以前よりスムーズに読むことができるようになると思います。<BR><BR></FONT></TD></TR></TBODY></TABLE><!-- ショートカット -->
+<TABLE width=740>
+  <TBODY>
+  <TR>
+    <TD align=left><FONT size=2><A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yjamain.htm">表紙へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja001.htm">目次へ戻る</A>　　<A 
+      href="http://www.asahi-net.or.jp/~kv8s-yjm/another/yja010.htm">[前頁]</A>　　<FONT 
+      color=#606060>[次頁]</FONT><BR></FONT></TD></TR></TBODY></TABLE>
+<HR>
+<LEFT><FONT color=#800000 size=2>★このコーナーの無断転載、無断配布を禁止いたします。★</FONT></LEFT> <!-- Normal Footer --><LEFT><FONT size=2><BR>Copyright(C) Yajima,Satoshi (<A 
+href="mailto:kv8s-yjm@asahi-net.or.jp">kv8s-yjm@asahi-net.or.jp</A>) 
+</FONT></LEFT></BODY></HTML>

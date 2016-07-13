@@ -1,0 +1,113 @@
+<package>
+	<job>
+		<runtime>
+			<description>このスクリプトは、二つのフォルダの差異を出力します。</description>
+			<named name="s" helpstring="同一ファイルの出力を抑止" type="simple" required="false" />
+			<unnamed name="dir1" helpstring="比較するディレクトリ" many="false" required="true" />
+			<unnamed name="dir2" helpstring="比較するディレクトリ" many="false" required="true" />
+		</runtime>
+		<script language="vbscript" src="forcecscript.vbs" />
+		<script language="vbscript">
+			Option Explicit
+			If Not IsRunningOnCScript Then
+				WScript.Echo "cscriptで動かしてください。"
+				WScript.Quit(1)
+			End If
+			
+			Dim path1, path2
+			If WScript.Arguments.Unnamed.Count = 2 Then
+				path1 = WScript.Arguments.Unnamed(0)
+				path2 = WScript.Arguments.Unnamed(1)
+			Else
+				WScript.Arguments.ShowUsage
+				WScript.Quit(1)
+			End If
+			
+			WScript.Echo "左", path1
+			WScript.Echo "右", path2
+			Call DirCmp(path1, path2, GetRef("DirCmpCallback"))
+			
+			Function DirCmpCallback(state, file1, file2)
+				Dim fso: Set fso = WScript.CreateObject("Scripting.FileSystemObject")
+				Select Case state
+					Case 0
+						If Not WScript.Arguments.Named.Exists("s") Then
+							WScript.Echo "同一ファイル", fso.GetFileName(file1)
+						End If
+					Case 1
+						If Not IsNull(file1) Then
+							WScript.Echo "左のみファイル", file1
+						Else
+							WScript.Echo "右のみファイル", file2
+						End If
+					Case 2
+						If Not IsNull(file1) Then
+							WScript.Echo "左のみフォルダ", file1
+						Else
+							WScript.Echo "右のみフォルダ", file2
+						End If
+					Case 3
+						WScript.Echo "サイズ不一致", file1.Name
+					Case 4
+						WScript.Echo "更新日不一致", file1.Name
+				End Select
+			End Function
+			
+			'----------------------------------------------------------
+			' callbackFunc(state, file1, file2)
+			' state: 0=一致 1=ファイル片方 2=フォルダ片方 3=サイズ不一致 4=更新日不一致
+			' state が 0 のときは、file1 file2 はファイル名文字列
+			' state が 1 または 2 のときは、file1 file2 はファイル名文字列で存在しない方は Null
+			' state が 3 または 4 のときは、file1 file2 は File オブジェクト
+			'----------------------------------------------------------
+			Function DirCmp(path1, path2, callbackFunc)
+				Dim fso: Set fso = WScript.CreateObject("Scripting.FileSystemObject")
+				Dim dic: Set dic = WScript.CreateObject("Scripting.Dictionary")
+				Dim obj, obj1, obj2
+				Dim objL, objR
+				For Each obj1 In Array(path1, path2)
+					For Each obj2 In fso.GetFolder(obj1).Files
+						dic(fso.GetFileName(obj2)) = True
+					Next
+				Next
+				For Each obj In dic.Keys
+					objL = fso.BuildPath(path1, obj)
+					objR = fso.BuildPath(path2, obj)
+					If fso.FileExists(objL) And fso.FileExists(objR) Then
+						Set objL = fso.GetFile(objL)
+						Set objR = fso.GetFile(objR)
+						If objL.Size <> objR.Size Then
+							If Not IsNull(callbackFunc) Then Call callbackFunc(3, objL, objR)
+						ElseIf objL.DateLastModified <> objR.DateLastModified Then
+							If Not IsNull(callbackFunc) Then Call callbackFunc(4, objL, objR)
+						Else
+							If Not IsNull(callbackFunc) Then Call callbackFunc(0, objL, objR)
+						End If
+					ElseIf fso.FileExists(objL) And Not fso.FileExists(objR) Then
+						If Not IsNull(callbackFunc) Then Call callbackFunc(1, objL, Null)
+					ElseIf Not fso.FileExists(objL) And fso.FileExists(objR) Then
+						If Not IsNull(callbackFunc) Then Call callbackFunc(1, Null, objR)
+					End If
+				Next
+
+				dic.RemoveAll
+				For Each obj1 In Array(path1, path2)
+					For Each obj2 In fso.GetFolder(obj1).SubFolders
+						dic(fso.GetFileName(obj2)) = True
+					Next
+				Next
+				For Each obj In dic.Keys
+					objL = fso.BuildPath(path1, obj)
+					objR = fso.BuildPath(path2, obj)
+					If fso.FolderExists(objL) And fso.FolderExists(objR) Then
+						Call DirCmp(objL, objR, callbackFunc)
+					ElseIf fso.FolderExists(objL) And Not fso.FolderExists(objR) Then
+						If Not IsNull(callbackFunc) Then Call callbackFunc(2, objL, Null)
+					ElseIf Not fso.FolderExists(objL) And fso.FolderExists(objR) Then
+						If Not IsNull(callbackFunc) Then Call callbackFunc(2, Null, objR)
+					End If
+				Next
+			End Function
+		</script>
+	</job>
+</package>

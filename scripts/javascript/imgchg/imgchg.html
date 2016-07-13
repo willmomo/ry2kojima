@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<script src="jquery-1.8.3.min.js"></script>
+<script>
+$(function() {
+	setInterval(function() {
+		var val = Math.floor(Math.random() * 8);
+		var val2 = Math.floor(Math.random() * 8);
+		
+		$("#img" + val2).css(
+			{
+				left: Math.floor(Math.random() * ($(document).width() - 200)) + "px",
+				top: Math.floor(Math.random() * ($(document).height() - 200)) + "px"
+			});
+		$("#img" + val2).attr("src", "img" + val + ".png");
+		$("#out").text("img" + val + ".png");
+	}, 1000);
+});
+</script>
+</head>
+<body>
+
+<img style="position:absolute" id="img0">
+<img style="position:absolute" id="img1">
+<img style="position:absolute" id="img2">
+<img style="position:absolute" id="img3">
+<img style="position:absolute" id="img4">
+<img style="position:absolute" id="img5">
+<img style="position:absolute" id="img6">
+<img style="position:absolute" id="img7">
+
+<div id="out"></div>
+
+</body>
+</html>

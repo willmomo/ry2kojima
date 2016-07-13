@@ -1,0 +1,12 @@
+URL=http://www.microware.ne.jp/support/technical/syscall_samples/
+ConnectionID=1
+Depth=3
+CheckAfterNoModify=0
+UseProxyCache=1
+NoCheckExistFile=0
+AuthType=0
+ExternalLink=0
+UpperLink=0
+UseFileFilter=1
+GetFilterID=1,2
+

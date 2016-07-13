@@ -1,0 +1,5 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartArguments>-hwww.yahoo.co.jp -fkarana_ebichu@yahoo.co.jp -tkarana_ebichu@yahoo.co.jp -s"test mail" -b"これはテストメールです"</StartArguments>
+  </PropertyGroup>
+</Project>

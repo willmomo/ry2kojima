@@ -1,0 +1,12 @@
+strconcat param2 ':23 /nossh /timeout=5'
+connect param2
+if result = 1 then
+	exit
+endif
+
+wait '/ #'
+sendln 'reboot -f'
+
+timeout=1
+wait '/ #'
+disconnect 0

@@ -1,0 +1,28 @@
+strconcat param2 ':23 /nossh /timeout=5'
+connect param2
+if result = 1 then
+	exit
+endif
+
+logfname = "C:\ftp\dmesgé˚èW\"
+strconcat logfname param3
+strconcat logfname "_tterm.log"
+strreplace logfname 1 "/" "\"
+; messagebox logfname "logfname"
+logopen logfname 1 0
+
+wait '/ #'
+sendln 'cat /proc/mtd'
+
+wait '/ #'
+sendln 'cat /proc/yaffs'
+
+wait '/ #'
+sendln 'dmesg'
+
+timeout=3
+wait '/ #'
+sendln 'exit'
+
+logclose
+end

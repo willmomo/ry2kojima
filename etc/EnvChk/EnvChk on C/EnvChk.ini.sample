@@ -1,0 +1,11 @@
+; user(n)=ユーザー名 を列挙。
+; n は連番。
+; 指定されたユーザーの存在とパスワード無期限をチェック
+;
+[users]
+user1=kojima
+user2=wssadmin
+user3=hn2user
+user4=haladmin
+user5=mpcadmin
+user6=wodadmin

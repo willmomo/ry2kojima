@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=shift_jis">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" type="text/css" href="default.css">
+<title>SetOpacity</title>
+</head>
+<body>
+<h1>SetOpacity</h1>
+
+<hr>
+
+<p>ウィンドウの不透明度を設定(半透明化)します。</p>
+
+<pre class="prototype">
+<small>[VB6]</small>
+<strong>Public Function SetOpacity( _
+    ByVal <em class="param">hWnd </em>As Long, _
+    ByVal <em class="param">dOpacity </em>As Double _
+) As Long</strong>
+</pre>
+
+<pre class="prototype">
+<small>[C++]</small>
+<strong>int SetOpacity(
+    HWND <em class="param">hwnd</em>, 
+    double <em class="param">dOpacity</em>
+);</strong>
+</pre>
+
+<h2>パラメータ</h2>
+
+<dl>
+<dt><em class="param">hWnd</em>
+<dd>不透明度を設定するウィンドウへのハンドル。
+<dt><em class="param">dOpacity</em>
+<dd>不透明度をあらわす0.0～1.0の値。1.0が通常のウィンドウ。
+</dl>
+
+<h2>戻り値</h2>
+
+<p>正常終了のときは0を、設定できなかったときは-1を返します。エラーが発生した場合は、Win32のエラーコードを戻します。</p>
+
+<h2>説明</h2>
+
+<p><em class="param">hWnd</em>で指定したウィンドウの不透明度を設定します。
+内部で半透明機能のチェックと設定を行っているので、この関数のみ呼べば、半透明化できます。</p>
+
+<p>使い方は以下のとおり：</p>
+
+<pre class="code">
+<small>[VB6]</small>
+Dim ret As Long
+ret = SetOpacity(Me.hWnd, 0.5)    <span style="color:green">'50%半透明にする</span>
+If ret &lt;&gt; 0 Then
+    MsgBox "半透明化に失敗しました。"
+End If
+</pre>
+
+<pre class="code">
+<small>[C++]</small>
+int ret = SetOpacity(hWnd, 0.5);
+if (ret != 0) {
+    printf("半透明化に失敗しました。\n");
+}
+</pre>
+
+<h2>参照</h2>
+
+<p><a href="islayered.html">IsLayered</a>, <a href="setlayered.html">SetLayered</a></p>
+
+</body>
+</html>

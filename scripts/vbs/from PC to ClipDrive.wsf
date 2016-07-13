@@ -1,0 +1,56 @@
+<package>
+	<!--
+		PCからクリップドライブにミラーリングするスクリプト
+	-->
+	<job id="PCToClipDrive">
+		<!-- 外部 VBS ファイルの取込み(インクルード) -->
+		<script language="VBScript" src="./CMirror.vbs"></script>
+
+		<!-- メイン処理 -->
+		<script language="VBScript">
+			Option Explicit
+
+			Dim objShell
+			Dim objMirror
+			Dim objFs
+			Dim strOne
+
+			Set objFs = WScript.CreateObject("Scripting.FileSystemObject")
+
+			Set objShell = WScript.CreateObject("WScript.Shell")
+
+			Set objMirror = New CMirror
+			objMirror.Mode = "backup-mirror"
+			objMirror.LogPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\log"
+
+			Select Case MsgBox("本番モードで実行しますか?", vbYesNoCancel, "from PC to ClipDrive: 動作モードの確認")
+			Case vbYes
+				objMirror.Test = False
+			Case vbNo
+				objMirror.Test = True
+			Case Else
+				WScript.Quit
+			End Select
+
+			objMirror.OrgPath = "C:\inetpub\wwwroot\css"
+			objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\inetpub\wwwroot\css"
+			objMirror.Run
+
+			objMirror.OrgPath = "C:\inetpub\wwwroot\js"
+			objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\inetpub\wwwroot\js"
+			objMirror.Run
+
+			For Each strOne In Array("misc", "projects", "projects_cs", "projects_old")
+				objMirror.OrgPath = objShell.SpecialFolders("MyDocuments") & "\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\c-drv\Users\kojima\Documents\" & strOne
+				objMirror.Run
+			Next
+
+			For Each strOne In Array("fswiki", "localvss", "prvwiki", "pubwiki")
+				objMirror.OrgPath = "D:\" & strOne
+				objMirror.MirPath = objFs.GetParentFolderName(WScript.ScriptFullName) & "\d-drv\" & strOne
+				objMirror.Run
+			Next
+		</script>
+	</job>
+</package>

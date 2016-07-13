@@ -1,0 +1,22 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=SysUtils.chm
+Contents file=Table of Contents.hhc
+Default topic=summary.html
+Display compile progress=No
+Index file=Index.hhk
+Language=0x411 “ú–{Œê
+
+
+[FILES]
+summary.html
+removesubfolders.html
+islayered.html
+setlayered.html
+setopacity.html
+replacestr.html
+strtowstr.html
+wstrtostr.html
+
+[INFOTYPES]
+
